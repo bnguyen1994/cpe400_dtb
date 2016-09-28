@@ -17,13 +17,13 @@ include_directories (include)
 file (GLOB SOURCES "src/*.cpp")
 
 # Compilation output
-add_custom_target("${PROJECT_NAME}_SUCCESSFUL" ALL
-                  DEPENDS ${PROJECT_NAME}
-                  COMMAND ${CMAKE_COMMAND} -E echo ""
-                  COMMAND ${CMAKE_COMMAND} -E echo "====================="
-                  COMMAND ${CMAKE_COMMAND} -E echo "  Compile complete!"
-                  COMMAND ${CMAKE_COMMAND} -E echo "====================="
-                  COMMAND ${CMAKE_COMMAND} -E echo "${CMAKE_CURRENT_BINARY_DIR}"
-                 )
+add_custom_target ("${PROJECT_NAME}_SUCCESSFUL" ALL
+                   DEPENDS ${PROJECT_NAME}
+                   COMMAND ${CMAKE_COMMAND} -E echo ""
+                   COMMAND ${CMAKE_COMMAND} -E echo "====================="
+                   COMMAND ${CMAKE_COMMAND} -E echo "  Compile complete!"
+                   COMMAND ${CMAKE_COMMAND} -E echo "====================="
+                   COMMAND ${CMAKE_COMMAND} -E echo "${CMAKE_CURRENT_BINARY_DIR}"
+                  )
 
 add_executable (${PROJECT_NAME} ${SOURCES})
