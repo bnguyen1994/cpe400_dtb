@@ -1,0 +1,31 @@
+# Distributed Transport Network #
+
+This is a group project for CPE 400: Computer Networking at the University of Nevada-Reno with professor Shamik Sengupta, Ph.D. The authors of this group project are Brandon Nguyen, Daniel Smith, and Tyler Goffinet.
+
+## Overview ##
+As autonomous vehicles become more prominent, it becomes important for vehicles to communicate between each other within the city via a peer-to-peer mobile protocol. Due to the limited transmission range and variable mobility of these vehicles, protocols need to be developed to efficiently transfer data between any number of vehicles to reach the intended destination. In this project, we will create a simulation environment to simulate data transfers between multiple vehicle types within a grid style city. Using the city walk model, we will simulate a grid style city with multiple vehicle types each acting as a node point to transmit data within our network. 
+
+## Goals ##
+1. Have a robust simulation which vehicles create a peer-to-peer network for transmitting data
+2. Create an environment with different vehicle types with a variety of navigation and transmission options
+3. Transport packets from a stationary port to a moving vehicle
+4. Optimize protocol by using a minimal amount of nodes between the source and destination
+
+## Specifications ##
+* Simulation implemented and compiled in a *nix environment
+
+## Roles ##
+Brandon - Develop simulator kernel
+
+Daniel - Implement routing protocol
+
+Tyler - Design nodal behavior
+  
+## Milestones ##
+1. Develop a simulated city environment populated with vehicles using a city walk model
+2. Transport from one stationary port to another stationary port using the vehicles as transmission nodes
+3. Transmit packets from a moving vehicle to a stationary port
+4. Decrease round-trip-time from a moving vehicle to a stationary port
+
+## Build and Dependencies ##
+???????????????????????????????????????????????????
