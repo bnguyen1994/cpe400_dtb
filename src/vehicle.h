@@ -1,51 +1,41 @@
 // Program Information ////////////////////////////////////////////////////////
 /**
- * @file simulator.h
+ * @file vehicle.h
  *
- * @brief Definition file for simulator class
+ * @brief Definition file for vehicle class
  * 
  * @author Brandon Thai Nguyen
  * 
- * @details Specifies all member methods of the simulator class
+ * @details Specifies all member methods of the vehicle class
  *
  * @version 1.00
  *          Brandon Thai Nguyen (03 October 2016)
  *          Original Code
  *
- * @Note Requires vehicle.h
+ * @Note None
  */
 
 // Precompiler directives /////////////////////////////////////////////////////
 
-#ifndef CLASS_SIMULATOR_H
-#define CLASS_SIMULATOR_H
+#ifndef CLASS_VEHICLE_H
+#define CLASS_VEHICLE_H
 
 // Header files ///////////////////////////////////////////////////////////////
 
 #include <iostream>
-#include "vehicle.h"
 
 using namespace std;
 
 // Class definition  //////////////////////////////////////////////////////////
-class Simulator
+class Vehicle
 {
 public:
 	// Constructors
-	Simulator();
-	~Simulator();
-
-	// World Control
-	void initCity(int xCoor, int yCoor);
-	bool moveVehicle(int xCoorFrom, int yCoorFrom, int xCoorTo, int yCoorTo);
-	void run(int ticks);
-	void displayWorld();
+	Vehicle();
+	~Vehicle();
 
 private:
-	int citySizeX;
-	int citySizeY;
-	Vehicle **city; // MAYBE ABSTRACT CITY IN IT'S OWN CLASS?
 };
 // Terminating precompiler directives  ////////////////////////////////////////
 
-#endif		// #ifndef CLASS_SIMULATOR_H
+#endif		// #ifndef CLASS_VEHICLE_H
