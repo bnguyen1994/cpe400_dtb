@@ -27,7 +27,18 @@
 using namespace std;
 
 // Class definition  //////////////////////////////////////////////////////////
+class Simulator
+{
+public:
+	// Constructors
+	Simulator();
+	~Simulator();
 
+	// World Control
+	initCity(int xCoor, int yCoor);
+	moveVehicle(); // NEEDS PARAMS
+private:
+};
 // Terminating precompiler directives  ////////////////////////////////////////
 
 #endif		// #ifndef CLASS_SIMULATOR_H
