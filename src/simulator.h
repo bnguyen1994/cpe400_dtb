@@ -8,7 +8,7 @@
  * 
  * @details Specifies all member methods of the simulator class
  *
- * @version 1.00
+ * @version 1.0
  *          Brandon Thai Nguyen (03 October 2016)
  *          Original Code
  *
@@ -24,7 +24,7 @@
 
 #include <iostream>
 #include "vehicle.h"
-
+#include "world.cpp"
 using namespace std;
 
 // Class definition  //////////////////////////////////////////////////////////
@@ -42,9 +42,7 @@ public:
 	void displayWorld();
 
 private:
-	int citySizeX;
-	int citySizeY;
-	Vehicle **city; // MAYBE ABSTRACT CITY IN IT'S OWN CLASS?
+	World<Vehicle> city;
 };
 // Terminating precompiler directives  ////////////////////////////////////////
 

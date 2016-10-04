@@ -8,8 +8,8 @@
  * 
  * @details Implements all member methods of the simulator class
  *
- * @version 1.00
- *          Michael Leverington (13 April 2016)
+ * @version 1.0
+ *          Brandon Thai Nguyen (03 October 2016)
  *          Original Code
  *
  * @Note Requires simulator.h
@@ -25,6 +25,26 @@
 #include "simulator.h"
 
 // Class implementation ///////////////////////////////////////////////////////
+ /**
+ * @brief 
+ *
+ * @details 
+ *          
+ * @pre 
+ *
+ * @post 
+ *
+ * @par Algorithm 
+ *      
+ *      
+ * @exception 
+ *
+ * @param 
+ *
+ * @return 
+ *
+ * @note 
+ */
 Simulator::Simulator()
 {
 
@@ -32,30 +52,11 @@ Simulator::Simulator()
 
 Simulator::~Simulator()
 {
-	// Varible Declaration
-	Vehicle *temp;
 
-	// Delete city
-	for(int i = 0; i < citySizeX; i++)
-	{
-		temp = city[i];
-		delete temp;
-	}
-	delete city;
-	citySizeX = 0;
-	citySizeY = 0;
 }
 
 void Simulator::initCity(int xCoor, int yCoor)
 {
-	// Set city size limits
-	citySizeX = xCoor;
-	citySizeY = yCoor;
-
-	// Dynamically size city
-	city = new Vehicle *[citySizeX];
-	for(int i = 0, i < citySizeX, i++)
-		city[i] = new Vehicle[yCoor];
 
 }
 // Terminating precompiler directives  ////////////////////////////////////////
