@@ -55,9 +55,33 @@ Simulator::~Simulator()
 
 }
 
-void Simulator::initCity(int xCoor, int yCoor)
+ /**
+ * @brief Initialize world
+ *
+ * @details Dynamically constructs the world with given parameters
+ *          
+ * @pre Assume initialized world object
+ *
+ * @post World initialized
+ *
+ * @par Algorithm 
+ *      Call the world class initWorld function
+ *      
+ * @exception None
+ *
+ * @param [in] sizeX
+ *             Max x-axis world size to be set
+ *
+ *        [in] sizeY
+ *             Max y-axos world size to be set
+ *
+ * @return None
+ *
+ * @note None
+ */
+void Simulator::initWorld(int sizeX, int sizeY)
 {
-
+	world.initWorld(sizeX,sizeY);
 }
 // Terminating precompiler directives  ////////////////////////////////////////
 

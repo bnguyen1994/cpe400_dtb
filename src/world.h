@@ -23,7 +23,7 @@
 // Header files ///////////////////////////////////////////////////////////////
 
 #include <cstdlib>
-
+#include <time.h>
 // Class definition  //////////////////////////////////////////////////////////
 template <class DataType>
 class World
@@ -35,10 +35,13 @@ public:
 
     // World control
     void initWorld(int sizeX, int sizeY);
+    bool populateWorld(int numObjects);
     void displayWorld();
 
     // Accessors
-    bool insertObject(int xCoor, int yCoor, DataType &object);
+    bool isObjectPresent(int xCoor, int yCoor);
+    bool insertObject(int xCoor, int yCoor, DataType *object);
+    bool removeObject(int xCoor, int yCoor, DataType *object);
     bool getObject(int xCoor, int yCoor, DataType *object);
 
 
