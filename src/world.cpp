@@ -239,29 +239,40 @@ void World<DataType>::displayWorld()
 }
 
  /**
- * @brief 
+ * @brief Is object present
  *
- * @details 
+ * @details Checks if an object is present at given location
  *          
- * @pre 
+ * @pre Assumes initialized class object
  *
- * @post 
+ * @post Returns if the object is present or not
  *
  * @par Algorithm 
+ *      Check if the coordinates are in range, then check if a NULL ptr is not
+ *      present at given coordinates
  *      
- *      
- * @exception 
+ * @exception None
  *
- * @param 
+ * @param [in] xCoor
+ *             X-axis coordinate
  *
- * @return 
+ *        [in] yCoor
+ *             Y-axis coordinate
  *
- * @note 
+ * @return Boolean signifying if an object is present
+ *
+ * @note None
  */
 template <class DataType>
 bool World<DataType>::isObjectPresent(int xCoor, int yCoor)
 {
-
+    // Check range
+    if(xCoor >= worldSizeX || yCoor >= worldSizeY)
+        return false;
+    // Check if object is present
+    if(world[xCoor][yCoor] != NULL)
+        return true;
+    return false;
 }
 
  /**
@@ -291,24 +302,32 @@ bool World<DataType>::insertObject(int xCoor, int yCoor, DataType *object)
 }
 
 /**
- * @brief 
+ * @brief Remove object
  *
- * @details 
+ * @details Removes object from the world
  *          
- * @pre 
+ * @pre Assumes initilized world class object and data member
  *
- * @post 
+ * @post Object returned and removed from the world
  *
  * @par Algorithm 
  *      
  *      
- * @exception 
+ * @exception None
  *
- * @param 
+ * @param [in] xCoor
+ *             X-axis coordinate
  *
- * @return 
+ *        [in] yCoor
+ *             Y-axis coordinate
  *
- * @note 
+ *        [out] object
+ *              Object returned from the world
+ *
+ * @return Boolean specifying if object returned sucessfully
+ *
+ * @note Returns false if the coordinates given are out of range and if there is
+ *       no object at specified coordinates 
  */
 template <class DataType>
 bool World<DataType>::removeObject(int xCoor, int yCoor, DataType *object)
