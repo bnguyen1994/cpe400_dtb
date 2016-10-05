@@ -51,6 +51,7 @@ World<DataType>::World()
 {
     worldSizeX = 0;
     worldSizeY = 0;
+    world = NULL;
 }
 
  /**
@@ -261,7 +262,7 @@ void World<DataType>::displayWorld()
  *
  * @return Boolean signifying if an object is present
  *
- * @note None
+ * @note Noneso
  */
 template <class DataType>
 bool World<DataType>::isObjectPresent(int xCoor, int yCoor)
@@ -276,16 +277,17 @@ bool World<DataType>::isObjectPresent(int xCoor, int yCoor)
 }
 
  /**
- * @brief 
+ * @brief Insert Object
  *
- * @details 
+ * @details Inserts an object to the world at the given coordinates
  *          
- * @pre 
+ * @pre Assumes initialized world object
  *
- * @post 
+ * @post Object inserted into the world
  *
  * @par Algorithm 
- *      
+ *      Checks if theres no object at given object then sets the pointer address
+ *      to the new object.
  *      
  * @exception 
  *
@@ -298,7 +300,20 @@ bool World<DataType>::isObjectPresent(int xCoor, int yCoor)
 template <class DataType>
 bool World<DataType>::insertObject(int xCoor, int yCoor, DataType *object)
 {
+    // Check range
+    if(xCoor > worldSizeX || yCoor > worldSizeY)
+    {   
+        return false;
+    }
+    // Add object if ptr is NULL at coordinates
+    if(world[xCoor][yCoor] == NULL)
+    {
+        world[xCoor][yCoor] = object;
+        return true;
+    }
 
+    // Returns false if object not present
+    return false;
 }
 
 /**
@@ -311,7 +326,8 @@ bool World<DataType>::insertObject(int xCoor, int yCoor, DataType *object)
  * @post Object returned and removed from the world
  *
  * @par Algorithm 
- *      
+ *      Checks if theres an object at given coordinates then returns the address
+ *      and sets the pointer at given coordinate to NULL.
  *      
  * @exception None
  *
@@ -359,7 +375,7 @@ bool World<DataType>::removeObject(int xCoor, int yCoor, DataType *object)
  * @post Object from world returned
  *
  * @par Algorithm 
- *      
+ *      Checks if theres an object at given object then returns it.
  *      
  * @exception None
  *
