@@ -23,7 +23,11 @@
 // Header files ///////////////////////////////////////////////////////////////
 
 #include <cstdlib>
+#include <vector>
 #include <time.h>
+
+#include "vehicle.h"
+
 // Class definition  //////////////////////////////////////////////////////////
 template <class DataType>
 class World
@@ -35,19 +39,24 @@ public:
 
     // World control
     void initWorld(int sizeX, int sizeY);
-    bool populateWorld(int numObjects);
     void displayWorld();
+    bool populateWorld(int numObjects);
 
     // Accessors
+    int getNumObjects();
+    std::vector<DataType*> &getObjectList();
+
     bool isObjectPresent(int xCoor, int yCoor);
     bool insertObject(int xCoor, int yCoor, DataType *object);
-    bool removeObject(int xCoor, int yCoor, DataType *object);
     bool getObject(int xCoor, int yCoor, DataType *object);
+
 
 
 private:
     int worldSizeX;
     int worldSizeY;
+    int numObjects; /* number of objects present in world */
+    std::vector<DataType*> objectList; /* list of objects present in world */ 
     DataType ***world; /* xCoors ptrs of yCoors ptrs of object ptrs. */
 };
 // Terminating precompiler directives  ////////////////////////////////////////
