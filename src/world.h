@@ -49,10 +49,16 @@ public:
     bool isObjectPresent(int xCoor, int yCoor);
     bool insertObject(int xCoor, int yCoor, DataType *object);
     bool getObject(int xCoor, int yCoor, DataType *object);
+    bool removeObject(int xCoor, int yCoor, DataType *object);
+    bool deleteObject(int xCoor, int yCoor);
 
 
 
 private:
+    // Helper functions
+    int findFromList(DataType *object);
+    bool removeFromList(int index);
+    // Class varibles
     int worldSizeX;
     int worldSizeY;
     int numObjects; /* number of objects present in world */

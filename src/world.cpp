@@ -220,9 +220,9 @@ bool World<DataType>::populateWorld(int numObjectsToInsert)
 }
 
  /**
- * @brief Display World
+ * @brief 
  *
- * @details Prints out a graphical representation of the world
+ * @details 
  *          
  * @pre 
  *
@@ -324,7 +324,7 @@ int World<DataType>::getNumObjects()
  *
  * @param None
  *
- * @return Address of ist of objects
+ * @return Address of list of object pointers
  *
  * @note None
  */
@@ -335,16 +335,17 @@ std::vector<DataType*> &World<DataType>::getObjectList()
 }
 
  /**
- * @brief 
+ * @brief Insert Object
  *
- * @details 
+ * @details Inserts object at specified coordinates
  *          
- * @pre 
+ * @pre Assume initialized class object
  *
- * @post 
+ * @post Object inserted into world
  *
  * @par Algorithm 
- *      
+ *      Check if there is not already an object present at given coordinates and
+ *      insert the object into the world
  *      
  * @exception 
  *
@@ -364,8 +365,9 @@ bool World<DataType>::insertObject(int xCoor, int yCoor, DataType *object)
     }
 
     // Insert object if nothing is present
-    if(world[xCoor][yCoor] == NULL)
+    if(!isObjectPresent(xCoor,yCoor))
     {
+        // Create new object
         world[xCoor][yCoor] = object;
 
         // Insert at end of object list
@@ -410,7 +412,7 @@ bool World<DataType>::getObject(int xCoor, int yCoor, DataType *object)
         return false;
     }
     // Return object if present
-    if(world[xCoor][yCoor] != NULL)
+    if(isObjectPresent(xCoor,yCoor))
     {
         // Return object
         object = world[xCoor][yCoor];
@@ -421,6 +423,128 @@ bool World<DataType>::getObject(int xCoor, int yCoor, DataType *object)
     // Returns false if object not present
     return false;
 
+}
+/**
+ * @brief 
+ *
+ * @details 
+ *          
+ * @pre 
+ *
+ * @post 
+ *
+ * @par Algorithm 
+ *      
+ *      
+ * @exception 
+ *
+ * @param 
+ *
+ * @return 
+ *
+ * @note 
+ */
+template <class DataType>
+bool World<DataType>::removeObject(int xCoor, int yCoor, DataType *object)
+{
+    // Check range
+    if(xCoor > worldSizeX || yCoor > worldSizeY)
+    {   
+        return false;
+    }
+    // Return object if present
+    if(isObjectPresent(xCoor,yCoor))
+    {
+        // Return object
+        object = world[xCoor][yCoor];
+
+        // Remove object from list
+
+        // Return
+        return true;
+    }
+    // Returns false if object not present
+    return false;
+
+}
+
+/**
+ * @brief Find From List
+ *
+ * @details Finds the matching object in the object address list
+ *          
+ * @pre None
+ *
+ * @post Vector index at marching object returned
+ *
+ * @par Algorithm 
+ *      Go through the vector searching for a matching object address
+ *      
+ * @exception None
+ *
+ * @param [in] object
+ *             Object address to search for
+ *
+ * @return Vector index at marching object
+ *
+ * @note Returns -1 if no object found
+ */
+template <class DataType>
+int World<DataType>::findFromList(DataType *object)
+{
+    // Go through the list until matching object address found
+    for(int index = 0; index < objectList.size(); index++)
+    {
+        // Compare addresses
+        if(objectList[index] == object)
+        {
+            // Return the vector index at the matching object address
+            return index;
+        }
+    }
+    return -1; // -1 stating that search failed
+}
+
+/**
+ * @brief Remove from list
+ *
+ * @details Removes item from the vector
+ *          
+ * @pre None
+ *
+ * @post Item removed from list
+ *
+ * @par Algorithm 
+ *      Shift vector elements forward overwriting the element at index specified
+ *      
+ * @exception None
+ *
+ * @param [in] index
+ *             Vector index to delete
+ *
+ * @return Boolean stated if deletion is sucessful
+ *
+ * @note Returns -1 if no object found
+ */
+bool World<DataType>::removeFromList(int index)
+{
+    // Check if index is in range
+    if(index >= objectList.size())
+    {
+        return false;
+    }
+
+    // Shift elements back
+    for(int i = index; index < objectList.size(); index++)
+    {
+        objectList[i] = objectList[i + 1];
+    }
+
+    // Delete last element
+    objectList.pop_back();
+
+    // Return
+    return true;
 }
 // Terminating precompiler directives  ////////////////////////////////////////
 
