@@ -126,11 +126,19 @@ World<DataType>::~World()
  *
  * @return None
  *
+ * @note Can be ran multiple times
+ *
  * @note World is empty after initialization
  */
 template <class DataType>
 void World<DataType>::initWorld(int sizeX, int yCoor)
 {
+    // Clear world
+    if(numObjects > 0)
+    {
+        clearWorld();        
+    }
+
     // Set city size limits
     worldSizeX = sizeX;
     worldSizeY = yCoor;
@@ -147,7 +155,32 @@ void World<DataType>::initWorld(int sizeX, int yCoor)
             world[x][y] = NULL;
         }
     }
+}
 
+ /**
+ * @brief 
+ *
+ * @details 
+ *          
+ * @pre 
+ *
+ * @post 
+ *
+ * @par Algorithm 
+ *      
+ *      
+ * @exception 
+ *
+ * @param 
+ *
+ * @return 
+ *
+ * @note 
+ */
+template <class DataType>
+void World<DataType>::displayWorld()
+{
+    // DIS IS TYLER'S JOB!
 }
 
 /**
@@ -171,6 +204,8 @@ void World<DataType>::initWorld(int sizeX, int yCoor)
  * @return Boolean signifying populating success
  *
  * @note Number of objects can not exceed world capacity
+ *
+ * @note INCOMPLETE FUNCTION: Need something to assign the coordinates to the vehicle
  */
 template <class DataType>
 bool World<DataType>::populateWorld(int numObjectsToInsert)
@@ -207,6 +242,8 @@ bool World<DataType>::populateWorld(int numObjectsToInsert)
                 // Create new object
                 world[xCoor][yCoor] = new DataType;
 
+                // PROBABLY NEED SOMETHING HERE TO LET VEHICLE KNOW ITS COORDINATES!
+
                 // Push new object onto list
                 objectList.push_back(world[xCoor][yCoor]);
 
@@ -217,6 +254,53 @@ bool World<DataType>::populateWorld(int numObjectsToInsert)
         while(objectPresent);
     }
     return true;
+}
+
+ /**
+ * @brief Clear World
+ *
+ * @details Deletes all objects present in the world
+ *          
+ * @pre Assume initialized class object
+ *
+ * @post All elements in world deleted
+ *
+ * @par Algorithm 
+ *      Go through each world array element and delete object. Set the object
+ *      pointer to NULL
+ *      
+ * @exception None
+ *
+ * @param None
+ *
+ * @return None
+ *
+ * @note None
+ */
+template <class DataType>
+void World<DataType>::clearWorld()
+{
+    // Varible Declaration
+    DataType *tempObjectPtr;
+
+    // Go through the world and delete any elements present
+    for(int x = 0; x < worldSizeX; x++)
+    {
+        for(int y = 0; y < worldSizeY; y++)
+        {
+            // Delete object if found
+            if(world[x][y] != NULL)
+            {
+                tempObjectPtr = world[x][y];
+                delete tempObjectPtr;
+                world[x][y] = NULL;
+            }
+        }
+    }
+
+    // Clear list
+    objectList.clear();
+    numObjects = 0;
 }
 
  /**
@@ -240,9 +324,28 @@ bool World<DataType>::populateWorld(int numObjectsToInsert)
  * @note 
  */
 template <class DataType>
-void World<DataType>::displayWorld()
+void World<DataType>::runWorld(int ticks)
 {
-    // DIS IS TYLER'S JOB!
+    // Varible Declaration
+
+    // Run world for n amount of ticks
+    for(int i = 0; i < ticks; i++)
+    {
+        // Go through elements in world X axis 
+        for(int x = 0; x < worldSizeX; x++)
+        {
+            // Go through elements in world Y axis
+            for (int y = 0; y < worldSizeY; y++)
+            {
+                // Go through each object and run their commands
+                if(world[x][y] != NULL)
+                {
+                    // NEED VEHICLE IMPLEMENTATION!!!!!!
+                }
+
+            }
+        }
+    }
 }
 
  /**
@@ -526,6 +629,7 @@ int World<DataType>::findFromList(DataType *object)
  *
  * @note Returns -1 if no object found
  */
+template <class DataType>
 bool World<DataType>::removeFromList(int index)
 {
     // Check if index is in range

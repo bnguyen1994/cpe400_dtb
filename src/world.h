@@ -41,11 +41,12 @@ public:
     void initWorld(int sizeX, int sizeY);
     void displayWorld();
     bool populateWorld(int numObjects);
+    void clearWorld();
+    void runWorld(int ticks);
 
     // Accessors
     int getNumObjects();
     std::vector<DataType*> &getObjectList();
-
     bool isObjectPresent(int xCoor, int yCoor);
     bool insertObject(int xCoor, int yCoor, DataType *object);
     bool getObject(int xCoor, int yCoor, DataType *object);
@@ -55,10 +56,11 @@ public:
 
 
 private:
-    // Helper functions
+    // Helper Functions
     int findFromList(DataType *object);
     bool removeFromList(int index);
-    // Class varibles
+
+    // Class Varibles
     int worldSizeX;
     int worldSizeY;
     int numObjects; /* number of objects present in world */

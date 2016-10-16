@@ -36,12 +36,14 @@ public:
 	~Simulator();
 
 	// World Control
+    char displayMenu();
 	void initWorld(int sizeX, int sizeY);
 	bool moveVehicle(int xCoorFrom, int yCoorFrom, int xCoorTo, int yCoorTo);
 	void run(int ticks);
 	void displayWorld();
 
 private:
+    // Class Varibles
 	World<Vehicle> world;
 };
 // Terminating precompiler directives  ////////////////////////////////////////

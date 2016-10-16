@@ -50,7 +50,52 @@ Simulator::Simulator()
 
 }
 
+ /**
+ * @brief 
+ *
+ * @details 
+ *          
+ * @pre 
+ *
+ * @post 
+ *
+ * @par Algorithm 
+ *      
+ *      
+ * @exception 
+ *
+ * @param 
+ *
+ * @return 
+ *
+ * @note 
+ */
 Simulator::~Simulator()
+{
+
+}
+
+ /**
+ * @brief 
+ *
+ * @details 
+ *          
+ * @pre 
+ *
+ * @post 
+ *
+ * @par Algorithm 
+ *      
+ *      
+ * @exception 
+ *
+ * @param 
+ *
+ * @return 
+ *
+ * @note 
+ */
+char Simulator::displayMenu()
 {
 
 }

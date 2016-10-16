@@ -33,9 +33,22 @@
 
 int main(int argc, char **argv)
 {
-  // Do stuff bro
-  std::printf( "Hello, guys!\n" ); // test for CMake compiler
-  return EXIT_SUCCESS;
+    // Varible Declaration
+    Simulator simulator;
+    int worldSizeX, worldSizeY;
+    bool successFlag;
+
+    // Get world size from user
+    cout << "Enter World Size X: ";
+    cin >> worldSizeX;
+    cout << "Enter World Size Y: ";   
+    cin >> worldSizeY;
+
+    // Init world
+    simulator.initWorld(worldSizeX, worldSizeX);
+
+    // Return
+    return EXIT_SUCCESS;
 }
 
 // Function Implementation ////////////////////////////////////////////////////
