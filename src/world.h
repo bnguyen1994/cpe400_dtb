@@ -38,7 +38,7 @@ public:
     ~World();
 
     // World control
-    void initWorld(int sizeX, int sizeY);
+    bool initWorld(int sizeX, int sizeY);
     void displayWorld();
     bool populateWorld(int numObjects);
     void clearWorld();

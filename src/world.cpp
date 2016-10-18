@@ -8,7 +8,7 @@
  * 
  * @details Implements all member methods of the world class
  *
- * @version 1.00
+ * @version 1.0
  *          Brandon Thai Nguyen (03 October 2016)
  *          Original Code
  *
@@ -29,7 +29,7 @@
  /**
  * @brief Default/Initialization constructor
  *
- * @details Constructs World 
+ * @details Constructs World Class
  *          
  * @pre None
  *
@@ -89,7 +89,7 @@ World<DataType>::~World()
             if(world[x][y] != NULL)
             {
                 tempObjectPtr = world[x][y];
-                delete tempObjectPtr;                
+                delete tempObjectPtr; 
             }
         }
 
@@ -131,8 +131,14 @@ World<DataType>::~World()
  * @note World is empty after initialization
  */
 template <class DataType>
-void World<DataType>::initWorld(int sizeX, int yCoor)
+bool World<DataType>::initWorld(int sizeX, int sizeY)
 {
+    // Check sizes
+    if(sizeX <= 0 || sizeY <= 0)
+    {
+        return false;
+    }
+
     // Clear world
     if(numObjects > 0)
     {
@@ -141,7 +147,7 @@ void World<DataType>::initWorld(int sizeX, int yCoor)
 
     // Set city size limits
     worldSizeX = sizeX;
-    worldSizeY = yCoor;
+    worldSizeY = sizeY;
 
     // Dynamically size city
     world = new DataType **[worldSizeX];
@@ -155,6 +161,7 @@ void World<DataType>::initWorld(int sizeX, int yCoor)
             world[x][y] = NULL;
         }
     }
+    return true;
 }
 
  /**
@@ -219,7 +226,8 @@ bool World<DataType>::populateWorld(int numObjectsToInsert)
     srand(time(NULL));
 
     // Check if number of objects exceed capacity
-    if(numObjectsToInsert >= (worldSizeX * worldSizeY))
+    if(numObjectsToInsert >= (worldSizeX * worldSizeY) 
+                                                     && numObjectsToInsert > 0)
     {
         return false;
     }
@@ -230,8 +238,8 @@ bool World<DataType>::populateWorld(int numObjectsToInsert)
         do
         {
             // Get random coordinates
-            xCoor = rand() % worldSizeX - 1;
-            yCoor = rand() % worldSizeY - 1;
+            xCoor = rand() % (worldSizeX - 1);
+            yCoor = rand() % (worldSizeY - 1);
 
             // Check if object is present at that coordinate
             objectPresent = isObjectPresent(xCoor,yCoor);
@@ -253,6 +261,7 @@ bool World<DataType>::populateWorld(int numObjectsToInsert)
         }
         while(objectPresent);
     }
+    // Return true indicating population success
     return true;
 }
 
@@ -304,24 +313,25 @@ void World<DataType>::clearWorld()
 }
 
  /**
- * @brief 
+ * @brief Run World
  *
- * @details 
+ * @details Runs the world an arbituary amount of ticks
  *          
- * @pre 
+ * @pre Assume initialized class object
  *
- * @post 
+ * @post World ran
  *
  * @par Algorithm 
+ *      Go through each array element checking each 
  *      
- *      
- * @exception 
+ * @exception None
  *
- * @param 
+ * @param [in] ticks
+ *             Number of times to run each element's function
  *
- * @return 
+ * @return None
  *
- * @note 
+ * @note None
  */
 template <class DataType>
 void World<DataType>::runWorld(int ticks)
@@ -341,6 +351,9 @@ void World<DataType>::runWorld(int ticks)
                 if(world[x][y] != NULL)
                 {
                     // NEED VEHICLE IMPLEMENTATION!!!!!!
+                    /* Probably go through each present element and check to see
+                       if they need to be moved, if they need to transmit the 
+                       data to the next vehicle, .etc */
                 }
 
             }
@@ -448,15 +461,22 @@ std::vector<DataType*> &World<DataType>::getObjectList()
  *
  * @par Algorithm 
  *      Check if there is not already an object present at given coordinates and
- *      insert the object into the world
+ *      insert the object into the world and push that object into the list
  *      
- * @exception 
+ * @exception None
  *
- * @param 
+ * @param [in] xCoor
+ *             X-axis coordinate
  *
- * @return 
+ *        [in] yCoor
+ *             Y-axis coordinate
  *
- * @note 
+ *        [out] object
+ *              Object to insert into the world
+ *
+ * @return Bool stating insertion success
+ *
+ * @note None
  */
 template <class DataType>
 bool World<DataType>::insertObject(int xCoor, int yCoor, DataType *object)
@@ -475,7 +495,13 @@ bool World<DataType>::insertObject(int xCoor, int yCoor, DataType *object)
 
         // Insert at end of object list
         objectList.push_back(world[xCoor][yCoor]);
+
+        // Return
+        return true;
     }
+
+    // Returns false if object is already present    
+    return false;
 }
 
  /**
@@ -488,7 +514,8 @@ bool World<DataType>::insertObject(int xCoor, int yCoor, DataType *object)
  * @post Object from world returned
  *
  * @par Algorithm 
- *      
+ *      Check to see if the coordinates given are in range and see if there is
+ *      an object present then return the address of the object
  *      
  * @exception None
  *
@@ -527,29 +554,46 @@ bool World<DataType>::getObject(int xCoor, int yCoor, DataType *object)
     return false;
 
 }
+
 /**
- * @brief 
+ * @brief Remove Object
  *
- * @details 
+ * @details Returns object and removes it from the world
  *          
- * @pre 
+ * @pre Assume initialized class object
  *
- * @post 
+ * @post Object returned and removed from world and list of objects present
  *
  * @par Algorithm 
+ *      Check to see if the coordinates given are in range and see if there is
+ *      an object present then return the address of the object and remove it
+ *      from the world and list of objects present
  *      
- *      
- * @exception 
+ * @exception None
  *
- * @param 
+ * @param [in] xCoor
+ *             X-axis coordinate
  *
- * @return 
+ *        [in] yCoor
+ *             Y-axis coordinate
  *
- * @note 
+ *        [out] object
+ *              Object returned from the world
+ *
+ * @return Bool indicating success
+ *
+ * @note Returns false if the coordinates given are out of range and if there is
+ *       no object at specified coordinates 
+ *
+ * @note Function does not delete the object, only removes and returns it
  */
 template <class DataType>
 bool World<DataType>::removeObject(int xCoor, int yCoor, DataType *object)
 {
+    // Varible Declaration
+    int index;
+    bool removalSuccess;
+
     // Check range
     if(xCoor > worldSizeX || yCoor > worldSizeY)
     {   
@@ -562,13 +606,22 @@ bool World<DataType>::removeObject(int xCoor, int yCoor, DataType *object)
         object = world[xCoor][yCoor];
 
         // Remove object from list
+        index = findFromList(object); /* Index returns -1 if not found */
+
+        if(index <= -1) /* This should theoretically never happen but . . . */
+        {
+            std::cout << "FATAL ERROR: OBJECT REMOVED FROM WORLD BUT ";
+            std::cout << "UNSUCCESSFULLY REMOVED FROM LIST . . ." << std::endl;
+            return false;
+        }
+        removeFromList(index);
 
         // Return
         return true;
     }
+
     // Returns false if object not present
     return false;
-
 }
 
 /**
@@ -627,7 +680,7 @@ int World<DataType>::findFromList(DataType *object)
  *
  * @return Boolean stated if deletion is sucessful
  *
- * @note Returns -1 if no object found
+ * @note None
  */
 template <class DataType>
 bool World<DataType>::removeFromList(int index)
@@ -639,7 +692,7 @@ bool World<DataType>::removeFromList(int index)
     }
 
     // Shift elements back
-    for(int i = index; index < objectList.size(); index++)
+    for(int i = index; index < objectList.size() - 1; index++)
     {
         objectList[i] = objectList[i + 1];
     }

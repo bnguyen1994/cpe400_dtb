@@ -25,7 +25,6 @@
 #include <iostream>
 #include "vehicle.h"
 #include "world.cpp"
-using namespace std;
 
 // Class definition  //////////////////////////////////////////////////////////
 class Simulator
@@ -35,8 +34,11 @@ public:
 	Simulator();
 	~Simulator();
 
-	// World Control
+    // Simulator Control
+    void run();
     char displayMenu();
+    
+	// World Control
 	void initWorld(int sizeX, int sizeY);
 	bool moveVehicle(int xCoorFrom, int yCoorFrom, int xCoorTo, int yCoorTo);
 	void run(int ticks);

@@ -35,17 +35,9 @@ int main(int argc, char **argv)
 {
     // Varible Declaration
     Simulator simulator;
-    int worldSizeX, worldSizeY;
-    bool successFlag;
 
-    // Get world size from user
-    cout << "Enter World Size X: ";
-    cin >> worldSizeX;
-    cout << "Enter World Size Y: ";   
-    cin >> worldSizeY;
-
-    // Init world
-    simulator.initWorld(worldSizeX, worldSizeX);
+    // Run Simulation
+    simulator.run();
 
     // Return
     return EXIT_SUCCESS;
