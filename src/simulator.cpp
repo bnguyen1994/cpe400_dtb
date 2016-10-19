@@ -14,8 +14,8 @@
  *
  * @Note Requires simulator.h
  */
-
 // Precompiler directives /////////////////////////////////////////////////////
+
 
 #ifndef CLASS_SIMULATOR_CPP
 #define CLASS_SIMULATOR_CPP
@@ -149,7 +149,7 @@ void Simulator::run()
                 // Prompt for number of objects
                 std::cout << "Enter number of vehicles to generate ";
                 std::cout << "(Note: Must be less than ";
-                std::cout << worldSizeX * worldSizeY << "): ";
+                std::cout << (worldSizeX * worldSizeY) / 2 << "): ";
                 std::cin >> numObjects;
                 std::cout << std::endl;
 

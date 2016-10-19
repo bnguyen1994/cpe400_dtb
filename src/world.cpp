@@ -8,7 +8,12 @@
  * 
  * @details Implements all member methods of the world class
  *
- * @version 1.0
+ * @version
+ *          1.1
+ *          Tyler Goffinet
+ *          Updated for use with vehicle classes
+ *
+ *          1.0
  *          Brandon Thai Nguyen (03 October 2016)
  *          Original Code
  *
@@ -224,13 +229,20 @@ bool World<DataType>::populateWorld(int numObjectsToInsert)
 
     // Seed number generator
     srand(time(NULL));
+  
+    // Check number if objects being added to avoid overflow
+    if((numObjects + numObjectsToInsert) >= (worldSizeX * worldSizeY / 2))
+    {
+        return false;
+    }
 
     // Check if number of objects exceed capacity
-    if(numObjectsToInsert >= (worldSizeX * worldSizeY) 
+    if(numObjectsToInsert >= (worldSizeX * worldSizeY / 2)
                                                      && numObjectsToInsert > 0)
     {
         return false;
     }
+  
     // Populate world
     for(int i = 0; i < numObjectsToInsert; i++)
     {
@@ -250,7 +262,7 @@ bool World<DataType>::populateWorld(int numObjectsToInsert)
                 // Create new object
                 world[xCoor][yCoor] = new DataType;
 
-                // PROBABLY NEED SOMETHING HERE TO LET VEHICLE KNOW ITS COORDINATES!
+                // TODO: PROBABLY NEED SOMETHING HERE TO LET VEHICLE KNOW ITS COORDINATES!
 
                 // Push new object onto list
                 objectList.push_back(world[xCoor][yCoor]);
