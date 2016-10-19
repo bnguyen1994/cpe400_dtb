@@ -3,7 +3,7 @@
  * @file Main.cpp
  *
  * @brief Driver program
- * 
+ *
  * @details
  *
  * @version 1.1
@@ -14,11 +14,11 @@
  *          Tyler Goffinet (28 September 2016)
  *          Original Code
  *
- * @Note 
+ * @note
  */
 // Precompiler directives /////////////////////////////////////////////////////
 
-    // none
+// none
 
 // Header Files ///////////////////////////////////////////////////////////////
 
@@ -31,18 +31,18 @@
 
 // Main Function Implementation ///////////////////////////////////////////////
 
-int main(int argc, char **argv)
+int main( int argc, char **argv )
 {
-    // Varible Declaration
-    Simulator simulator;
+  // Varible Declaration
+  Simulator simulator;
 
-    // Run Simulation
-    simulator.run();
+  // Run Simulation
+  simulator.run();
 
-    // Return
-    return EXIT_SUCCESS;
+  // Return
+  return EXIT_SUCCESS;
 }
 
 // Function Implementation ////////////////////////////////////////////////////
 
-    // None
+// None
