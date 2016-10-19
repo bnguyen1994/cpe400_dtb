@@ -159,7 +159,7 @@ void Simulator::run()
         if( success )
         {
           std::cout << numObjects << " vehicles created . . .";
-          std::cout << std::endl;
+          std::cout << std::endl << std::endl;
         }
         else
         {
