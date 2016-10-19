@@ -3,16 +3,16 @@
  * @file vehicle.h
  *
  * @brief Definition file for vehicle class
- * 
+ *
  * @author Brandon Thai Nguyen
- * 
+ *
  * @details Specifies all member methods of the vehicle class
  *
  * @version 1.00
  *          Brandon Thai Nguyen (03 October 2016)
  *          Original Code
  *
- * @Note None
+ * @note None
  */
 
 // Precompiler directives /////////////////////////////////////////////////////
@@ -25,15 +25,17 @@
 #include <iostream>
 
 // Class definition  //////////////////////////////////////////////////////////
+
 class Vehicle
 {
-public:
-	// Constructors
-	Vehicle();
-	~Vehicle();
+ public:
+  // Constructors
+  Vehicle();
+  ~Vehicle();
 
-private:
+ private:
 };
+
 // Terminating precompiler directives  ////////////////////////////////////////
 
-#endif		// #ifndef CLASS_VEHICLE_H
+#endif  // #ifndef CLASS_VEHICLE_H
