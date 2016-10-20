@@ -169,7 +169,7 @@ bool World<DataType>::initWorld( int sizeX, int sizeY )
 }
 
 /**
-* @brief
+* @brief Displays
 *
 * @details
 *

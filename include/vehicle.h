@@ -36,6 +36,17 @@ class Vehicle
  private:
 };
 
+class Taxi
+{
+public:
+  // Constructors
+  Taxi();
+  ~Taxi();
+  
+private:
+  
+};
+
 // Terminating precompiler directives  ////////////////////////////////////////
 
 #endif  // #ifndef CLASS_VEHICLE_H

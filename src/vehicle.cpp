@@ -26,8 +26,17 @@
 
 // Class implementation ///////////////////////////////////////////////////////
 
-Vehicle::Vehicle() {}
-Vehicle::~Vehicle() {}
+Vehicle::Vehicle()
+{
+  
+}
+
+Vehicle::~Vehicle()
+{
+
+}
+
+
 
 // Terminating precompiler directives  ////////////////////////////////////////
 
