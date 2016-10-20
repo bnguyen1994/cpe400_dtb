@@ -46,11 +46,13 @@ class World
   void runWorld( int ticks );
 
   // Accessors
+  bool isObjectPresent( int xCoor, int yCoor );
+  
+  bool getObject( int xCoor, int yCoor, DataType *object );
   int                      getNumObjects();
   std::vector<DataType *> &getObjectList();
-  bool isObjectPresent( int xCoor, int yCoor );
+  
   bool insertObject( int xCoor, int yCoor, DataType *object );
-  bool getObject( int xCoor, int yCoor, DataType *object );
   bool removeObject( int xCoor, int yCoor, DataType *object );
   bool deleteObject( int xCoor, int yCoor );
 
