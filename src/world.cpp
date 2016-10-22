@@ -169,29 +169,50 @@ bool World<DataType>::initWorld( int sizeX, int sizeY )
 }
 
 /**
-* @brief Displays
+* @brief Displays world in ASCII format
 *
-* @details
+* @details Outputs to terminal all intersections and interminate roadways
 *
-* @pre
+* @pre Assumes initialized world object and world data member
 *
-* @post
+* @post World filled with objects
 *
 * @par Algorithm
+*      Loop through intersections within world displaying their symbols
 *
+* @exception Cannot display before world initialization
 *
-* @exception
+* @param None
 *
-* @param
+* @return None
 *
-* @return
-*
-* @note
+* @note None
 */
 template <class DataType>
 void World<DataType>::displayWorld()
 {
-  // DIS IS TYLER'S JOB!
+  int index = 0;
+  DataType *data;
+  Intersect1 intersects[worldSizeX * worldSizeY];
+  
+  // Construct intersects
+  for( int x = 0; x < worldSizeX; x++ )
+  {
+    for( int y = 0; y < worldSizeY; y++ )
+    {
+      data = world[x][y];
+      
+      // Enter object data into new intersection
+      if( data == NULL )
+      {
+        intersects[index] = Intersect1();
+      }
+      else
+      {
+        intersects[index] = Intersect1( data->getId(), data->hasPacket(), <#ObjDirection dir#>)
+      }
+    }
+  }
 }
 
 /**
@@ -270,7 +291,8 @@ bool World<DataType>::populateWorld( int numObjectsToInsert )
         // Increment object counter
         numObjects++;
       }
-    } while( objectPresent );
+    }
+    while( objectPresent );
   }
 
   // Return true indicating population success
@@ -609,7 +631,7 @@ template <class DataType>
 bool World<DataType>::removeObject( int xCoor, int yCoor, DataType *object )
 {
   // Varible Declaration
-  int  index;
+  int index;
 
   // Check range
   if( xCoor > worldSizeX || yCoor > worldSizeY )

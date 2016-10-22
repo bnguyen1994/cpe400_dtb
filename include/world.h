@@ -24,9 +24,11 @@
 
 #include <time.h>
 #include <cstdlib>
+#include <sstream>
 #include <vector>
 
 #include "vehicle.h"
+#include "intersect.h"
 
 // Class definition  //////////////////////////////////////////////////////////
 
@@ -47,11 +49,11 @@ class World
 
   // Accessors
   bool isObjectPresent( int xCoor, int yCoor );
-  
+
   bool getObject( int xCoor, int yCoor, DataType *object );
   int                      getNumObjects();
   std::vector<DataType *> &getObjectList();
-  
+
   bool insertObject( int xCoor, int yCoor, DataType *object );
   bool removeObject( int xCoor, int yCoor, DataType *object );
   bool deleteObject( int xCoor, int yCoor );
