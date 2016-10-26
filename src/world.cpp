@@ -9,6 +9,10 @@
  * @details Implements all member methods of the world class
  *
  * @version
+ *          1.2
+ *          Tyler Goffinet
+ *          Implemented display and updated runWorld()
+ *
  *          1.1
  *          Tyler Goffinet
  *          Updated for use with vehicle classes
@@ -101,6 +105,7 @@ World<DataType>::~World()
     tempWorldYPtr = world[x];
     delete tempWorldYPtr;
   }
+
   delete world;
 
   worldSizeX = 0;
@@ -169,29 +174,84 @@ bool World<DataType>::initWorld( int sizeX, int sizeY )
 }
 
 /**
-* @brief
+* @brief Displays world in ASCII format
 *
-* @details
+* @details Outputs to terminal all intersections and interminate roadways
 *
-* @pre
+* @pre Assumes initialized world object and world data member
 *
-* @post
+* @post World filled with objects
 *
 * @par Algorithm
+*      Loop through intersections within world displaying their symbols
 *
+* @exception Cannot display before world initialization
 *
-* @exception
+* @param None
 *
-* @param
+* @return None
 *
-* @return
-*
-* @note
+* @note None
 */
 template <class DataType>
 void World<DataType>::displayWorld()
 {
-  // DIS IS TYLER'S JOB!
+  using std::cout;
+  using std::endl;
+
+  DataType *data;
+
+  std::vector<Intersect1>               tempVect;
+  std::vector<std::vector<Intersect1> > intersects;
+
+  cout << endl;
+
+  // Construct intersects
+  for( int x = 0; x < worldSizeX; x++ )
+  {
+    tempVect = std::vector<Intersect1>();
+
+    for( int y = 0; y < worldSizeY; y++ )
+    {
+      data = world[x][y];
+
+      // Enter object data into new intersection
+      if( data == NULL )
+      {
+        tempVect.push_back( Intersect1() );
+      }
+      else
+      {
+        tempVect.push_back( Intersect1( data->getId(), data->hasPacket(),
+                                        data->getDirection() ) );
+      }
+    }
+
+    intersects.push_back( tempVect );
+  }
+
+  // Stitch intersections together
+  for( int y = 0; y < worldSizeY; y++ )
+  {
+    for( int i = 0; i < Intersect1::NUM_ROWS; i++ )
+    {
+      // Ouput each row of intersections
+      for( int x = 0; x < worldSizeX; x++ )
+      {
+        cout << intersects[x][y][i];
+
+        if( x < worldSizeX - 1 )
+        {
+          cout << Intersect1::VERT_ROADWAY[i];
+        }
+      }
+
+      cout << Intersect1::HORI_ROADWAY[0];
+      cout << endl;
+    }
+  }
+
+  cout << endl;
 }
 
 /**
@@ -259,13 +319,12 @@ bool World<DataType>::populateWorld( int numObjectsToInsert )
       if( !objectPresent )
       {
         // Create new object
-        world[xCoor][yCoor] = new DataType;
-
-        // TODO: PROBABLY NEED SOMETHING HERE TO LET VEHICLE KNOW ITS
-        //       COORDINATES!
+        world[xCoor][yCoor] =
+            new DataType( xCoor, yCoor, worldSizeX, worldSizeY );
 
         // Push new object onto list
         objectList.push_back( world[xCoor][yCoor] );
+        objectActionCounter.push_back( 0 );
 
         // Increment object counter
         numObjects++;
@@ -325,47 +384,62 @@ void World<DataType>::clearWorld()
 }
 
 /**
-* @brief Run World
-*
-* @details Runs the world an arbituary amount of ticks
-*
-* @pre Assume initialized class object
-*
-* @post World ran
-*
-* @par Algorithm
-*      Go through each array element checking each
-*
-* @exception None
-*
-* @param [in] ticks
-*             Number of times to run each element's function
-*
-* @return None
-*
-* @note None
-*/
+ * @brief Run World
+ *
+ * @details Runs the world an arbituary amount of ticks
+ *
+ * @pre Assume initialized class object
+ *
+ * @post World ran
+ *
+ * @par Algorithm
+ *      Go through each array element checking each
+ *
+ * @exception None
+ *
+ * @param [in] ticks
+ *             Number of times to run each element's function
+ *
+ * @return None
+ *
+ * @note None
+ */
 template <class DataType>
 void World<DataType>::runWorld( int ticks )
 {
-  // Varible Declaration
+  // Variable Declaration
+  int       xCoor, yCoor;
+  int       xNextCoor, yNextCoor;
+  DataType *object;
+
+  displayWorld();
 
   // Run world for n amount of ticks
   for( int i = 0; i < ticks; i++ )
   {
-    // Go through elements in world X axis
-    for( int x = 0; x < worldSizeX; x++ )
+    // Move each object in list
+    for( int vectIndex = 0; vectIndex < objectList.size(); vectIndex++ )
     {
-      // Go through elements in world Y axis
-      for( int y = 0; y < worldSizeY; y++ )
+      object = objectList[vectIndex];
+      object->getNextLocation( xNextCoor, yNextCoor );
+
+      if( !isObjectPresent( xNextCoor, yNextCoor ) )
       {
-        // Go through each object and run their commands
-        if( world[x][y] != NULL )
+        object->getLocation( xCoor, yCoor );
+
+        world[xCoor][yCoor] = NULL;
+        object->move();
+        world[xNextCoor][yNextCoor] = object;
+
+        objectActionCounter[vectIndex] = 0;
+      }
+      else
+      {
+        ++objectActionCounter[vectIndex];
+
+        if( objectActionCounter[vectIndex] == 2 )
         {
-          // NEED VEHICLE IMPLEMENTATION!!!!!!
-          /* Probably go through each present element and check to see
-             if they need to be moved, if they need to transmit the
-             data to the next vehicle, .etc */
+          objectList[vectIndex]->redirect();
         }
       }
     }
@@ -373,35 +447,35 @@ void World<DataType>::runWorld( int ticks )
 }
 
 /**
-* @brief Is object present
-*
-* @details Checks if an object is present at given location
-*
-* @pre Assumes initialized class object
-*
-* @post Returns if the object is present or not
-*
-* @par Algorithm
-*      Check if the coordinates are in range, then check if a NULL ptr is not
-*      present at given coordinates
-*
-* @exception None
-*
-* @param [in] xCoor
-*             X-axis coordinate
-*
-*        [in] yCoor
-*             Y-axis coordinate
-*
-* @return Boolean signifying if an object is present
-*
-* @note None
-*/
+ * @brief Is object present
+ *
+ * @details Checks if an object is present at given location
+ *
+ * @pre Assumes initialized class object
+ *
+ * @post Returns if the object is present or not
+ *
+ * @par Algorithm
+ *      Check if the coordinates are in range, then check if a NULL ptr is not
+ *      present at given coordinates
+ *
+ * @exception None
+ *
+ * @param [in] xCoor
+ *             X-axis coordinate
+ *
+ *        [in] yCoor
+ *             Y-axis coordinate
+ *
+ * @return Boolean signifying if an object is present
+ *
+ * @note None
+ */
 template <class DataType>
 bool World<DataType>::isObjectPresent( int xCoor, int yCoor )
 {
   // Check range
-  if( xCoor >= worldSizeX || yCoor >= worldSizeY )
+  if( xCoor < 0 || worldSizeX <= xCoor || yCoor < 0 || worldSizeY <= yCoor )
   {
     return false;
   }
@@ -609,7 +683,7 @@ template <class DataType>
 bool World<DataType>::removeObject( int xCoor, int yCoor, DataType *object )
 {
   // Varible Declaration
-  int  index;
+  int index;
 
   // Check range
   if( xCoor > worldSizeX || yCoor > worldSizeY )
@@ -721,6 +795,7 @@ bool World<DataType>::removeFromList( int index )
   // Return
   return true;
 }
+
 // Terminating precompiler directives  ////////////////////////////////////////
 
 #endif  // #ifndef CLASS_WORLD_CPP
