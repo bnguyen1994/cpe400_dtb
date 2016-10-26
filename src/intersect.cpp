@@ -8,8 +8,9 @@
  *
  * @details Implements all member methods of the intersect class(es)
  *
- * @version 1.0
- *          Tyler Michael (03 October 2016)
+ * @version
+ *          1.0
+ *          Tyler Goffinet (03 October 2016)
  *          Original Code
  *
  * @note Requires intersect.h
@@ -28,30 +29,27 @@ using std::string;
 
 // Class implementation ///////////////////////////////////////////////////////
 
-const string Intersect1::UPPER_SCORE  = "\u1428";
+const string Intersect1::UPPER_SCORE = "\u23ba";
 
-const string Intersect1::vertRoadway[] =
-                                         {
-                                           "_",
-                                           " ",
-                                           " ",
-                                           " ",
-                                           UPPER_SCORE
-                                         };
+const string Intersect1::VERT_ROADWAY[] = { "_", " ", " ", " ", UPPER_SCORE };
 
-const string Intersect1::horiRoadway[] = { "" };
+const string Intersect1::HORI_ROADWAY[] = { "" };
 
-Intersect1::Intersect1() { setIntersection( ' ', false, NaN ); }
+Intersect1::Intersect1()
+{
+  setIntersection( ' ', false, NaN );
+}
 
 Intersect1::Intersect1( char id, bool holdsAsterisk, VehicleDir dir )
 {
   setIntersection( id, holdsAsterisk, dir );
 }
 
-Intersect1::~Intersect1() {}
+Intersect1::~Intersect1()
+{
+}
 
-void Intersect1::setIntersection( char id, bool holdsAsterisk,
-                                  VehicleDir dir )
+void Intersect1::setIntersection( char id, bool holdsAsterisk, VehicleDir dir )
 {
   objId       = id;
   hasAsterisk = holdsAsterisk;
@@ -60,7 +58,10 @@ void Intersect1::setIntersection( char id, bool holdsAsterisk,
   constructIntersection();
 }
 
-string Intersect1::operator[]( int row ) { return getIntersection( row ); }
+string Intersect1::operator[]( int row )
+{
+  return getIntersection( row );
+}
 
 string Intersect1::getIntersection( int row )
 {
@@ -75,7 +76,6 @@ string Intersect1::getIntersection( int row )
 
 void Intersect1::constructIntersection()
 {
-  string id = std::to_string( objId );
   std::stringstream rowStream[5];
 
   rowStream[0] << "_|     |_";
@@ -85,16 +85,16 @@ void Intersect1::constructIntersection()
   {
     case NaN:
       rowStream[1] << "         ";
-     
+
       if( hasAsterisk )
       {
-        rowStream[2] << "   " << id << "*   ";
+        rowStream[2] << "    " << objId << "*   ";
       }
       else
       {
-        rowStream[2] << "   " << id << "    ";
+        rowStream[2] << "    " << objId << "    ";
       }
-     
+
       rowStream[3] << "         ";
       break;
 
@@ -104,11 +104,11 @@ void Intersect1::constructIntersection()
       if( hasAsterisk )
       {
         rowStream[2] << "    *    ";
-        rowStream[3] << "    " << id << "    ";
+        rowStream[3] << "    " << objId << "    ";
       }
       else
       {
-        rowStream[2] << "    " << id << "    ";
+        rowStream[2] << "    " << objId << "    ";
         rowStream[3] << "         ";
       }
       break;
@@ -116,15 +116,15 @@ void Intersect1::constructIntersection()
     case DOWN:
       if( hasAsterisk )
       {
-        rowStream[1] << "    " << id << "    ";
+        rowStream[1] << "    " << objId << "    ";
         rowStream[2] << "    *    ";
       }
       else
       {
         rowStream[1] << "         ";
-        rowStream[2] << "    " << id << "    ";
+        rowStream[2] << "    " << objId << "    ";
       }
-      
+
       rowStream[3] << "    v    ";
       break;
 
@@ -133,11 +133,11 @@ void Intersect1::constructIntersection()
 
       if( hasAsterisk )
       {
-        rowStream[2] << "   <*" << id << "   ";
+        rowStream[2] << "   <*" << objId << "   ";
       }
       else
       {
-        rowStream[2] << "   <" << id << "    ";
+        rowStream[2] << "   <" << objId << "    ";
       }
 
       rowStream[3] << "         ";
@@ -148,11 +148,11 @@ void Intersect1::constructIntersection()
 
       if( hasAsterisk )
       {
-        rowStream[2] << "   " << id << "*>   ";
+        rowStream[2] << "   " << objId << "*>   ";
       }
       else
       {
-        rowStream[2] << "    " << id << ">   ";
+        rowStream[2] << "    " << objId << ">   ";
       }
 
       rowStream[3] << "         ";

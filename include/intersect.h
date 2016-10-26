@@ -32,7 +32,10 @@
 class Intersect1
 {
  public:
+  static const int         NUM_ROWS = 5;
   static const std::string UPPER_SCORE;
+  static const std::string VERT_ROADWAY[5];
+  static const std::string HORI_ROADWAY[1];
 
   // Constructors
   Intersect1();
@@ -48,14 +51,12 @@ class Intersect1
 
  private:
   // Object properties
-  char         objId;
-  bool         hasAsterisk;
+  char       objId;
+  bool       hasAsterisk;
   VehicleDir objDir;
 
   // Intersection string data
   std::string intersection[5];
-  static const std::string vertRoadway[5];
-  static const std::string horiRoadway[1];
 
   // Helper functions
   void constructIntersection();
