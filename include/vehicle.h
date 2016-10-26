@@ -46,7 +46,7 @@ class Vehicle
  public:
   // Constructors
   Vehicle( int x, int y, int rowNum, int colNum, bool hasPkt = false );
-  ~Vehicle();
+  ~Vehicle() {}
 
   // Accessors
   virtual char getId() { return 'V'; }
