@@ -98,6 +98,10 @@ Simulator::~Simulator()
 */
 void Simulator::run()
 {
+  using std::cout;
+  using std::cin;
+  using std::endl;
+
   // Varible Declaration
   char command;
   int  worldSizeX = 0, worldSizeY = 0, ticks, numObjects;
@@ -120,11 +124,11 @@ void Simulator::run()
       // Initialize world
       case 'i':
         // Prompt world size from user
-        std::cout << "Enter world size X: ";
-        std::cin >> worldSizeX;
-        std::cout << "Enter world size Y: ";
-        std::cin >> worldSizeY;
-        std::cout << std::endl;
+        cout << "Enter world size X: ";
+        cin >> worldSizeX;
+        cout << "Enter world size Y: ";
+        cin >> worldSizeY;
+        cout << endl;
 
         // Init world
         success = world.initWorld( worldSizeX, worldSizeX );
@@ -132,25 +136,25 @@ void Simulator::run()
         // Print status
         if( success )
         {
-          std::cout << worldSizeX << " by " << worldSizeY;
-          std::cout << " world created . . ." << std::endl;
-          std::cout << std::endl;
+          cout << worldSizeX << " by " << worldSizeY;
+          cout << " world created . . ." << endl;
+          cout << endl;
         }
         else
         {
-          std::cout << "ERROR: INVALID NUMBER ENTERED; WORLD NOT ";
-          std::cout << "INITIALIZED . . ." << std::endl << std::endl;
+          cout << "ERROR: INVALID NUMBER ENTERED; WORLD NOT ";
+          cout << "INITIALIZED . . ." << endl << endl;
         }
         break;
 
       // Populate World
       case 'p':
         // Prompt for number of objects
-        std::cout << "Enter number of vehicles to generate ";
-        std::cout << "(Note: Must be less than ";
-        std::cout << ( worldSizeX * worldSizeY ) / 2 << "): ";
-        std::cin >> numObjects;
-        std::cout << std::endl;
+        cout << "Enter number of vehicles to generate ";
+        cout << "(Note: Must be less than ";
+        cout << ( worldSizeX * worldSizeY ) / 2 << "): ";
+        cin >> numObjects;
+        cout << endl;
 
         // Populate world
         success = world.populateWorld( numObjects );
@@ -158,13 +162,13 @@ void Simulator::run()
         // Print status
         if( success )
         {
-          std::cout << numObjects << " vehicles created . . .";
-          std::cout << std::endl << std::endl;
+          cout << numObjects << " vehicles created . . .";
+          cout << endl << endl;
         }
         else
         {
-          std::cout << "ERROR: INVALID NUMBER ENTERED; NO VEHICLES ";
-          std::cout << "CREATED . . ." << std::endl << std::endl;
+          cout << "ERROR: INVALID NUMBER ENTERED; NO VEHICLES ";
+          cout << "CREATED . . ." << endl << endl;
         }
         break;
 
@@ -176,23 +180,23 @@ void Simulator::run()
       // Run world n ticks
       case 'R':
         // Prompt for number of ticks
-        std::cout << "Enter number of ticks: ";
-        std::cin >> ticks;
-        std::cout << std::endl;
+        cout << "Enter number of ticks: ";
+        cin >> ticks;
+        cout << endl;
         world.runWorld( ticks );
         break;
 
       // Terminate
       case 'q':
-        std::cout << "Simulation Terminating . . . " << std::endl;
-        std::cout << std::endl;
+        cout << "Simulation Terminating . . . " << endl;
+        cout << endl;
         terminate = true;
         break;
 
       // Unknown command
       default:
-        std::cout << "ERROR: INVALID COMMAND . . ." << std::endl;
-        std::cout << std::endl;
+        cout << "ERROR: INVALID COMMAND . . ." << endl;
+        cout << endl;
         break;
     }
   }
@@ -220,20 +224,24 @@ void Simulator::run()
 */
 char Simulator::displayMenu()
 {
+  using std::cout;
+  using std::cin;
+  using std::endl;
+
   // Varible Declaration
   char command;
 
   // Display list of commands
-  std::cout << "Simulator Commands" << std::endl;
-  std::cout << "  d - Display world" << std::endl;
-  std::cout << "  i - Initialize world" << std::endl;
-  std::cout << "  p - Populate world" << std::endl;
-  std::cout << "  r - Run world one tick" << std::endl;
-  std::cout << "  R - Run world n ticks" << std::endl;
-  std::cout << "  q - Terminate Simulator" << std::endl;
-  std::cout << "Command: ";
-  std::cin >> command;
-  std::cout << std::endl;
+  cout << "Simulator Commands" << endl;
+  cout << "  d - Display world" << endl;
+  cout << "  i - Initialize world" << endl;
+  cout << "  p - Populate world" << endl;
+  cout << "  r - Run world one tick" << endl;
+  cout << "  R - Run world n ticks" << endl;
+  cout << "  q - Terminate Simulator" << endl;
+  cout << "Command: ";
+  cin >> command;
+  cout << endl;
 
   // Return command entered
   return command;
