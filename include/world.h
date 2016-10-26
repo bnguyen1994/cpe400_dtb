@@ -27,8 +27,8 @@
 #include <sstream>
 #include <vector>
 
-#include "vehicle.h"
 #include "intersect.h"
+#include "vehicle.h"
 
 // Class definition  //////////////////////////////////////////////////////////
 
@@ -49,11 +49,12 @@ class World
 
   // Accessors
   bool isObjectPresent( int xCoor, int yCoor );
-
   bool getObject( int xCoor, int yCoor, DataType *object );
+
   int                      getNumObjects();
   std::vector<DataType *> &getObjectList();
 
+  // Modifiers
   bool insertObject( int xCoor, int yCoor, DataType *object );
   bool removeObject( int xCoor, int yCoor, DataType *object );
   bool deleteObject( int xCoor, int yCoor );
@@ -68,7 +69,8 @@ class World
   int worldSizeY;
   int numObjects; /* number of objects present in world */
 
-  std::vector<DataType *> objectList; /* list of objects present in world */
+  std::vector<DataType *>   objectList; /* list of objects present in world */
+  std::vector<unsigned int> objectActionCounter;
   DataType ***world; /* xCoors ptrs of yCoors ptrs of object ptrs. */
 };
 

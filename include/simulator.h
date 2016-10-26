@@ -46,7 +46,7 @@ class Simulator
 
  private:
   // Class Varibles
-  World<Vehicle> world;
+  World<Taxi> world;
 };
 // Terminating precompiler directives  ////////////////////////////////////////
 
