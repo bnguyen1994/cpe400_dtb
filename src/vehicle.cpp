@@ -591,6 +591,174 @@ bool Vehicle::planRight()
 }
 
 /**
+ * @brief Searches for best vehicle to pass packet to in order to reach destination
+ *
+ * @details
+ *
+ *
+ * @pre None
+ *
+ * @post throws packet to returned vehicle
+ *
+ * @par Algorithm
+ *      Checks if next position would be out of bounds
+ *      Alters vehicle direction and next position
+ *
+ * @exception None
+ *
+ * @param None
+ *
+ * @return Returns pointer to vehicle which should receive the packet
+ *
+ * @note None
+ */
+Vehicle *Vehicle::findPacketDest( ) {
+
+
+
+  return nullptr;
+}
+
+/**
+ * @brief Sets next location and direction to go right
+ *
+ * @details Increments X next position and sets direction right if
+ *          within boundaries
+ *
+ * @pre None
+ *
+ * @post Next location and direction are modified
+ *
+ * @par Algorithm
+ *      Checks if next position would be out of bounds
+ *      Alters vehicle direction and next position
+ *
+ * @exception None
+ *
+ * @param None
+ *
+ * @return Returns true if turn is not out of bounds; false otherwise
+ *
+ * @note None
+ */
+void Vehicle::throwPacket(Vehicle *targetVehicle, Packet thrownPacket) {
+
+  if(targetVehicle->packetCaught(thrownPacket))
+  {
+
+  }
+
+}
+
+/**
+ * @brief Sets next location and direction to go right
+ *
+ * @details Increments X next position and sets direction right if
+ *          within boundaries
+ *
+ * @pre None
+ *
+ * @post Next location and direction are modified
+ *
+ * @par Algorithm
+ *      Checks if next position would be out of bounds
+ *      Alters vehicle direction and next position
+ *
+ * @exception None
+ *
+ * @param None
+ *
+ * @return Returns true if turn is not out of bounds; false otherwise
+ *
+ * @note None
+ */
+bool Vehicle::packetCaught(Packet thrownPacket) {
+  bool inList = false;
+  for(int i = 0; i < thrownPacket.ids.size(); i++)
+  {
+    if (thrownPacket.ids[i] == VehicleId)
+    {
+      inList = true;
+      break;
+    }
+  }
+  if(!inList)
+  {
+    newPacket = new Packet;
+    newPacket-> destX = thrownPacket.destX;
+    newPacket -> destY = thrownPacket.destY;
+    newPacket -> srcX = thrownPacket.srcX;
+    newPacket -> srcY = thrownPacket.srcY;
+    newPacket -> message = thrownPacket.message;
+    newPacket -> ids = thrownPacket.ids;
+    newPacket -> ids.push_back(VehicleId);
+    newPacket -> packetId = thrownPacket.packetId;
+    newPacket -> thrown = false;
+
+    packets.push_back(*newPacket);
+
+    hasPkt = true;
+  }
+
+  return false;
+}
+
+/**
+ * @brief Sets next location and direction to go right
+ *
+ * @details Increments X next position and sets direction right if
+ *          within boundaries
+ *
+ * @pre None
+ *
+ * @post Next location and direction are modified
+ *
+ * @par Algorithm
+ *      Checks if next position would be out of bounds
+ *      Alters vehicle direction and next position
+ *
+ * @exception None
+ *
+ * @param None
+ *
+ * @return Returns true if turn is not out of bounds; false otherwise
+ *
+ * @note None
+ */
+void Vehicle::catchPacket(Packet thrownPacket) {
+
+  bool inList = false;
+  for(int i = 0; i < thrownPacket.ids.size(); i++)
+  {
+    if (thrownPacket.ids[i] == VehicleId)
+    {
+      inList = true;
+      break;
+    }
+  }
+  if(!inList)
+  {
+
+    newPacket = new Packet;
+    newPacket-> destX = thrownPacket.destX;
+    newPacket -> destY = thrownPacket.destY;
+    newPacket -> srcX = thrownPacket.srcX;
+    newPacket -> srcY = thrownPacket.srcY;
+    newPacket -> message = thrownPacket.message;
+    newPacket -> ids = thrownPacket.ids;
+    newPacket -> packetId = thrownPacket.packetId;
+    newPacket -> ids.push_back(VehicleId);
+
+    packets.push_back(*newPacket);
+
+    hasPkt = true;
+  }
+
+  return;
+}
+
+
+/**
  * @brief Constructor for Taxi class derived from abstrat Vehicle class
  *
  * @details Calculates destination and next location

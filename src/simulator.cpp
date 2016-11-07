@@ -131,7 +131,7 @@ void Simulator::run()
         cout << endl;
 
         // Init world
-        success = world.initWorld( worldSizeX, worldSizeX );
+        success = world.initWorld( worldSizeX, worldSizeY );
 
         // Print status
         if( success )

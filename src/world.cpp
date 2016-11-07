@@ -417,6 +417,39 @@ void World<DataType>::runWorld( int ticks )
   // Run world for n amount of ticks
   for( int i = 0; i < ticks; i++ )
   {
+    //look for packets and throw to next destination
+
+    for( int objIndex = 0; objIndex < objectList.size(); objIndex++ )
+    {
+      DataType *target;
+      int x;
+      int y;
+      object = objectList[objIndex];
+      if(object -> hasPacket) {
+
+        object->getLocation(x, y);
+        //search for vehicles in radius
+        for (int packetIndex = 0; packetIndex < object->packets.size(); packetIndex++)
+        {
+        if(object->packets[packetIndex].thrown = false)
+        {
+          for (int xOffset = -1; xOffset <= 1; xOffset++) {
+            for (int yOffset = -1; yOffset <= 1; yOffset++) {
+              if (yOffset != 0 && xOffset != 0) {
+                if (isObjectPresent(x + xOffset, y + yOffset)) {
+                  getObject(x + xOffset, y + yOffset, target);
+                  //throw each packet
+                  object->throwPacket(target, object->packets[packetIndex]);
+                  }
+                }
+              }
+            }
+          object->packets[packetIndex].thrown = true;
+          }
+        }
+      }
+
+    }
     // Move each object in list
     for( int vectIndex = 0; vectIndex < objectList.size(); vectIndex++ )
     {

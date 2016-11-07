@@ -29,6 +29,8 @@
 // Header files ///////////////////////////////////////////////////////////////
 
 #include <iostream>
+#include <vector>
+#include "world.h"
 
 // Class definition  //////////////////////////////////////////////////////////
 
@@ -39,6 +41,19 @@ enum VehicleDir
   DOWN,
   LEFT,
   RIGHT
+};
+
+
+struct Packet
+{
+    int packetId;
+    int destX = 0;
+    int destY = 0;
+    int srcX;
+    int srcY;
+    std::string message;
+    std::vector<int> ids;
+    bool thrown = false;
 };
 
 class Vehicle
@@ -79,7 +94,9 @@ class Vehicle
   int  xDest, yDest;
   int  xNextPos, yNextPos;
   bool hasPkt;
-
+  int VehicleId;
+  std::vector<Packet> packets;
+  Packet * newPacket;
   unsigned int redirectCounter;
   VehicleDir   vehicleDir;
 
@@ -88,6 +105,11 @@ class Vehicle
   // Member functions
   void calcNextLocation();
   bool calcAltDirection();
+  Vehicle* findPacketDest();
+  void throwPacket(Vehicle *targetVehicle, Packet thrownPacket);
+  bool packetCaught(Packet thrownPacket);
+  void catchPacket(Packet thrownPacket);
+
 
   void stop();
   bool planUp();
