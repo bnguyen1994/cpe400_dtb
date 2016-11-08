@@ -193,6 +193,64 @@ void Simulator::run()
         terminate = true;
         break;
 
+      //Generate Packet
+      case 'g': {
+        Packet * newPacket;
+        newPacket = new Packet;
+        std::string message;
+        int srcId;
+        int destinationId;
+        bool found = false;
+        Taxi * packetHolder;
+
+        cin.clear();
+        cin.ignore();
+        cout << "Enter Packet Message: ";
+        std::getline(cin, message);
+        newPacket->message = message;
+        cout << message << endl;
+
+        while (!found) {
+          cout << "Enter Destination Vehicle Id Number ";
+          cin >> destinationId;
+
+          found = world.findObject(srcId, packetHolder);
+          cout << "This far\n";
+          if(!found ){
+            cout << "\nError! Can not find passed vehicle" << endl;
+            cin.clear();
+            cin.ignore();
+          }
+        }
+        packetHolder->getLocation(newPacket -> destX, newPacket -> destY);
+        found = false;
+
+        while (!found ) {
+          cout << "Enter Starting Vehicle Id Number ";
+                cin >> srcId;
+                if(cin.fail()){
+                  cout << "Error: Please enter an integer" << endl;
+                  cin.clear();
+                  cin.ignore();
+                }
+
+          found = world.findObject(srcId, packetHolder);
+          if(!found|| destinationId == srcId ){
+            cout << "\nError! Invalid src destination specified" << endl;
+            cin.clear();
+            cin.ignore();
+          }
+        }
+        cout << "Haven't failed yet" << endl;
+
+        packetHolder->getLocation(newPacket -> srcX, newPacket -> srcY);
+        cout << "Haven't failed yet after get location" << endl;
+        packetHolder->packetCaught(*newPacket);
+
+
+
+        break;
+      }
       // Unknown command
       default:
         cout << "ERROR: INVALID COMMAND . . ." << endl;
@@ -236,6 +294,7 @@ char Simulator::displayMenu()
   cout << "  d - Display world" << endl;
   cout << "  i - Initialize world" << endl;
   cout << "  p - Populate world" << endl;
+  cout << "  g - Generate Packet" << endl;
   cout << "  r - Run world one tick" << endl;
   cout << "  R - Run world n ticks" << endl;
   cout << "  q - Terminate Simulator" << endl;

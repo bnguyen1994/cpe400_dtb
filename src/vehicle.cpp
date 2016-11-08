@@ -31,6 +31,8 @@
 
 // Class implementation ///////////////////////////////////////////////////////
 
+
+int Vehicle::vehicleCount = 0;
 /**
  * @brief Constructor for abstract Vehicle class
  *
@@ -79,6 +81,10 @@ Vehicle::Vehicle( int x, int y, int rowMax, int columnMax, bool hasPkt )
   vehicleDir = NaN;
 
   redirectCounter = 0;
+
+  //sudo random number for temporary use only
+  VehicleId = vehicleCount;
+  vehicleCount++;
 }
 
 /**
@@ -755,6 +761,28 @@ void Vehicle::catchPacket(Packet thrownPacket) {
   }
 
   return;
+}
+/**
+ * @brief gets vehicle id
+ *
+ * @details Returns id
+ *
+ * @pre None
+ *
+ * @post None
+ *
+ * @par None
+ *
+ * @exception None
+ *
+ * @param None
+ *
+ * @return vehicle id (int)
+ *
+ * @note None
+ */
+int Vehicle::getVehicleId() const {
+  return VehicleId;
 }
 
 

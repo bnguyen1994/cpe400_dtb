@@ -425,11 +425,11 @@ void World<DataType>::runWorld( int ticks )
       int x;
       int y;
       object = objectList[objIndex];
-      if(object -> hasPacket) {
+      if(object -> hasPacket()) {
 
         object->getLocation(x, y);
         //search for vehicles in radius
-        for (int packetIndex = 0; packetIndex < object->packets.size(); packetIndex++)
+        for (int packetIndex = 0; packetIndex < object -> getPacketSize(); packetIndex++)
         {
         if(object->packets[packetIndex].thrown = false)
         {
@@ -827,6 +827,41 @@ bool World<DataType>::removeFromList( int index )
 
   // Return
   return true;
+}
+/**
+ * @brief Remove from list
+ *
+ * @details Removes item from the vector
+ *
+ * @pre None
+ *
+ * @post Item removed from list
+ *
+ * @par Algorithm
+ *      Shift vector elements forward overwriting the element at index specified
+ *
+ * @exception None
+ *
+ * @param [in] index
+ *             Vector index to delete
+ *
+ * @return Boolean stated if deletion is sucessful
+ *
+ * @note None
+ */
+template <class DataType>
+bool World<DataType>::findObject(int id, DataType *object){
+
+  for(int i = 0; i < objectList.size(); i++)
+  {
+   if(objectList[i]->getVehicleId() == id)
+   {
+     std::cout << objectList[i] -> getVehicleId() << std::endl;
+     object = objectList[i];
+     return true;
+   }
+  }
+  return false;
 }
 
 // Terminating precompiler directives  ////////////////////////////////////////

@@ -50,7 +50,7 @@ class World
   // Accessors
   bool isObjectPresent( int xCoor, int yCoor );
   bool getObject( int xCoor, int yCoor, DataType *object );
-
+  bool findObject(int id, DataType *object);
   int                      getNumObjects();
   std::vector<DataType *> &getObjectList();
 

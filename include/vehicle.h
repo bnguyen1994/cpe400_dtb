@@ -30,7 +30,7 @@
 
 #include <iostream>
 #include <vector>
-#include "world.h"
+//#include "world.h"
 
 // Class definition  //////////////////////////////////////////////////////////
 
@@ -80,6 +80,11 @@ class Vehicle
     x = xDest;
     y = yDest;
   }
+
+  int getPacketSize()
+  {
+    return packets.size();
+  }
   VehicleDir getDirection() { return vehicleDir; }
   bool       hasPacket() { return hasPkt; }
 
@@ -88,6 +93,10 @@ class Vehicle
   void redirect();
   void setPacket( bool holdsPacket ) { hasPkt = holdsPacket; }
 
+  std::vector<Packet> packets;
+
+  void throwPacket(Vehicle *targetVehicle, Packet thrownPacket);
+  bool packetCaught(Packet thrownPacket);
  protected:
   // Member variables
   int  xPos, yPos;
@@ -95,7 +104,6 @@ class Vehicle
   int  xNextPos, yNextPos;
   bool hasPkt;
   int VehicleId;
-  std::vector<Packet> packets;
   Packet * newPacket;
   unsigned int redirectCounter;
   VehicleDir   vehicleDir;
@@ -106,8 +114,6 @@ class Vehicle
   void calcNextLocation();
   bool calcAltDirection();
   Vehicle* findPacketDest();
-  void throwPacket(Vehicle *targetVehicle, Packet thrownPacket);
-  bool packetCaught(Packet thrownPacket);
   void catchPacket(Packet thrownPacket);
 
 
@@ -116,8 +122,12 @@ class Vehicle
   bool planDown();
   bool planLeft();
   bool planRight();
+  static int vehicleCount;
+public:
+    int getVehicleId() const;
 
-  // Pure virtual fuctions
+protected:
+    // Pure virtual fuctions
   virtual void calculateDestination() = 0;
 };
 
