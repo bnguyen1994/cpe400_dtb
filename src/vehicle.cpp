@@ -86,9 +86,10 @@ Vehicle::Vehicle( int x, int y, int rowMax, int columnMax, bool hasPkt )
   VehicleId = vehicleCount;
 
   vehicleCount++;
-
+  std::cout << packets.size() << " packet size 1" << std::endl;
   newPacket = new Packet;
   packets.push_back(newPacket);
+  std::cout << packets.size() << " packet size 2" << std::endl;
 }
 
 /**
@@ -652,10 +653,10 @@ Vehicle *Vehicle::findPacketDest( ) {
  * @note None
  */
 void Vehicle::throwPacket(Vehicle *targetVehicle, Packet thrownPacket) {
-
+  std::cout << "Packet dot not throwed" << std::endl;
   if(targetVehicle->packetCaught(thrownPacket))
   {
-
+    std::cout << "Packet got thrown" << std::endl;
   }
 
 }
@@ -686,23 +687,24 @@ bool Vehicle::packetCaught(Packet thrownPacket) {
   bool inList = false;
   bool insertingFirst = false;
 
+  std::cout << "vehicleid: " << VehicleId << std::endl;
+
   if(thrownPacket.srcId == VehicleId)
   {
     if(thrownPacket.ids.empty())
     {
-      std::cout << "First packet shit" << std::endl;
+      std::cout << "First packet" << std::endl;
 
       insertingFirst = true;
       setPacket (true);
       thrownPacket.ids.reserve(1);
     }
-    else
-      return false;
+    else return false;
   }
 
   else {
     for (int i = 0; i < thrownPacket.ids.size (); i++) {
-      std::cout << " in packet catching shit" << std::endl;
+      std::cout << " in packet catching" << std::endl;
       if (thrownPacket.ids[i] == VehicleId) {
         std::cout << " in packet catching id list that doesn't exist" << std::endl;
         inList = true;
@@ -713,10 +715,10 @@ bool Vehicle::packetCaught(Packet thrownPacket) {
   if(!inList || insertingFirst)
   {
     int debug = 0;
-    std::cout << "Failes in here right?" << std::endl;
+    std::cout << "Fails in here right?" << std::endl;
     newPacket = new Packet;
     std::cout << debug++ << std::endl; //0
-    std::cout << packets.size() << " Fuck" << std::endl;
+    std::cout << packets.size() << " Packet size 0" << std::endl;
     packets.push_back(newPacket);
     std::cout << debug++ << std::endl; //9
     packets[0] -> destX = thrownPacket.destX;
@@ -746,59 +748,6 @@ bool Vehicle::packetCaught(Packet thrownPacket) {
   return false;
 }
 
-/**
- * @brief Sets next location and direction to go right
- *
- * @details Increments X next position and sets direction right if
- *          within boundaries
- *
- * @pre None
- *
- * @post Next location and direction are modified
- *
- * @par Algorithm
- *      Checks if next position would be out of bounds
- *      Alters vehicle direction and next position
- *
- * @exception None
- *
- * @param None
- *
- * @return Returns true if turn is not out of bounds; false otherwise
- *
- * @note None
- */
-void Vehicle::catchPacket(Packet thrownPacket) {
-
-  bool inList = false;
-  for(int i = 0; i < thrownPacket.ids.size(); i++)
-  {
-    if (thrownPacket.ids[i] == VehicleId)
-    {
-      inList = true;
-      break;
-    }
-  }
-  if(!inList)
-  {
-
-    newPacket = new Packet;
-    newPacket-> destX = thrownPacket.destX;
-    newPacket -> destY = thrownPacket.destY;
-    newPacket -> srcX = thrownPacket.srcX;
-    newPacket -> srcY = thrownPacket.srcY;
-    newPacket -> message = thrownPacket.message;
-    newPacket -> ids = thrownPacket.ids;
-    newPacket -> packetId = thrownPacket.packetId;
-    newPacket -> ids.push_back(VehicleId);
-
-    packets.push_back(newPacket);
-    newPacket = nullptr;
-    hasPkt = true;
-  }
-
-  return;
-}
 /**
  * @brief gets vehicle id
  *

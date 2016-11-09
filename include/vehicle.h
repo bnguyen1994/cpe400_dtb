@@ -47,8 +47,10 @@ enum VehicleDir
 struct Packet
 {
     int packetId;
+    int srcId;
     int destX = 0;
     int destY = 0;
+    int destId;
     int srcX;
     int srcY;
     std::string message;
@@ -93,7 +95,7 @@ class Vehicle
   void redirect();
   void setPacket( bool holdsPacket ) { hasPkt = holdsPacket; }
 
-  std::vector<Packet> packets;
+  std::vector<Packet *> packets;
 
   void throwPacket(Vehicle *targetVehicle, Packet thrownPacket);
   bool packetCaught(Packet thrownPacket);

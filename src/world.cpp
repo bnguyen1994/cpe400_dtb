@@ -854,17 +854,21 @@ bool World<DataType>::removeFromList( int index )
  * @note None
  */
 template <class DataType>
-bool World<DataType>::findObject(int id, DataType *object){
+bool World<DataType>::findObject(int id, DataType *object)
+{
   int vId;
-  for(int i = 0; i < objectList.size(); i++)
-  { vId = objectList[i] -> getVehicleId();
-    std::cout << objectList[i] -> getVehicleId() << "Should be matching to " << id << std::endl;
-   if(vId == id)
-   {
-     std::cout << "found it bitch\n";
-     object = objectList[i];
-     return true;
-   }
+
+  for( DataType* cycleobject : objectList )
+  {
+    vId = cycleobject->getVehicleId();
+    std::cout << cycleobject->getVehicleId() << "Should be matching to " << id << std::endl;
+
+    if( vId == id )
+    {
+      std::cout << "found it\n";
+      object = cycleobject;
+      return true;
+    }
   }
   return false;
 }
@@ -878,7 +882,8 @@ bool World<DataType>::generatePacket() {
   int srcId;
   int destinationId;
   bool found = false;
-  DataType *packetHolder;
+  DataType *destPacketHolder;
+  DataType *srcPacketHolder;
 
   std::cin.clear ();
   std::cin.ignore ();
@@ -891,7 +896,7 @@ bool World<DataType>::generatePacket() {
     std::cout << "Enter Destination Vehicle Id Number ";
     std::cin >> destinationId;
 
-    found = findObject (destinationId, packetHolder);
+    found = findObject (destinationId, destPacketHolder);
     std::cout << "This far\n";
     if (!found) {
       std::cout << "\nError! Can not find passed vehicle" << std::endl;
@@ -899,7 +904,7 @@ bool World<DataType>::generatePacket() {
       std::cin.ignore ();
     }
   }
-    packetHolder->getLocation (newPacket->destX, newPacket->destY);
+    objectList[destinationId]->getLocation (newPacket->destX, newPacket->destY);
     found = false;
 
     while (!found) {
@@ -910,8 +915,7 @@ bool World<DataType>::generatePacket() {
         std::cin.clear ();
         std::cin.ignore ();
       }
-
-      found = findObject (srcId, packetHolder);
+      found = findObject (srcId, srcPacketHolder);
       if (!found || destinationId == srcId) {
         std::cout << "\nError! Invalid src destination specified" << std::endl;
         std::cin.clear ();
@@ -921,11 +925,11 @@ bool World<DataType>::generatePacket() {
     }
     std::cout << "Haven't failed yet" << std::endl;
 
-    packetHolder->getLocation (newPacket->srcX, newPacket->srcY);
+    objectList[srcId]->getLocation (newPacket->srcX, newPacket->srcY);
     newPacket->packetId = 3;
     std::cout << "Haven't failed yet after get location" << std::endl;
-    if(packetHolder->packetCaught (*newPacket))
-      std::cout << "FUCK YEAHHH!!" << std::endl;
+    if(objectList[srcId]->packetCaught (*newPacket))
+      std::cout << "YEAHHH!!" << std::endl;
     else
       std::cout << "NOOOOOOOOOOOOOOOOO!!!!!!!!!!!!!" << std::endl;
 
