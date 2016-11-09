@@ -86,10 +86,10 @@ Vehicle::Vehicle( int x, int y, int rowMax, int columnMax, bool hasPkt )
   VehicleId = vehicleCount;
 
   vehicleCount++;
-  std::cout << packets.size() << " packet size 1" << std::endl;
-  newPacket = new Packet;
-  packets.push_back(newPacket);
-  std::cout << packets.size() << " packet size 2" << std::endl;
+//  std::cout << packets.size() << " packet size 1" << std::endl;
+//  newPacket = new Packet;
+//  packets.push_back(newPacket);
+//  std::cout << packets.size() << " packet size 2" << std::endl;
 }
 
 /**
@@ -743,6 +743,7 @@ bool Vehicle::packetCaught(Packet thrownPacket) {
     std::cout << debug++ << std::endl; //10
     hasPkt = true;
     std::cout << debug++ << std::endl; //11
+    return true;
   }
 
   return false;

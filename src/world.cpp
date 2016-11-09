@@ -430,26 +430,29 @@ void World<DataType>::runWorld( int ticks )
       int y;
       object = objectList[objIndex];
       if(object -> hasPacket()) {
-
+        std::cout << "Alright lets see what we got: " << object->getVehicleId() << std::endl;
         object->getLocation(x, y);
         //search for vehicles in radius
         for (int packetIndex = 0; packetIndex < object -> getPacketSize(); packetIndex++)
         {
-        if(object->packets[packetIndex]->thrown = false)
+        if(!object->packets[packetIndex]->thrown)
         {
           for (int xOffset = -1; xOffset <= 1; xOffset++) {
             for (int yOffset = -1; yOffset <= 1; yOffset++) {
               if (yOffset != 0 && xOffset != 0) {
                 if (isObjectPresent(x + xOffset, y + yOffset)) {
+                  std::cout << "found object" << std::endl;
                   getObject(x + xOffset, y + yOffset, target);
                   //throw each packet
                   object->throwPacket(target, *object->packets[packetIndex]);
-                  }
+                  } else  std::cout << "Why U no find?" << std::endl;
                 }
               }
             }
           object->packets[packetIndex] -> thrown = true;
-          }
+          } else{
+          std::cout << "This packet should be thrown I think" << std::endl;
+        }
         }
       }
 
