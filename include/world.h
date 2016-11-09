@@ -59,12 +59,14 @@ class World
   bool removeObject( int xCoor, int yCoor, DataType *object );
   bool deleteObject( int xCoor, int yCoor );
 
- private:
+ bool generatePacket();
+
+private:
   // Helper Functions
   int findFromList( DataType *object );
   bool removeFromList( int index );
 
-  // Class Varibles
+  // Class Variables
   int worldSizeX;
   int worldSizeY;
   int numObjects; /* number of objects present in world */

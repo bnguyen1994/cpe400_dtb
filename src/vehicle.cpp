@@ -82,9 +82,13 @@ Vehicle::Vehicle( int x, int y, int rowMax, int columnMax, bool hasPkt )
 
   redirectCounter = 0;
 
-  //sudo random number for temporary use only
+
   VehicleId = vehicleCount;
+
   vehicleCount++;
+
+  newPacket = new Packet;
+  packets.push_back(newPacket);
 }
 
 /**
@@ -680,30 +684,63 @@ void Vehicle::throwPacket(Vehicle *targetVehicle, Packet thrownPacket) {
  */
 bool Vehicle::packetCaught(Packet thrownPacket) {
   bool inList = false;
-  for(int i = 0; i < thrownPacket.ids.size(); i++)
+  bool insertingFirst = false;
+
+  if(thrownPacket.srcId == VehicleId)
   {
-    if (thrownPacket.ids[i] == VehicleId)
+    if(thrownPacket.ids.empty())
     {
-      inList = true;
-      break;
+      std::cout << "First packet shit" << std::endl;
+
+      insertingFirst = true;
+      setPacket (true);
+      thrownPacket.ids.reserve(1);
+    }
+    else
+      return false;
+  }
+
+  else {
+    for (int i = 0; i < thrownPacket.ids.size (); i++) {
+      std::cout << " in packet catching shit" << std::endl;
+      if (thrownPacket.ids[i] == VehicleId) {
+        std::cout << " in packet catching id list that doesn't exist" << std::endl;
+        inList = true;
+        break;
+      }
     }
   }
-  if(!inList)
+  if(!inList || insertingFirst)
   {
+    int debug = 0;
+    std::cout << "Failes in here right?" << std::endl;
     newPacket = new Packet;
-    newPacket-> destX = thrownPacket.destX;
+    std::cout << debug++ << std::endl; //0
+    std::cout << packets.size() << " Fuck" << std::endl;
+    packets.push_back(newPacket);
+    std::cout << debug++ << std::endl; //9
+    packets[0] -> destX = thrownPacket.destX;
+    std::cout << debug++ << std::endl; //1
     newPacket -> destY = thrownPacket.destY;
+    std::cout << debug++ << std::endl; //2
     newPacket -> srcX = thrownPacket.srcX;
+    std::cout << debug++ << std::endl; //3
     newPacket -> srcY = thrownPacket.srcY;
+    std::cout << debug++ << std::endl; // 4
     newPacket -> message = thrownPacket.message;
+    std::cout << debug++ << std::endl; // 5
     newPacket -> ids = thrownPacket.ids;
+    std::cout << debug++ << std::endl; // 6
     newPacket -> ids.push_back(VehicleId);
+    std::cout << debug++ << std::endl; //7
     newPacket -> packetId = thrownPacket.packetId;
+    std::cout << debug++ << std::endl; //8
     newPacket -> thrown = false;
 
-    packets.push_back(*newPacket);
 
+    std::cout << debug++ << std::endl; //10
     hasPkt = true;
+    std::cout << debug++ << std::endl; //11
   }
 
   return false;
@@ -755,8 +792,8 @@ void Vehicle::catchPacket(Packet thrownPacket) {
     newPacket -> packetId = thrownPacket.packetId;
     newPacket -> ids.push_back(VehicleId);
 
-    packets.push_back(*newPacket);
-
+    packets.push_back(newPacket);
+    newPacket = nullptr;
     hasPkt = true;
   }
 

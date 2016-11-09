@@ -194,63 +194,17 @@ void Simulator::run()
         break;
 
       //Generate Packet
-      case 'g': {
-        Packet * newPacket;
-        newPacket = new Packet;
-        std::string message;
-        int srcId;
-        int destinationId;
-        bool found = false;
-        Taxi * packetHolder;
-
-        cin.clear();
-        cin.ignore();
-        cout << "Enter Packet Message: ";
-        std::getline(cin, message);
-        newPacket->message = message;
-        cout << message << endl;
-
-        while (!found) {
-          cout << "Enter Destination Vehicle Id Number ";
-          cin >> destinationId;
-
-          found = world.findObject(srcId, packetHolder);
-          cout << "This far\n";
-          if(!found ){
-            cout << "\nError! Can not find passed vehicle" << endl;
-            cin.clear();
-            cin.ignore();
-          }
+      case 'g':
+        if(world.getNumObjects() <= 1)
+        { cout << "ERROR: TOO FEW VEHICLES IN WORLD TO GENERATE PACKET" << endl;
+          cout << "NO PACKET GENERATED . . ." << endl;
         }
-        packetHolder->getLocation(newPacket -> destX, newPacket -> destY);
-        found = false;
-
-        while (!found ) {
-          cout << "Enter Starting Vehicle Id Number ";
-                cin >> srcId;
-                if(cin.fail()){
-                  cout << "Error: Please enter an integer" << endl;
-                  cin.clear();
-                  cin.ignore();
-                }
-
-          found = world.findObject(srcId, packetHolder);
-          if(!found|| destinationId == srcId ){
-            cout << "\nError! Invalid src destination specified" << endl;
-            cin.clear();
-            cin.ignore();
-          }
+        else
+        {
+          world.generatePacket();
         }
-        cout << "Haven't failed yet" << endl;
-
-        packetHolder->getLocation(newPacket -> srcX, newPacket -> srcY);
-        cout << "Haven't failed yet after get location" << endl;
-        packetHolder->packetCaught(*newPacket);
-
-
 
         break;
-      }
       // Unknown command
       default:
         cout << "ERROR: INVALID COMMAND . . ." << endl;

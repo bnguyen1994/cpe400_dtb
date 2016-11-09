@@ -9,6 +9,10 @@
  * @details Implements all member methods of the world class
  *
  * @version
+ *          1.3
+ *          Daniel Smith
+ *          Added generate packet and packet transfering capabilities
+ *
  *          1.2
  *          Tyler Goffinet
  *          Implemented display and updated runWorld()
@@ -431,7 +435,7 @@ void World<DataType>::runWorld( int ticks )
         //search for vehicles in radius
         for (int packetIndex = 0; packetIndex < object -> getPacketSize(); packetIndex++)
         {
-        if(object->packets[packetIndex].thrown = false)
+        if(object->packets[packetIndex]->thrown = false)
         {
           for (int xOffset = -1; xOffset <= 1; xOffset++) {
             for (int yOffset = -1; yOffset <= 1; yOffset++) {
@@ -439,12 +443,12 @@ void World<DataType>::runWorld( int ticks )
                 if (isObjectPresent(x + xOffset, y + yOffset)) {
                   getObject(x + xOffset, y + yOffset, target);
                   //throw each packet
-                  object->throwPacket(target, object->packets[packetIndex]);
+                  object->throwPacket(target, *object->packets[packetIndex]);
                   }
                 }
               }
             }
-          object->packets[packetIndex].thrown = true;
+          object->packets[packetIndex] -> thrown = true;
           }
         }
       }
@@ -851,18 +855,84 @@ bool World<DataType>::removeFromList( int index )
  */
 template <class DataType>
 bool World<DataType>::findObject(int id, DataType *object){
-
+  int vId;
   for(int i = 0; i < objectList.size(); i++)
-  {
-   if(objectList[i]->getVehicleId() == id)
+  { vId = objectList[i] -> getVehicleId();
+    std::cout << objectList[i] -> getVehicleId() << "Should be matching to " << id << std::endl;
+   if(vId == id)
    {
-     std::cout << objectList[i] -> getVehicleId() << std::endl;
+     std::cout << "found it bitch\n";
      object = objectList[i];
      return true;
    }
   }
   return false;
 }
+
+
+template <class DataType>
+bool World<DataType>::generatePacket() {
+  Packet *newPacket;
+  newPacket = new Packet;
+  std::string message;
+  int srcId;
+  int destinationId;
+  bool found = false;
+  DataType *packetHolder;
+
+  std::cin.clear ();
+  std::cin.ignore ();
+  std::cout << "Enter Packet Message: ";
+  std::getline (std::cin, message);
+  newPacket->message = message;
+  std::cout <<"This is the message: " << message << std::endl;
+
+  while (!found) {
+    std::cout << "Enter Destination Vehicle Id Number ";
+    std::cin >> destinationId;
+
+    found = findObject (destinationId, packetHolder);
+    std::cout << "This far\n";
+    if (!found) {
+      std::cout << "\nError! Can not find passed vehicle" << std::endl;
+      std::cin.clear ();
+      std::cin.ignore ();
+    }
+  }
+    packetHolder->getLocation (newPacket->destX, newPacket->destY);
+    found = false;
+
+    while (!found) {
+      std::cout << "Enter Starting Vehicle Id Number ";
+      std::cin >> srcId;
+      if (std::cin.fail ()) {
+        std::cout << "Error: Please enter an integer" << std::endl;
+        std::cin.clear ();
+        std::cin.ignore ();
+      }
+
+      found = findObject (srcId, packetHolder);
+      if (!found || destinationId == srcId) {
+        std::cout << "\nError! Invalid src destination specified" << std::endl;
+        std::cin.clear ();
+        std::cin.ignore ();
+        found = false;
+      }
+    }
+    std::cout << "Haven't failed yet" << std::endl;
+
+    packetHolder->getLocation (newPacket->srcX, newPacket->srcY);
+    newPacket->packetId = 3;
+    std::cout << "Haven't failed yet after get location" << std::endl;
+    if(packetHolder->packetCaught (*newPacket))
+      std::cout << "FUCK YEAHHH!!" << std::endl;
+    else
+      std::cout << "NOOOOOOOOOOOOOOOOO!!!!!!!!!!!!!" << std::endl;
+
+  }
+
+
+
 
 // Terminating precompiler directives  ////////////////////////////////////////
 
