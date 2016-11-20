@@ -226,7 +226,8 @@ void World<DataType>::displayWorld()
       }
       else
       {
-        tempVect.push_back( Intersect1( data->getId(), data->hasPacket(),
+        //qstd::cout << (char)(data->getVehicleId() + '0') << std::endl;
+        tempVect.push_back( Intersect1( (char)(data->getVehicleId() + '0'), data->hasPacket(),
                                         data->getDirection() ) );
       }
     }
@@ -430,30 +431,34 @@ void World<DataType>::runWorld( int ticks )
       int y;
       object = objectList[objIndex];
       if(object -> hasPacket()) {
-        std::cout << "Alright lets see what we got: " << object->getVehicleId() << std::endl;
+       // std::cout << "Alright lets see what we got: " << object->getVehicleId() << std::endl;
         object->getLocation(x, y);
         //search for vehicles in radius
         for (int packetIndex = 0; packetIndex < object -> getPacketSize(); packetIndex++)
         {
         if(!object->packets[packetIndex]->thrown)
         {
+         // std::cout << "found unthrown packet" << std::endl;
           for (int xOffset = -1; xOffset <= 1; xOffset++) {
             for (int yOffset = -1; yOffset <= 1; yOffset++) {
-              if (yOffset != 0 && xOffset != 0) {
+              if (yOffset != 0 || xOffset != 0) {
                 if (isObjectPresent(x + xOffset, y + yOffset)) {
-                  std::cout << "found object" << std::endl;
+                  //std::cout << "found object" << std::endl;
                   getObject(x + xOffset, y + yOffset, target);
+                  std::cout << target -> getVehicleId() << std::endl;
                   //throw each packet
-                  object->throwPacket(target, *object->packets[packetIndex]);
-                  } else  std::cout << "Why U no find?" << std::endl;
+                  object->throwPacket(objectList[target -> getVehicleId()], *object->packets[packetIndex]);
+                  }
                 }
               }
             }
           object->packets[packetIndex] -> thrown = true;
+         // std::cout << "Packet has been thrown i guess" << std::endl;
           } else{
-          std::cout << "This packet should be thrown I think" << std::endl;
+         // std::cout << "This packet should be thrown I think" << std::endl;
         }
         }
+        //object->setPacket(false);
       }
 
     }
@@ -665,7 +670,7 @@ bool World<DataType>::insertObject( int xCoor, int yCoor, DataType *object )
 *       no object at specified coordinates
 */
 template <class DataType>
-bool World<DataType>::getObject( int xCoor, int yCoor, DataType *object )
+bool World<DataType>::getObject( int xCoor, int yCoor, DataType * &object )
 {
   // Check range
   if( xCoor > worldSizeX || yCoor > worldSizeY )
@@ -678,8 +683,7 @@ bool World<DataType>::getObject( int xCoor, int yCoor, DataType *object )
   {
     // Return object
     object = world[xCoor][yCoor];
-
-    // Return
+   // Return
     return true;
   }
 
