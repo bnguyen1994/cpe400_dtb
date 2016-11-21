@@ -30,3 +30,9 @@
 
 # Custom folder
 build/
+makebuild
+reinit_build
+makexcodeproj
+
+#Clion files
+*.idea
