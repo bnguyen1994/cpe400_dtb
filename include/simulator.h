@@ -41,7 +41,6 @@ class Simulator
   // World Control
   void initWorld( int sizeX, int sizeY );
   bool moveVehicle( int xCoorFrom, int yCoorFrom, int xCoorTo, int yCoorTo );
-  void run( int ticks );
   void displayWorld();
 
  private:

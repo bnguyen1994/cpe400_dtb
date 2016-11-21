@@ -420,26 +420,34 @@ void World<DataType>::runWorld( int ticks )
     // Move each object in list
     for( int vectIndex = 0; vectIndex < objectList.size(); vectIndex++ )
     {
+      // Get object from list
       object = objectList[vectIndex];
-      object->getNextLocation( xNextCoor, yNextCoor );
-
-      if( !isObjectPresent( xNextCoor, yNextCoor ) )
+      // Check if in transit between intersections
+      if( !object->inTransition() ) /* Function also moves object closer to next
+                                     intersection */
       {
-        object->getLocation( xCoor, yCoor );
+        // Calc next location
+        object->getNextLocation( xNextCoor, yNextCoor );
 
-        world[xCoor][yCoor] = NULL;
-        object->move();
-        world[xNextCoor][yNextCoor] = object;
-
-        objectActionCounter[vectIndex] = 0;
-      }
-      else
-      {
-        ++objectActionCounter[vectIndex];
-
-        if( objectActionCounter[vectIndex] == 2 )
+        // Move object to new location if empty
+        if( !isObjectPresent( xNextCoor, yNextCoor ) )
         {
-          objectList[vectIndex]->redirect();
+          object->getLocation( xCoor, yCoor );
+
+          world[xCoor][yCoor] = NULL;
+          object->move();
+          world[xNextCoor][yNextCoor] = object;
+
+          objectActionCounter[vectIndex] = 0;
+        }
+        else
+        {
+          ++objectActionCounter[vectIndex];
+
+          if( objectActionCounter[vectIndex] == 2 )
+          {
+            objectList[vectIndex]->redirect();
+          }
         }
       }
     }

@@ -591,7 +591,7 @@ bool Vehicle::planRight()
 }
 
 /**
- * @brief Constructor for Taxi class derived from abstrat Vehicle class
+ * @brief Constructor for Taxi class derived from abstract Vehicle class
  *
  * @details Calculates destination and next location
  *
@@ -625,8 +625,45 @@ bool Vehicle::planRight()
 Taxi::Taxi( int x, int y, int rowMax, int colNum, bool hasPkt )
     : Vehicle( x, y, rowMax, colNum, hasPkt )
 {
+  ticksToMove = 5;
+  tickCounter = 0; 
   calculateDestination();
   calcNextLocation();
+}
+
+/**
+ * @brief In Transisition
+ *
+ * @details Checks if the vehicle is in transition between interesections and
+ *          pseudo-moves it a tick closer to the next intersection
+ *
+ * @pre None
+ *
+ * @post Returns a bool stating if the vehicle is in transition and pseudo-moves
+ *       it a tick closer to the next intersection
+ *
+ * @par Algorithm
+ *      Check to see if tick counter is less than ticks to move, and if so
+ *      increments the tick counter and returns true, otherwise, reset the tick
+ *      counter and return false
+ *
+ * @exception None
+ *
+ * @param None
+ *
+ * @note None
+ */
+bool Taxi::inTransition()
+{
+  // Check tick counter, increment if less than ticksToMove
+  if(tickCounter < ticksToMove)
+  {
+    tickCounter++;
+    return true;
+  }
+  // Reset counter
+  tickCounter = 0;
+  return false;
 }
 
 /**
