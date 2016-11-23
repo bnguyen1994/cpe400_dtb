@@ -53,9 +53,11 @@ struct Packet
     int destId;
     int srcX;
     int srcY;
+    int age;
     std::string message;
     std::vector<int> ids;
     bool thrown = false;
+    bool atDest = false;
 };
 
 class Vehicle
@@ -131,6 +133,14 @@ public:
 protected:
     // Pure virtual fuctions
   virtual void calculateDestination() = 0;
+
+    //vehicle adjacency list stored as follows
+    /*
+     *      _0_\_1_|_2_
+     *      _3_|_X_|_4_
+     *      _5_|_6_|_7_
+     */
+  int          nearByVehicles[8];
 };
 
 class Taxi : public Vehicle

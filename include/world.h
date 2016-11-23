@@ -30,6 +30,11 @@
 #include "intersect.h"
 #include "vehicle.h"
 
+enum TransferType
+{
+    FLOOD,
+    DESTSEARCH
+};
 // Class definition  //////////////////////////////////////////////////////////
 
 template <class DataType>
@@ -46,6 +51,7 @@ class World
   bool populateWorld( int numObjects );
   void clearWorld();
   void runWorld( int ticks );
+  TransferType RUNALGORITH;
 
   // Accessors
   bool isObjectPresent( int xCoor, int yCoor );
@@ -65,11 +71,14 @@ private:
   // Helper Functions
   int findFromList( DataType *object );
   bool removeFromList( int index );
+  void runFlood();
+  void runDest();
 
   // Class Variables
   int worldSizeX;
   int worldSizeY;
   int numObjects; /* number of objects present in world */
+  int packetids = 0;
 
   std::vector<DataType *>   objectList; /* list of objects present in world */
   std::vector<unsigned int> objectActionCounter;

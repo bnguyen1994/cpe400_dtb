@@ -686,18 +686,12 @@ void Vehicle::throwPacket(Vehicle *targetVehicle, Packet thrownPacket) {
 bool Vehicle::packetCaught(Packet thrownPacket) {
   bool inList = false;
   bool insertingFirst = false;
-
-  //std::cout << "Vehicle::packetCaught vehicleid: " << VehicleId << std::endl;
-  if(thrownPacket.destId == VehicleId)
-  {
-    std::cout << "PACKET HAS REACHED DESTINATION OUTPUT MESSSAGE: " << thrownPacket.message << std::endl;
-  }
+  bool hitDest = false;
 
   if(thrownPacket.srcId == VehicleId)
   {
     if(thrownPacket.ids.empty())
     {
-     // std::cout << "Vehicle::packetCaught First packet" << std::endl;
 
       insertingFirst = true;
       setPacket (true);
@@ -707,23 +701,38 @@ bool Vehicle::packetCaught(Packet thrownPacket) {
   }
 
   else {
+
+    for(int index = 0; index < packets.size(); index++) {
+     if(packets[index] -> packetId == thrownPacket . packetId) {
+       return false;
+     }
+    }
+
+    //search for packet in id list to see if vehicle has thrown packet before
     for (int i = 0; i < thrownPacket.ids.size (); i++) {
-     // std::cout << " Vehicle::packetCaught in packet catching" << std::endl;
       if (thrownPacket.ids[i] == VehicleId) {
-        //std::cout << "Vehicle::packetCaught in packet catching id list that doesn't exist" << std::endl;
         inList = true;
+
         break;
       }
     }
   }
+
+  //check to see if packet is at destination
+  if (thrownPacket.destId == VehicleId) {
+    std::cout << "PACKET HAS REACHED DESTINATION OUTPUT MESSSAGE: " << thrownPacket.message << std::endl;
+    hitDest = true;
+  }
+
+  //add packet if not already in list
   if(!inList || insertingFirst)
   {
     int debug = 0;
-   // std::cout << "Vehicle::packetCaught Fails in here right?" << std::endl;
     newPacket = new Packet;
-    packets.push_back(newPacket);
-    packets[0] -> destX = thrownPacket.destX;
+    newPacket -> destId = thrownPacket.destId;
+    newPacket -> destX = thrownPacket.destX;
     newPacket -> destY = thrownPacket.destY;
+    newPacket -> srcId = thrownPacket.srcId;
     newPacket -> srcX = thrownPacket.srcX;
     newPacket -> srcY = thrownPacket.srcY;
     newPacket -> message = thrownPacket.message;
@@ -731,7 +740,10 @@ bool Vehicle::packetCaught(Packet thrownPacket) {
     newPacket -> ids.push_back(VehicleId);
     newPacket -> packetId = thrownPacket.packetId;
     newPacket -> thrown = false;
-    hasPkt = true;
+    newPacket -> age = 0;
+    newPacket -> atDest = hitDest;
+    packets.push_back(newPacket);
+    setPacket (true);
     return true;
   }
 

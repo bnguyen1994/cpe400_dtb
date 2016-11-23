@@ -412,10 +412,6 @@ void World<DataType>::clearWorld()
 template <class DataType>
 void World<DataType>::runWorld( int ticks )
 {
-  // Variable Declaration
-  int       xCoor, yCoor;
-  int       xNextCoor, yNextCoor;
-  DataType *object;
 
   displayWorld();
 
@@ -423,72 +419,15 @@ void World<DataType>::runWorld( int ticks )
   for( int i = 0; i < ticks; i++ )
   {
     //look for packets and throw to next destination
-
-    for( int objIndex = 0; objIndex < objectList.size(); objIndex++ )
-    {
-      DataType *target;
-      int x;
-      int y;
-      object = objectList[objIndex];
-      if(object -> hasPacket()) {
-       // std::cout << "Alright lets see what we got: " << object->getVehicleId() << std::endl;
-        object->getLocation(x, y);
-        //search for vehicles in radius
-        for (int packetIndex = 0; packetIndex < object -> getPacketSize(); packetIndex++)
-        {
-        if(!object->packets[packetIndex]->thrown)
-        {
-         // std::cout << "found unthrown packet" << std::endl;
-          for (int xOffset = -1; xOffset <= 1; xOffset++) {
-            for (int yOffset = -1; yOffset <= 1; yOffset++) {
-              if (yOffset != 0 || xOffset != 0) {
-                if (isObjectPresent(x + xOffset, y + yOffset)) {
-                  //std::cout << "found object" << std::endl;
-                  getObject(x + xOffset, y + yOffset, target);
-                  std::cout << target -> getVehicleId() << std::endl;
-                  //throw each packet
-                  object->throwPacket(objectList[target -> getVehicleId()], *object->packets[packetIndex]);
-                  }
-                }
-              }
-            }
-          object->packets[packetIndex] -> thrown = true;
-         // std::cout << "Packet has been thrown i guess" << std::endl;
-          } else{
-         // std::cout << "This packet should be thrown I think" << std::endl;
-        }
-        }
-        //object->setPacket(false);
-      }
-
-    }
-    // Move each object in list
-    for( int vectIndex = 0; vectIndex < objectList.size(); vectIndex++ )
-    {
-      object = objectList[vectIndex];
-      object->getNextLocation( xNextCoor, yNextCoor );
-
-      if( !isObjectPresent( xNextCoor, yNextCoor ) )
-      {
-        object->getLocation( xCoor, yCoor );
-
-        world[xCoor][yCoor] = NULL;
-        object->move();
-        world[xNextCoor][yNextCoor] = object;
-
-        objectActionCounter[vectIndex] = 0;
-      }
-      else
-      {
-        ++objectActionCounter[vectIndex];
-
-        if( objectActionCounter[vectIndex] == 2 )
-        {
-          objectList[vectIndex]->redirect();
-        }
-      }
-    }
+  if(RUNALGORITH == FLOOD){
+    runFlood();
   }
+
+  else if(RUNALGORITH == DESTSEARCH){
+    runDest ();
+  }
+
+}
 }
 
 /**
@@ -868,11 +807,9 @@ bool World<DataType>::findObject(int id, DataType *object)
   for( DataType* cycleobject : objectList )
   {
     vId = cycleobject->getVehicleId();
-    std::cout << cycleobject->getVehicleId() << "Should be matching to " << id << std::endl;
 
     if( vId == id )
     {
-      std::cout << "found it\n";
       object = cycleobject;
       return true;
     }
@@ -904,24 +841,20 @@ bool World<DataType>::generatePacket() {
     std::cin >> destinationId;
 
     found = findObject (destinationId, destPacketHolder);
-    std::cout << "This far\n";
     if (!found) {
       std::cout << "\nError! Can not find passed vehicle" << std::endl;
       std::cin.clear ();
       std::cin.ignore ();
     }
   }
+    newPacket -> destId = destinationId;
     objectList[destinationId]->getLocation (newPacket->destX, newPacket->destY);
+
     found = false;
 
     while (!found) {
       std::cout << "Enter Starting Vehicle Id Number ";
       std::cin >> srcId;
-      if (std::cin.fail ()) {
-        std::cout << "Error: Please enter an integer" << std::endl;
-        std::cin.clear ();
-        std::cin.ignore ();
-      }
       found = findObject (srcId, srcPacketHolder);
       if (!found || destinationId == srcId) {
         std::cout << "\nError! Invalid src destination specified" << std::endl;
@@ -930,15 +863,17 @@ bool World<DataType>::generatePacket() {
         found = false;
       }
     }
-    std::cout << "Haven't failed yet" << std::endl;
 
+    newPacket -> srcId = srcId;
     objectList[srcId]->getLocation (newPacket->srcX, newPacket->srcY);
-    newPacket->packetId = 3;
-    std::cout << "Haven't failed yet after get location" << std::endl;
+
+
+    newPacket->packetId = packetids++;
+
     if(objectList[srcId]->packetCaught (*newPacket))
-      std::cout << "YEAHHH!!" << std::endl;
+      objectList[srcId] -> packets.back() -> age = 1;
     else
-      std::cout << "NOOOOOOOOOOOOOOOOO!!!!!!!!!!!!!" << std::endl;
+      std::cout << "World<DataType>::generatePacket()-ERROR: Packet not Generated" << std::endl;
 
   }
 
@@ -946,5 +881,151 @@ bool World<DataType>::generatePacket() {
 
 
 // Terminating precompiler directives  ////////////////////////////////////////
+template <class DataType>
+void World<DataType>::runFlood() {
+
+  // Variable Declaration
+  int xCoor, yCoor;
+  int xNextCoor, yNextCoor;
+  DataType *object;
+
+  for (int objIndex = 0; objIndex < objectList.size (); objIndex++) {
+    DataType *target;
+    int x;
+    int y;
+    //use this to find empty vehicles and reset haspacket
+    bool emptyPackets = false;
+    bool foundVehicle = true;
+    object = objectList[objIndex];
+    if (object->hasPacket ()) {
+      // std::cout << "Alright lets see what we got: " << object->getVehicleId() << std::endl;
+      object->getLocation (x, y);
+      //search for vehicles in radius
+      for (int packetIndex = 0; packetIndex < object->getPacketSize (); packetIndex++) {
+        object->packets[packetIndex]->age++;
+
+        if (object->packets[packetIndex]->age > 1) {
+          if (!object->packets[packetIndex]->thrown) {
+            // std::cout << "found unthrown packet" << std::endl;
+            for (int xOffset = -1; xOffset <= 1; xOffset++) {
+              for (int yOffset = -1; yOffset <= 1; yOffset++) {
+                if (yOffset != 0 || xOffset != 0) {
+                  if (isObjectPresent (x + xOffset, y + yOffset)) {
+                    getObject (x + xOffset, y + yOffset, target);
+                    //throw each packet
+                    object->throwPacket (objectList[target->getVehicleId ()], *object->packets[packetIndex]);
+                    emptyPackets = true;
+                  }
+                  else
+                    foundVehicle = false;
+                }
+              }
+            }
+          } else {
+          }
+          //age out packets after 5 cycles
+          if (object->packets[packetIndex]->age >= 5)
+            object->packets[packetIndex]->thrown = true;
+        }
+        else
+          emptyPackets = true;
+
+      }
+      if (!emptyPackets && foundVehicle)
+        object->setPacket (false);
+    }
+  }
+
+
+    // Move each object in list
+    for (int vectIndex = 0; vectIndex < objectList.size (); vectIndex++) {
+      object = objectList[vectIndex];
+      object->getNextLocation (xNextCoor, yNextCoor);
+
+      if (!isObjectPresent (xNextCoor, yNextCoor)) {
+        object->getLocation (xCoor, yCoor);
+
+        world[xCoor][yCoor] = NULL;
+        object->move ();
+        world[xNextCoor][yNextCoor] = object;
+
+        objectActionCounter[vectIndex] = 0;
+      }
+      else {
+        ++objectActionCounter[vectIndex];
+
+        if (objectActionCounter[vectIndex] == 2) {
+          objectList[vectIndex]->redirect ();
+        }
+      }
+    }
+  }
+
+
+
+template<class DataType>
+void World<DataType>::runDest() {
+  // Variable Declaration
+  int xCoor, yCoor;
+  int xNextCoor, yNextCoor;
+  DataType *object;
+
+  //move each vehicle
+  // Move each object in list
+  for (int vectIndex = 0; vectIndex < objectList.size (); vectIndex++) {
+    object = objectList[vectIndex];
+    object->getNextLocation (xNextCoor, yNextCoor);
+
+    if (!isObjectPresent (xNextCoor, yNextCoor)) {
+      object->getLocation (xCoor, yCoor);
+
+      world[xCoor][yCoor] = NULL;
+      object->move ();
+      world[xNextCoor][yNextCoor] = object;
+
+      objectActionCounter[vectIndex] = 0;
+    }
+    else {
+      ++objectActionCounter[vectIndex];
+
+      if (objectActionCounter[vectIndex] == 2) {
+        objectList[vectIndex]->redirect ();
+      }
+    }
+  }
+
+  //update each vehicles adjacency list
+  for (int objIndex = 0; objIndex < objectList.size (); objIndex++) {
+    DataType *target;
+    int x;
+    int y;
+    int adjacencyIndex = 0;
+    object = objectList[objIndex];
+      object->getLocation (x, y);
+      //search for vehicles in radius
+    for (int xOffset = -1; xOffset <= 1; xOffset++) {
+      for (int yOffset = -1; yOffset <= 1; yOffset++) {
+        if (yOffset != 0 || xOffset != 0) {
+          if (isObjectPresent (x + xOffset, y + yOffset)) {
+            getObject (x + xOffset, y + yOffset, target);
+            object->nearByVehicles[adjacencyIndex] = target->getVehicleId ();
+          }
+
+        }
+      }
+    }
+  }
+
+
+
+
+
+
+
+
+
+  //run vehicle functions for each vehicle
+
+}
 
 #endif  // #ifndef CLASS_WORLD_CPP
