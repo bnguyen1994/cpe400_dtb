@@ -151,9 +151,15 @@ class Taxi : public Vehicle
 
   // Accessors
   char getId() { return 'T'; }
+  bool inTransition();
 
   // Modifiers
   void calculateDestination();
+ private:
+  
+  // Varibles
+  int ticksToMove;
+  int tickCounter;
 };
 
 // Terminating precompiler directives  ////////////////////////////////////////

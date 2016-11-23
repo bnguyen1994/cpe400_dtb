@@ -425,6 +425,42 @@ void World<DataType>::runWorld( int ticks )
 
   else if(RUNALGORITH == DESTSEARCH){
     runDest ();
+
+    // Move each object in list
+    for( int vectIndex = 0; vectIndex < objectList.size(); vectIndex++ )
+    {
+      // Get object from list
+      object = objectList[vectIndex];
+      // Check if in transit between intersections
+      if( !object->inTransition() ) /* Function also moves object closer to next
+                                     intersection */
+      {
+        // Calc next location
+        object->getNextLocation( xNextCoor, yNextCoor );
+
+        // Move object to new location if empty
+        if( !isObjectPresent( xNextCoor, yNextCoor ) )
+        {
+          object->getLocation( xCoor, yCoor );
+
+          world[xCoor][yCoor] = NULL;
+          object->move();
+          world[xNextCoor][yNextCoor] = object;
+
+          objectActionCounter[vectIndex] = 0;
+        }
+        else
+        {
+          ++objectActionCounter[vectIndex];
+
+          if( objectActionCounter[vectIndex] == 2 )
+          {
+            objectList[vectIndex]->redirect();
+          }
+        }
+      }
+    }
+>>>>>>> 090a16dcd4d407ed0a33473086de6d3144f72329
   }
 
 }
