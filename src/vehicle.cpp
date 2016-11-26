@@ -771,16 +771,8 @@ bool Vehicle::vehicleRun() {
     }
   }
 
-//  printf("Output contents of Vehicle %d\n", vehicleId);
-//  std::cout << "Adjacency List: ";
-//  for (int i = 0; i < 8; i ++)
-//  {
-//    if(nearByVehicles[i] == NULL)
-//      std::cout << "NULL, ";
-//    else
-//      std::cout << nearByVehicles[i]->vehicleId << ", ";
-//  }
-//  std::cout << std::endl;
+  if (!emptyPackets && foundVehicle)
+    hasUpdate = false;
   return false;
 }
 
@@ -813,10 +805,12 @@ bool Vehicle::bestDestinationAlgorithm() {
   int idealScore = 1;
   int vehicleScore;
   bool allPacketsThrown = true;
+  bool triedToThrow = false;
 
   for(int packetIndex = 0; packetIndex < packets.size(); packetIndex++) {
     packets[packetIndex]->age++;
     if (packets[packetIndex]->age > 1) {
+      triedToThrow = true;
       //for each packet determine best place to throw next
       int idealX;
       int idealY;
@@ -867,8 +861,9 @@ bool Vehicle::bestDestinationAlgorithm() {
 
           //throw to packet if destination vehicle is in the right spot
           if (nearByVehicles[adjacencyIndex]->vehicleId == packets[packetIndex]->destId) {
-            throwPacket(nearByVehicles[adjacencyIndex], *packets[packetIndex]);
-            return true;
+            if(throwPacket(nearByVehicles[adjacencyIndex], *packets[packetIndex]))
+              packets[packetIndex]->thrown = true;
+
           }
           //check to see if vehicle is at ideal location
           if (nearByVehicles[adjacencyIndex]->xPos == xPos + idealX &&
@@ -909,20 +904,22 @@ bool Vehicle::bestDestinationAlgorithm() {
 
       //throw packet to best vehicle
       if (bestChoice != this) {
-        if(throwPacket(bestChoice, *packets[packetIndex])) {
+        if (throwPacket(bestChoice, *packets[packetIndex])) {
           packets[packetIndex]->thrown = true;
         }
+        else
+          allPacketsThrown = false;
+      }
         else{
           allPacketsThrown = false;
         }
-      }
     }
     if(packets[packetIndex]->age >= 5)
     {
       packets[packetIndex]->thrown = true;
     }
   }
-  if(allPacketsThrown)
+  if(allPacketsThrown && triedToThrow)
   {
     hasPkt = false;
   }

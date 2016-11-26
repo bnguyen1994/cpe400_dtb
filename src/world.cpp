@@ -413,8 +413,6 @@ template <class DataType>
 void World<DataType>::runWorld( int ticks )
 {
 
-  displayWorld();
-
   // Run world for n amount of ticks
   for( int i = 0; i < ticks; i++ )
   {
@@ -427,6 +425,8 @@ void World<DataType>::runWorld( int ticks )
     runDest();
   }
   }
+
+  displayWorld();
 }
 
 /**
