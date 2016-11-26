@@ -60,6 +60,15 @@ struct Packet
     bool atDest = false;
 };
 
+struct vehicleLocation{
+    int vehicleID;
+    int destX;
+    int destY;
+    int srcX;
+    int srcY;
+    bool thrown;
+};
+
 class Vehicle
 {
  public:
@@ -98,27 +107,34 @@ class Vehicle
   void setPacket( bool holdsPacket ) { hasPkt = holdsPacket; }
 
   std::vector<Packet *> packets;
+  std::vector<Packet *> updates;
 
-  void throwPacket(Vehicle *targetVehicle, Packet thrownPacket);
+  bool throwPacket(Vehicle *targetVehicle, Packet thrownPacket, bool update = false);
   bool packetCaught(Packet thrownPacket);
+  bool updatePacketCaught(Packet thrownPacket);
+
+  bool vehicleRun();
+  bool bestDestinationAlgorithm();
+  void updateLocation();
+
  protected:
   // Member variables
   int  xPos, yPos;
   int  xDest, yDest;
   int  xNextPos, yNextPos;
   bool hasPkt;
-  int VehicleId;
+  bool hasUpdate;
+  int vehicleId;
   Packet * newPacket;
   unsigned int redirectCounter;
   VehicleDir   vehicleDir;
+  std::vector<vehicleLocation> locations;
 
   int rowMax, colMax;
 
   // Member functions
   void calcNextLocation();
   bool calcAltDirection();
-  Vehicle* findPacketDest();
-  void catchPacket(Packet thrownPacket);
 
 
   void stop();
@@ -130,17 +146,21 @@ class Vehicle
 public:
     int getVehicleId() const;
 
+    //vehicle adjacency list stored as follows
+    /*
+     *      _5_|_6_|_7_
+     *      _3_|_X_|_4_
+     *      _0_|_1_|_2_
+     *
+     *      (X-1, Y+1), (X, Y+1), (X+1, Y+1), (X-1, Y), (X+1, Y), (X-1, Y-1), (X, Y-1), (X+1, Y-1)
+     *          0           1           2         3         4         5           6         7
+     */
+    Vehicle    * nearByVehicles[8];
+
 protected:
     // Pure virtual fuctions
   virtual void calculateDestination() = 0;
 
-    //vehicle adjacency list stored as follows
-    /*
-     *      _0_\_1_|_2_
-     *      _3_|_X_|_4_
-     *      _5_|_6_|_7_
-     */
-  int          nearByVehicles[8];
 };
 
 class Taxi : public Vehicle

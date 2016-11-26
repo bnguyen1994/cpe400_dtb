@@ -73,12 +73,15 @@ private:
   bool removeFromList( int index );
   void runFlood();
   void runDest();
+  void moveVehicles();
+  void updateAdjacency();
 
   // Class Variables
   int worldSizeX;
   int worldSizeY;
   int numObjects; /* number of objects present in world */
   int packetids = 0;
+  bool initializedLocations = false;
 
   std::vector<DataType *>   objectList; /* list of objects present in world */
   std::vector<unsigned int> objectActionCounter;
