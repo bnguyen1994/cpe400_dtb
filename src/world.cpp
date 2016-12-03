@@ -226,8 +226,8 @@ void World<DataType>::displayWorld()
       }
       else
       {
-        //qstd::cout << (char)(data->getVehicleId() + '0') << std::endl;
-        tempVect.push_back( Intersect1( (char)(data->getVehicleId() + '0'), data->hasPacket(),
+        //std::cout << (char)(data->getVehicleId() + '0') << std::endl;
+        tempVect.push_back( Intersect1( 'T', data->hasPacket(),
                                         data->getDirection() ) );
       }
     }
@@ -816,7 +816,25 @@ bool World<DataType>::findObject(int id, DataType *object)
   return false;
 }
 
-
+/**
+ * @brief generates packet
+ *
+ * @details takes use input to deterimne the message and destination and src for a packet
+ *
+ * @pre World must be initilized and populated
+ *
+ * @post src vehicle has new packet
+ *
+ * @par Algorithm None
+ *
+ * @exception None
+ *
+ * @param [in] None
+ *
+ * @return Boolean stated if packet is added succesfully
+ *
+ * @note None
+ */
 template <class DataType>
 bool World<DataType>::generatePacket() {
   Packet *newPacket;
@@ -880,6 +898,32 @@ bool World<DataType>::generatePacket() {
 
 
 // Terminating precompiler directives  ////////////////////////////////////////
+
+
+
+/**
+ * @brief transfers packet in a flood style algorithm
+ *
+ * @details each vehicle broadcasts its packets to every vehicle in its range
+ *
+ * @pre None
+ *
+ * @post Item removed from list
+ *
+ * @par Algorithm
+ *      iterate through each vehicle, iterates through the surrounding intersections
+ *      if a vehicle is dicovered teh packet is passed to that vehicle
+ *      If the throwing vehicle does not throw the packet then it will try again next tick
+ *      A packet may live with a vehicle for 5 ticks before ageing out
+ *
+ * @exception None
+ *
+ * @param [in] None
+ *
+ * @return None
+ *
+ * @note None
+ */
 template <class DataType>
 void World<DataType>::runFlood() {
 
@@ -939,7 +983,27 @@ void World<DataType>::runFlood() {
   moveVehicles();
   }
 
-
+/**
+ * @brief Uses the destination search algorithm to transfer packets
+ *
+ * @details each vehicle will start its life by broadcasting its starting point and
+ *  its current destination, this will be spread by the flood algorithm.
+ *  Each vehicle then uses the dest search algotim inside the vehicle class
+ *
+ * @pre None
+ *
+ * @post packets are moved
+ *
+ * @par Algorithm None
+ *
+ * @exception None
+ *
+ * @param [in] None
+ *
+ * @return None
+ *
+ * @note None
+ */
 
 template<class DataType>
 void World<DataType>::runDest() {
@@ -975,6 +1039,27 @@ void World<DataType>::runDest() {
 
 
 }
+
+
+/**
+ * @brief Moves vehicles if possible
+ *
+ * @details iterates through each vehicle and moves it towards its destination
+ *
+ * @pre None
+ *
+ * @post Vehicles move
+ *
+ * @par Algorithm
+ *
+ * @exception None
+ *
+ * @param [in] None
+ *
+ * @return Boolean stated if deletion is sucessful
+ *
+ * @note None
+ */
 
 template<class DataType>
 void World<DataType>::moveVehicles() {
@@ -1020,6 +1105,26 @@ void World<DataType>::moveVehicles() {
 
 
 }
+
+/**
+ * @brief updates eaqch vehicles adjacancy list
+ *
+ * @details finds all vehicles nearby and adds them to the list of near by vehicles
+ *
+ * @pre None
+ *
+ * @post Each vehicle knows what vehicles are in the immediate area
+ *
+ * @par Algorithm None
+ *
+ * @exception None
+ *
+ * @param [in] None
+ *
+ * @return None
+ *
+ * @note None
+ */
 template<class DataType>
 void World<DataType>::updateAdjacency() {
   DataType * object;
