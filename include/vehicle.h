@@ -29,6 +29,8 @@
 // Header files ///////////////////////////////////////////////////////////////
 
 #include <iostream>
+#include <vector>
+//#include "world.h"
 
 // Class definition  //////////////////////////////////////////////////////////
 
@@ -39,6 +41,32 @@ enum VehicleDir
   DOWN,
   LEFT,
   RIGHT
+};
+
+
+struct Packet
+{
+    int packetId;
+    int srcId;
+    int destX = 0;
+    int destY = 0;
+    int destId;
+    int srcX;
+    int srcY;
+    int age;
+    std::string message;
+    std::vector<int> ids;
+    bool thrown = false;
+    bool atDest = false;
+};
+
+struct vehicleLocation{
+    int vehicleID;
+    int destX;
+    int destY;
+    int srcX;
+    int srcY;
+    bool thrown;
 };
 
 class Vehicle
@@ -65,6 +93,11 @@ class Vehicle
     x = xDest;
     y = yDest;
   }
+
+  int getPacketSize()
+  {
+    return packets.size();
+  }
   VehicleDir getDirection() { return vehicleDir; }
   bool       hasPacket() { return hasPkt; }
 
@@ -73,15 +106,29 @@ class Vehicle
   void redirect();
   void setPacket( bool holdsPacket ) { hasPkt = holdsPacket; }
 
+  std::vector<Packet *> packets;
+  std::vector<Packet *> updates;
+
+  bool throwPacket(Vehicle *targetVehicle, Packet thrownPacket, bool update = false);
+  bool packetCaught(Packet thrownPacket);
+  bool updatePacketCaught(Packet thrownPacket);
+
+  bool vehicleRun();
+  bool bestDestinationAlgorithm();
+  void updateLocation();
+
  protected:
   // Member variables
   int  xPos, yPos;
   int  xDest, yDest;
   int  xNextPos, yNextPos;
   bool hasPkt;
-
+  bool hasUpdate;
+  int vehicleId;
+  Packet * newPacket;
   unsigned int redirectCounter;
   VehicleDir   vehicleDir;
+  std::vector<vehicleLocation> locations;
 
   int rowMax, colMax;
 
@@ -89,14 +136,31 @@ class Vehicle
   void calcNextLocation();
   bool calcAltDirection();
 
+
   void stop();
   bool planUp();
   bool planDown();
   bool planLeft();
   bool planRight();
+  static int vehicleCount;
+public:
+    int getVehicleId() const;
 
-  // Pure virtual fuctions
+    //vehicle adjacency list stored as follows
+    /*
+     *      _5_|_6_|_7_
+     *      _3_|_X_|_4_
+     *      _0_|_1_|_2_
+     *
+     *      (X-1, Y+1), (X, Y+1), (X+1, Y+1), (X-1, Y), (X+1, Y), (X-1, Y-1), (X, Y-1), (X+1, Y-1)
+     *          0           1           2         3         4         5           6         7
+     */
+    Vehicle    * nearByVehicles[8];
+
+protected:
+    // Pure virtual fuctions
   virtual void calculateDestination() = 0;
+
 };
 
 class Taxi : public Vehicle
@@ -107,9 +171,15 @@ class Taxi : public Vehicle
 
   // Accessors
   char getId() { return 'T'; }
+  bool inTransition();
 
   // Modifiers
   void calculateDestination();
+ private:
+  
+  // Varibles
+  int ticksToMove;
+  int tickCounter;
 };
 
 // Terminating precompiler directives  ////////////////////////////////////////

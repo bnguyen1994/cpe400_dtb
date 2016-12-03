@@ -31,6 +31,8 @@
 
 // Class implementation ///////////////////////////////////////////////////////
 
+
+int Vehicle::vehicleCount = 0;
 /**
  * @brief Constructor for abstract Vehicle class
  *
@@ -79,6 +81,15 @@ Vehicle::Vehicle( int x, int y, int rowMax, int columnMax, bool hasPkt )
   vehicleDir = NaN;
 
   redirectCounter = 0;
+
+
+  vehicleId = vehicleCount;
+
+  vehicleCount++;
+//  std::cout << packets.size() << " packet size 1" << std::endl;
+//  newPacket = new Packet;
+//  packets.push_back(newPacket);
+//  std::cout << packets.size() << " packet size 2" << std::endl;
 }
 
 /**
@@ -111,8 +122,12 @@ void Vehicle::move()
 
   redirectCounter = 0;
 
-  // If destination reached, calculate new destination
-  if( xPos == xDest && yPos == yDest ) calculateDestination();
+  // If destination reached, calculate new destination and send update to others
+  if( xPos == xDest && yPos == yDest ) {
+    calculateDestination();
+    updateLocation();
+  }
+
 
   // DEBUG:
   int        xTemp = xNextPos, yTemp = yNextPos;
@@ -591,6 +606,478 @@ bool Vehicle::planRight()
 }
 
 /**
+ * @brief Throws packet to the passed vehicle and ouptputs a successful transfer message
+ *
+ * @details Helper function
+ *
+ * @pre None
+ *
+ * @post Packet is added to target vehicle
+ *
+ * @par None
+ *
+ * @exception None
+ *
+ * @param None
+ *
+ * @return Returns true if turn is not out of bounds; false otherwise
+ *
+ * @note None
+ */
+bool Vehicle:: throwPacket(Vehicle *targetVehicle, Packet thrownPacket, bool update) {
+  if(! update && targetVehicle->packetCaught(thrownPacket))
+  {
+      return true;
+  }
+  else if (targetVehicle -> updatePacketCaught(thrownPacket))
+  {
+    return true;
+  }
+
+  return false;
+}
+
+/**
+ * @brief checks to see if passed paket has reacched its destination or if it can be taken in
+ *
+ *
+ * @details Looks at packet destination , if not current packet checks to see if vehicle id is in packets id list
+ * If Id list is empty, knows to create initial packet information
+ * If packet is to be added copies function members and adds to vehicles packet list
+ *
+ * @pre throwPacket()
+ *
+ * @post Packet is added to packet list
+ *
+ * @par None
+ *
+ * @exception None
+ *
+ * @param None
+ *
+ * @return Returns true if packet was added and false otherwise
+ *
+ * @note None
+ */
+bool Vehicle::packetCaught(Packet thrownPacket) {
+  bool inList = false;
+  bool insertingFirst = false;
+  bool hitDest = false;
+
+  if(thrownPacket.srcId == vehicleId)
+  {
+    if(thrownPacket.ids.empty())
+    {
+
+      insertingFirst = true;
+      setPacket (true);
+      thrownPacket.ids.reserve(1);
+    }
+    else return false;
+  }
+
+  else {
+
+    for(int index = 0; index < packets.size(); index++) {
+     if(packets[index] -> packetId == thrownPacket . packetId) {
+       return false;
+     }
+    }
+
+    //search for packet in id list to see if vehicle has thrown packet before
+    for (int i = 0; i < thrownPacket.ids.size (); i++) {
+      if (thrownPacket.ids[i] == vehicleId) {
+        inList = true;
+
+        break;
+      }
+    }
+  }
+
+  //check to see if packet is at destination
+  if (thrownPacket.destId == vehicleId) {
+    std::cout << "PACKET HAS REACHED DESTINATION ... OUTPUT MESSSAGE: " << thrownPacket.message << std::endl;
+    hitDest = true;
+  }
+
+  //add packet if not already in list
+  if(!inList || insertingFirst)
+  {
+    newPacket = new Packet;
+    newPacket -> destId = thrownPacket.destId;
+    newPacket -> destX = thrownPacket.destX;
+    newPacket -> destY = thrownPacket.destY;
+    newPacket -> srcId = thrownPacket.srcId;
+    newPacket -> srcX = thrownPacket.srcX;
+    newPacket -> srcY = thrownPacket.srcY;
+    newPacket -> message = thrownPacket.message;
+    newPacket -> ids = thrownPacket.ids;
+    newPacket -> ids.push_back(vehicleId);
+    newPacket -> packetId = thrownPacket.packetId;
+    newPacket -> thrown = false;
+    newPacket -> age = 0;
+    newPacket -> atDest = hitDest;
+    packets.push_back(newPacket);
+    setPacket (true);
+    return true;
+  }
+
+  return false;
+}
+
+
+/**
+ * @brief throws packets if they exist
+ *
+ * @details throws regular packets using bestDest and throws updates to all nearby vehicles
+ *
+ * @pre called from World Run
+ *
+ * @post Packets are thrown
+ *
+ * @par None
+ *
+ * @exception None
+ *
+ * @param None
+ *
+ * @return Returns false only right now
+ *
+ * @note None
+ */
+bool Vehicle::vehicleRun() {
+
+  bool emptyPackets = false;
+  bool foundVehicle = true;
+
+  //check for packets
+  if(hasPkt) {
+    bestDestinationAlgorithm();
+  }
+
+  if(hasUpdate){
+    for(int j = 0; j < updates.size(); j++)
+    {
+      for (int i = 0; i < 8; i++)
+        if(nearByVehicles[i] != NULL)
+        {
+          throwPacket(nearByVehicles[i], *updates[j], true);
+          emptyPackets = true;
+        }
+        else
+        {
+          foundVehicle = false;
+        }
+    }
+  }
+
+  if (!emptyPackets && foundVehicle)
+    hasUpdate = false;
+  return false;
+}
+
+/**
+ * @brief searches for best vehicle to throw to
+ *
+ *
+ * @details gives each vehicle in proximity of current vehicle a score based on how
+ * well the vehicle will get the packet to the appropriate location. This score is based
+ * on the destination of the target vehicle, the direction the vehicles are moving and
+ * where the vehicle is going(destination)
+ *
+ * @pre called from vehicle Run function
+ *
+ * @post Packet is thrown to ideal vehicle and packet is removed from vehicle
+ *
+ * @par None
+ *
+ * @exception None
+ *
+ * @param None
+ *
+ * @return Returns true if packet is thrown and false if packet is kept
+ *
+ * @note None
+ */
+bool Vehicle::bestDestinationAlgorithm() {
+  //set best vehicle to self
+  Vehicle * bestChoice = this;
+  int idealScore = 1;
+  int vehicleScore;
+  bool allPacketsThrown = true;
+  bool triedToThrow = false;
+
+  for(int packetIndex = 0; packetIndex < packets.size(); packetIndex++) {
+    packets[packetIndex]->age++;
+    if (packets[packetIndex]->age > 1) {
+      triedToThrow = true;
+      //for each packet determine best place to throw next
+      int idealX;
+      int idealY;
+      int destX = 0;
+      int destY = 0;
+      //search through list of locations to see if destination vehicle is known
+      //if dest vehicle is known use its current destination to determine
+      //ideal throwing location
+      //if location is not known aim for center of screen
+
+      for (int i = 0; i < locations.size(); i++) {
+        if (locations[i].vehicleID == packets[packetIndex]->destId) {
+          destX = packets[packetIndex]->destX;
+          destY = packets[packetIndex]->destY;
+          break;
+        }
+
+      }
+
+      if (destX > xPos) {
+        idealX = 1;
+      } else if (destX < xPos) {
+        idealX = -1;
+      } else {
+        idealX = 0;
+      }
+
+
+      if (destY > xPos) {
+        idealY = 1;
+      } else if (destY < xPos) {
+        idealY = -1;
+      } else {
+        idealY = 0;
+      }
+      if (idealX == 1 && vehicleDir == RIGHT)
+        idealScore++;
+      else if (idealX == -1 && vehicleDir == LEFT)
+        idealScore++;
+      else if (idealY == 1 && vehicleDir == UP)
+        idealScore++;
+      else if (idealY == -1 && vehicleDir == DOWN)
+        idealScore++;
+
+      for (int adjacencyIndex = 0; adjacencyIndex < 8; adjacencyIndex++) {
+        vehicleScore = 0;
+        if (nearByVehicles[adjacencyIndex] != NULL) {
+
+          //throw to packet if destination vehicle is in the right spot
+          if (nearByVehicles[adjacencyIndex]->vehicleId == packets[packetIndex]->destId) {
+            if(throwPacket(nearByVehicles[adjacencyIndex], *packets[packetIndex]))
+              packets[packetIndex]->thrown = true;
+
+          }
+          //check to see if vehicle is at ideal location
+          if (nearByVehicles[adjacencyIndex]->xPos == xPos + idealX &&
+              nearByVehicles[adjacencyIndex]->yPos == yPos + idealY) {
+            vehicleScore = vehicleScore + 3;
+          }
+
+          //increase score if vehicle is going in the right direction
+          if (idealX == 1 && nearByVehicles[adjacencyIndex]->vehicleDir == RIGHT)
+            vehicleScore++;
+          else if (idealX == -1 && nearByVehicles[adjacencyIndex]->vehicleDir == LEFT)
+            vehicleScore++;
+          else if (idealY == 1 && nearByVehicles[adjacencyIndex]->vehicleDir == UP)
+            vehicleScore++;
+          else if (idealY == -1 && nearByVehicles[adjacencyIndex]->vehicleDir == DOWN)
+            vehicleScore++;
+
+
+          //increase score if vehicle destination is in the right direction
+          if (nearByVehicles[adjacencyIndex]->xDest > xPos && idealX == 1) {
+            vehicleScore++;
+          } else if (nearByVehicles[adjacencyIndex]->xDest < xPos && idealX == -1) {
+            vehicleScore++;
+          }
+
+          if (nearByVehicles[adjacencyIndex]->yDest < yPos && idealY == -1) {
+            vehicleScore++;
+          } else if (nearByVehicles[adjacencyIndex]->yDest > yPos && idealY == 1) {
+            vehicleScore++;
+          }
+        }
+        //if found vehicle idealness is > currentbest make new vehicle best
+        if (vehicleScore > idealScore) {
+          bestChoice = nearByVehicles[adjacencyIndex];
+          idealScore = vehicleScore;
+        }
+      }
+
+      //throw packet to best vehicle
+      if (bestChoice != this) {
+        if (throwPacket(bestChoice, *packets[packetIndex])) {
+          packets[packetIndex]->thrown = true;
+        }
+        else
+          allPacketsThrown = false;
+      }
+        else{
+          allPacketsThrown = false;
+        }
+    }
+    if(packets[packetIndex]->age >= 5)
+    {
+      packets[packetIndex]->thrown = true;
+    }
+  }
+  if(allPacketsThrown && triedToThrow)
+  {
+    hasPkt = false;
+  }
+  return false;
+}
+
+
+/**
+ * @brief checks to see if passed paket has reacched its destination or if it can be taken in
+ *
+ *
+ * @details Looks at packet destination , if not current packet checks to see if vehicle id is in packets id list
+ * If Id list is empty, knows to create initial packet information
+ * If packet is to be added copies function members and adds to vehicles packet list
+ *
+ * @pre throwPacket()
+ *
+ * @post Packet is added to packet list
+ *
+ * @par None
+ *
+ * @exception None
+ *
+ * @param None
+ *
+ * @return Returns true if packet was added and false otherwise
+ *
+ * @note None
+ */
+bool Vehicle::updatePacketCaught(Packet thrownPacket) {
+  bool inList = false;
+  bool insertingFirst = false;
+  bool hitDest = false;
+  vehicleLocation updatedLocation;
+
+  if(thrownPacket.srcId == vehicleId)
+  {
+    if(thrownPacket.ids.empty())
+    {
+      insertingFirst = true;
+      setPacket (true);
+      thrownPacket.ids.reserve(1);
+    }
+    else return false;
+  }
+  else {
+
+    for(int index = 0; index < updates.size(); index++) {
+      if(updates[index] -> packetId == thrownPacket . packetId) {
+        return false;
+      }
+    }
+
+    //search for packet in id list to see if vehicle has thrown packet before
+    for (int i = 0; i < thrownPacket.ids.size (); i++) {
+      if (thrownPacket.ids[i] == vehicleId) {
+        inList = true;
+        return false;
+      }
+    }
+  }
+
+  //add packet if not already in list
+  if(!inList || insertingFirst)
+  {
+    int debug = 0;
+    newPacket = new Packet;
+    newPacket -> destId = thrownPacket.destId;
+    newPacket -> destX = thrownPacket.destX;
+    newPacket -> destY = thrownPacket.destY;
+    newPacket -> srcId = thrownPacket.srcId;
+    newPacket -> srcX = thrownPacket.srcX;
+    newPacket -> srcY = thrownPacket.srcY;
+    newPacket -> message = thrownPacket.message;
+    newPacket -> ids = thrownPacket.ids;
+    newPacket -> ids.push_back(vehicleId);
+    newPacket -> packetId = thrownPacket.packetId;
+    newPacket -> thrown = false;
+    newPacket -> age = 0;
+    newPacket -> atDest = hitDest;
+    updates.push_back(newPacket);
+    hasUpdate = true;
+
+    inList = false;
+    //check to see if vehicle is already in list, if not add new vehicle
+    for (int i = 0; i < locations.size(); i++)
+    {
+      if(locations[i].vehicleID == thrownPacket.srcId)
+      {
+        locations[i].destX = thrownPacket.destX;
+        locations[i].destY = thrownPacket.destY;
+        locations[i].srcX  = thrownPacket.srcX;
+        locations[i].srcY  = thrownPacket.srcY;
+        locations[i].thrown = false;
+
+        inList = true;
+      }
+    }
+
+    if(!inList){ //if not in list already add the new vehicle
+      updatedLocation.vehicleID = thrownPacket.srcId;
+      updatedLocation.destX = thrownPacket.destX;
+      updatedLocation.destY = thrownPacket.destY;
+      updatedLocation.srcX  = thrownPacket.srcX;
+      updatedLocation.srcY  = thrownPacket.srcY;
+      updatedLocation.thrown = false;
+
+      locations.push_back(updatedLocation);
+    }
+
+    return true;
+  }
+
+  return false;
+}
+/**
+ * @brief gets vehicle id
+ *
+ * @details Returns id
+ *
+ * @pre None
+ *
+ * @post None
+ *
+ * @par None
+ *
+ * @exception None
+ *
+ * @param None
+ *
+ * @return vehicle id (int)
+ *
+ * @note None
+ */
+int Vehicle::getVehicleId() const {
+  return vehicleId;
+}
+
+void Vehicle::updateLocation() {
+  Packet * newDestination;
+  newDestination = new Packet;
+  newDestination -> destX = xDest;
+  newDestination -> destY = yDest;
+  newDestination -> age   = 0;
+  newDestination -> srcX = xPos;
+  newDestination -> srcY = yPos;
+  newDestination -> srcId = vehicleId;
+  newDestination -> ids.push_back(vehicleId);
+  newDestination -> thrown = false;
+
+  hasUpdate = true;
+
+  updates.push_back(newDestination);
+
+}
+
+
+/**
  * @brief Constructor for Taxi class derived from abstrat Vehicle class
  *
  * @details Calculates destination and next location
@@ -625,8 +1112,45 @@ bool Vehicle::planRight()
 Taxi::Taxi( int x, int y, int rowMax, int colNum, bool hasPkt )
     : Vehicle( x, y, rowMax, colNum, hasPkt )
 {
+  ticksToMove = 0;
+  tickCounter = 0; 
   calculateDestination();
   calcNextLocation();
+}
+
+/**
+ * @brief In Transisition
+ *
+ * @details Checks if the vehicle is in transition between interesections and
+ *          pseudo-moves it a tick closer to the next intersection
+ *
+ * @pre None
+ *
+ * @post Returns a bool stating if the vehicle is in transition and pseudo-moves
+ *       it a tick closer to the next intersection
+ *
+ * @par Algorithm
+ *      Check to see if tick counter is less than ticks to move, and if so
+ *      increments the tick counter and returns true, otherwise, reset the tick
+ *      counter and return false
+ *
+ * @exception None
+ *
+ * @param None
+ *
+ * @note None
+ */
+bool Taxi::inTransition()
+{
+  // Check tick counter, increment if less than ticksToMove
+  if(tickCounter < ticksToMove)
+  {
+    tickCounter++;
+    return true;
+  }
+  // Reset counter
+  tickCounter = 0;
+  return false;
 }
 
 /**

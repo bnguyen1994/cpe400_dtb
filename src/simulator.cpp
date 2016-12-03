@@ -21,6 +21,7 @@
 
 // Header files ///////////////////////////////////////////////////////////////
 
+#include <sys/wait.h>
 #include "simulator.h"
 
 // Class implementation ///////////////////////////////////////////////////////
@@ -106,6 +107,33 @@ void Simulator::run()
   char command;
   int  worldSizeX = 0, worldSizeY = 0, ticks, numObjects;
   bool terminate = false, success;
+  int runType;
+
+  cout << "Select which Transfer Algorithm you wish to use" << endl;
+  cout << " 1 - Flood" << endl;
+  cout << " 2 - Dest Goal" << endl;
+
+  cin >> runType;
+
+  if(runType == 1)
+  {
+    cout << "Using Flood Algorith" << endl;
+    world.RUNALGORITH = FLOOD;
+  }
+  else if(runType == 2)
+  {
+    cout << "Using Dest Goal Algorith" << endl;
+    world.RUNALGORITH = DESTSEARCH;
+  }
+  else
+  {
+    cout << "ERROR: Invalid input Using Flood algorithm by default" << endl;
+    world.RUNALGORITH = FLOOD;
+    cin.clear();
+    cin.ignore();
+  }
+
+
 
   // Run simulator until termination
   while( !terminate )
@@ -131,7 +159,7 @@ void Simulator::run()
         cout << endl;
 
         // Init world
-        success = world.initWorld( worldSizeX, worldSizeX );
+        success = world.initWorld( worldSizeX, worldSizeY );
 
         // Print status
         if( success )
@@ -193,6 +221,18 @@ void Simulator::run()
         terminate = true;
         break;
 
+      //Generate Packet
+      case 'g':
+        if(world.getNumObjects() <= 1)
+        { cout << "ERROR: TOO FEW VEHICLES IN WORLD TO GENERATE PACKET" << endl;
+          cout << "NO PACKET GENERATED . . ." << endl;
+        }
+        else
+        {
+          world.generatePacket();
+        }
+
+        break;
       // Unknown command
       default:
         cout << "ERROR: INVALID COMMAND . . ." << endl;
@@ -236,6 +276,7 @@ char Simulator::displayMenu()
   cout << "  d - Display world" << endl;
   cout << "  i - Initialize world" << endl;
   cout << "  p - Populate world" << endl;
+  cout << "  g - Generate Packet" << endl;
   cout << "  r - Run world one tick" << endl;
   cout << "  R - Run world n ticks" << endl;
   cout << "  q - Terminate Simulator" << endl;
