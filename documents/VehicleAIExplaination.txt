@@ -1,0 +1,9 @@
+Vehicles attempt to move row-wise until they're in the same column as their destination. Then they move column-wise. 
+
+Note: Vehicles are not allowed to move through each other and are not allowed to turn around immediately
+
+If a path is obstructed, the vehicle will attempt to go in an optimal direction perpendicualar to its current direction. (e.g. if a vechicle is going right and is obstructed it will go up or down)
+
+If the path is further obstructed attempt to 'wiggle' our way out (try all differnt kinds of directions)
+
+If no path seemingly exists, give up all hope (You're in prision now...)
