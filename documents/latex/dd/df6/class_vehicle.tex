@@ -1,0 +1,903 @@
+\hypertarget{class_vehicle}{}\section{Vehicle Class Reference}
+\label{class_vehicle}\index{Vehicle@{Vehicle}}
+
+
+{\ttfamily \#include $<$vehicle.\+h$>$}
+
+Inheritance diagram for Vehicle\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{dd/df6/class_vehicle}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_vehicle_a60120dee00c4b6fec2666828ae0015a5}{Vehicle} (int x, int y, int row\+Num, int col\+Num, bool \hyperlink{class_vehicle_a1d5bd3f458b1c11f0034320e8be4ae32}{has\+Pkt}=false)
+\begin{DoxyCompactList}\small\item\em Constructor for abstract \hyperlink{class_vehicle}{Vehicle} class. \end{DoxyCompactList}\item 
+\hyperlink{class_vehicle_a61ab140c755b8e0e824d54117cf4546f}{$\sim$\+Vehicle} ()
+\item 
+virtual char \hyperlink{class_vehicle_a2233c46c45ad1efd5a1e190716592f16}{get\+Id} ()
+\item 
+void \hyperlink{class_vehicle_a3dc4583c9a0bc76d0b82092d89e8bab8}{get\+Location} (int \&x, int \&y)
+\item 
+void \hyperlink{class_vehicle_abb74d1686a72682017d08a857cc2dae2}{get\+Next\+Location} (int \&x, int \&y)
+\item 
+void \hyperlink{class_vehicle_a120147fedf77a556438bf2473cea6f5d}{get\+Destination} (int \&x, int \&y)
+\item 
+int \hyperlink{class_vehicle_a24d645b977cd08d10b759d34fedbc339}{get\+Packet\+Size} ()
+\item 
+\hyperlink{vehicle_8h_ab81942edaa6e6c3f12551c3d0e511b85}{Vehicle\+Dir} \hyperlink{class_vehicle_ace83a5a3294d0486c7afc21485f83997}{get\+Direction} ()
+\item 
+bool \hyperlink{class_vehicle_acfbaaeb20003015ae6af55426f5e6f46}{has\+Packet} ()
+\item 
+void \hyperlink{class_vehicle_a257dd3b4dd777389bffea92476c2971a}{move} ()
+\begin{DoxyCompactList}\small\item\em Moves vehicle. \end{DoxyCompactList}\item 
+void \hyperlink{class_vehicle_a19fc8fc5b5e9c2f69beea018e7113bfd}{redirect} ()
+\begin{DoxyCompactList}\small\item\em Redirects the vehicle. \end{DoxyCompactList}\item 
+void \hyperlink{class_vehicle_acd18d9e37e9d54c03cf0b6b6a95dfae1}{set\+Packet} (bool holds\+Packet)
+\item 
+bool \hyperlink{class_vehicle_a8858df03bffec647e3c72a58530a600b}{throw\+Packet} (\hyperlink{class_vehicle}{Vehicle} $\ast$target\+Vehicle, \hyperlink{struct_packet}{Packet} thrown\+Packet, bool update=false)
+\begin{DoxyCompactList}\small\item\em Throws packet to the passed vehicle and ouptputs a successful transfer message. \end{DoxyCompactList}\item 
+bool \hyperlink{class_vehicle_ab1af997092319d762ccbeda3bf6853c0}{packet\+Caught} (\hyperlink{struct_packet}{Packet} thrown\+Packet)
+\begin{DoxyCompactList}\small\item\em checks to see if passed paket has reacched its destination or if it can be taken in \end{DoxyCompactList}\item 
+bool \hyperlink{class_vehicle_a66ae172bfcd9d1f691bc9a32e4e7cc71}{update\+Packet\+Caught} (\hyperlink{struct_packet}{Packet} thrown\+Packet)
+\begin{DoxyCompactList}\small\item\em checks to see if passed paket has reacched its destination or if it can be taken in \end{DoxyCompactList}\item 
+bool \hyperlink{class_vehicle_ab49fda8bf7a04ff5321b377c55d7babd}{vehicle\+Run} ()
+\begin{DoxyCompactList}\small\item\em throws packets if they exist \end{DoxyCompactList}\item 
+bool \hyperlink{class_vehicle_a63f852ddbc0ff5be56cfc830f7482b8f}{best\+Destination\+Algorithm} ()
+\begin{DoxyCompactList}\small\item\em searches for best vehicle to throw to \end{DoxyCompactList}\item 
+void \hyperlink{class_vehicle_a6c88cbaee4264ac164f81136994a623e}{update\+Location} ()
+\item 
+int \hyperlink{class_vehicle_a39f3a50c413161b345f0230529994ccb}{get\+Vehicle\+Id} () const
+\begin{DoxyCompactList}\small\item\em gets vehicle id \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ \hyperlink{struct_packet}{Packet} $\ast$ $>$ \hyperlink{class_vehicle_a4e624a924953072b730cbc3d8045735f}{packets}
+\item 
+std\+::vector$<$ \hyperlink{struct_packet}{Packet} $\ast$ $>$ \hyperlink{class_vehicle_a8b1176051f8d0fdc579e21bfe1660ece}{updates}
+\item 
+\hyperlink{class_vehicle}{Vehicle} $\ast$ \hyperlink{class_vehicle_a4ef4786810a90ca81c0b02f6005fc36a}{near\+By\+Vehicles} \mbox{[}8\mbox{]}
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{class_vehicle_ac9912b051f2247d7a297a4e9e7657a6b}{calc\+Next\+Location} ()
+\begin{DoxyCompactList}\small\item\em Calculates vehicles\textquotesingle{}s next location. \end{DoxyCompactList}\item 
+bool \hyperlink{class_vehicle_afb6e10a4886f8f1f05f260a550fd8650}{calc\+Alt\+Direction} ()
+\begin{DoxyCompactList}\small\item\em Calculates an alterative direction. \end{DoxyCompactList}\item 
+void \hyperlink{class_vehicle_a837e3c110672946892026ca6bfd21b27}{stop} ()
+\begin{DoxyCompactList}\small\item\em Stop vehicle. \end{DoxyCompactList}\item 
+bool \hyperlink{class_vehicle_ac89c292d9ac2c1f2183d068e8fa6d9be}{plan\+Up} ()
+\begin{DoxyCompactList}\small\item\em Sets next location and direction to go up. \end{DoxyCompactList}\item 
+bool \hyperlink{class_vehicle_a7da6a084ba2cf4fbe68ed3060bb712a3}{plan\+Down} ()
+\begin{DoxyCompactList}\small\item\em Sets next location and direction to go down. \end{DoxyCompactList}\item 
+bool \hyperlink{class_vehicle_ad3450983a521a908fe67e67e6457ff81}{plan\+Left} ()
+\begin{DoxyCompactList}\small\item\em Sets next location and direction to go left. \end{DoxyCompactList}\item 
+bool \hyperlink{class_vehicle_ac2202fc51fc16e2e8c5edd4222368d3d}{plan\+Right} ()
+\begin{DoxyCompactList}\small\item\em Sets next location and direction to go right. \end{DoxyCompactList}\item 
+virtual void \hyperlink{class_vehicle_a90c2c61dde3e87728bca29b4ebe40a95}{calculate\+Destination} ()=0
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{class_vehicle_a7cac04ea465e15affd92fe489efea1d1}{x\+Pos}
+\item 
+int \hyperlink{class_vehicle_a7525979f84d06b888d15200ad42f1ef2}{y\+Pos}
+\item 
+int \hyperlink{class_vehicle_a508dd8d01cbc3567417d6054bae560f0}{x\+Dest}
+\item 
+int \hyperlink{class_vehicle_acddc414f0c2f5c40d54462fb4ac44d7d}{y\+Dest}
+\item 
+int \hyperlink{class_vehicle_a11f830ab6e4543d535ceef79c590298c}{x\+Next\+Pos}
+\item 
+int \hyperlink{class_vehicle_a51e06932f2d09761aa78a98d6d999588}{y\+Next\+Pos}
+\item 
+bool \hyperlink{class_vehicle_a1d5bd3f458b1c11f0034320e8be4ae32}{has\+Pkt}
+\item 
+bool \hyperlink{class_vehicle_a8356764cc782f2b5dc203fb647b9d56a}{has\+Update}
+\item 
+int \hyperlink{class_vehicle_aacd2af1c441b2820c7b8298efab443a6}{vehicle\+Id}
+\item 
+\hyperlink{struct_packet}{Packet} $\ast$ \hyperlink{class_vehicle_a980fe4f1b97097b24c28dba4909854bc}{new\+Packet}
+\item 
+unsigned int \hyperlink{class_vehicle_afcbba425ca9dbca9c29e79e21f9f64fc}{redirect\+Counter}
+\item 
+\hyperlink{vehicle_8h_ab81942edaa6e6c3f12551c3d0e511b85}{Vehicle\+Dir} \hyperlink{class_vehicle_a363fe00a8ef2dc453545f97acd601b14}{vehicle\+Dir}
+\item 
+std\+::vector$<$ \hyperlink{structvehicle_location}{vehicle\+Location} $>$ \hyperlink{class_vehicle_afac76350900a93121a936df50e550da2}{locations}
+\item 
+int \hyperlink{class_vehicle_a9c3dce0e6d67ba8f703cfd0ff10cb6ac}{row\+Max}
+\item 
+int \hyperlink{class_vehicle_a8364facc67825674d98b0fd8daf2ebee}{col\+Max}
+\end{DoxyCompactItemize}
+\subsection*{Static Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static int \hyperlink{class_vehicle_ae139b67e1e1fcd510283f2a7aa358686}{vehicle\+Count} = 0
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_vehicle_a60120dee00c4b6fec2666828ae0015a5}{}\label{class_vehicle_a60120dee00c4b6fec2666828ae0015a5} 
+\index{Vehicle@{Vehicle}!Vehicle@{Vehicle}}
+\index{Vehicle@{Vehicle}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{Vehicle()}{Vehicle()}}
+{\footnotesize\ttfamily Vehicle\+::\+Vehicle (\begin{DoxyParamCaption}\item[{int}]{x,  }\item[{int}]{y,  }\item[{int}]{row\+Max,  }\item[{int}]{column\+Max,  }\item[{bool}]{has\+Pkt = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Constructor for abstract \hyperlink{class_vehicle}{Vehicle} class. 
+
+Sets up class member variables. Destination set to given position. recommend calling set\+Destination() from derived class constructors.
+
+\begin{DoxyPrecond}{Precondition}
+None
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+None
+\end{DoxyPostcond}
+\begin{DoxyParagraph}{Algorithm}
+Sets destination to given position
+\end{DoxyParagraph}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em } & \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{class_vehicle_a61ab140c755b8e0e824d54117cf4546f}{}\label{class_vehicle_a61ab140c755b8e0e824d54117cf4546f} 
+\index{Vehicle@{Vehicle}!````~Vehicle@{$\sim$\+Vehicle}}
+\index{````~Vehicle@{$\sim$\+Vehicle}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{$\sim$\+Vehicle()}{~Vehicle()}}
+{\footnotesize\ttfamily Vehicle\+::$\sim$\+Vehicle (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_vehicle_a63f852ddbc0ff5be56cfc830f7482b8f}{}\label{class_vehicle_a63f852ddbc0ff5be56cfc830f7482b8f} 
+\index{Vehicle@{Vehicle}!best\+Destination\+Algorithm@{best\+Destination\+Algorithm}}
+\index{best\+Destination\+Algorithm@{best\+Destination\+Algorithm}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{best\+Destination\+Algorithm()}{bestDestinationAlgorithm()}}
+{\footnotesize\ttfamily bool Vehicle\+::best\+Destination\+Algorithm (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+searches for best vehicle to throw to 
+
+gives each vehicle in proximity of current vehicle a score based on how well the vehicle will get the packet to the appropriate location. This score is based on the destination of the target vehicle, the direction the vehicles are moving and where the vehicle is going(destination)
+
+\begin{DoxyPrecond}{Precondition}
+called from vehicle Run function
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+\hyperlink{struct_packet}{Packet} is thrown to ideal vehicle and packet is removed from vehicle
+\end{DoxyPostcond}
+\begin{DoxyParagraph}{None}
+
+\end{DoxyParagraph}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em None} & \\
+\hline
+\end{DoxyExceptions}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns true if packet is thrown and false if packet is kept
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+None 
+\end{DoxyNote}
+\hypertarget{class_vehicle_afb6e10a4886f8f1f05f260a550fd8650}{}\label{class_vehicle_afb6e10a4886f8f1f05f260a550fd8650} 
+\index{Vehicle@{Vehicle}!calc\+Alt\+Direction@{calc\+Alt\+Direction}}
+\index{calc\+Alt\+Direction@{calc\+Alt\+Direction}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{calc\+Alt\+Direction()}{calcAltDirection()}}
+{\footnotesize\ttfamily bool Vehicle\+::calc\+Alt\+Direction (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Calculates an alterative direction. 
+
+Determines an optimal alterative way to the destination ignoring the possiblity of going fowards or backward
+
+\begin{DoxyPrecond}{Precondition}
+None
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+\hyperlink{class_vehicle}{Vehicle} direction not forward or backward; next position is modified
+\end{DoxyPostcond}
+\begin{DoxyParagraph}{Algorithm}
+Find optimal 90 degree alternate direction If no other direction possible, then direction set to NaN
+\end{DoxyParagraph}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em None} & \\
+\hline
+\end{DoxyExceptions}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Whether vehicle is boxed in on its sides
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+If vehicle is boxed in on both sides left/right or up/down, then stops vehicle 
+\end{DoxyNote}
+\hypertarget{class_vehicle_ac9912b051f2247d7a297a4e9e7657a6b}{}\label{class_vehicle_ac9912b051f2247d7a297a4e9e7657a6b} 
+\index{Vehicle@{Vehicle}!calc\+Next\+Location@{calc\+Next\+Location}}
+\index{calc\+Next\+Location@{calc\+Next\+Location}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{calc\+Next\+Location()}{calcNextLocation()}}
+{\footnotesize\ttfamily void Vehicle\+::calc\+Next\+Location (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Calculates vehicles\textquotesingle{}s next location. 
+
+Using current location, next location, and direction, recalculates the location the car should be next
+
+\begin{DoxyPrecond}{Precondition}
+None
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+None
+\end{DoxyPostcond}
+\begin{DoxyParagraph}{Algorithm}
+Based on the direction, move towards destination along x axis first If wanted direction is behind, then make alternate turn If direction set to NaN, then any turn is possible
+\end{DoxyParagraph}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em None} & \\
+\hline
+\end{DoxyExceptions}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Does not allow immediate U-\/turns. If no other options are available two \hyperlink{class_vehicle_a257dd3b4dd777389bffea92476c2971a}{move()} calls are required to complete a U-\/turn. If direction set to NaN, then any turn is possible 
+\end{DoxyNote}
+\hypertarget{class_vehicle_a90c2c61dde3e87728bca29b4ebe40a95}{}\label{class_vehicle_a90c2c61dde3e87728bca29b4ebe40a95} 
+\index{Vehicle@{Vehicle}!calculate\+Destination@{calculate\+Destination}}
+\index{calculate\+Destination@{calculate\+Destination}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{calculate\+Destination()}{calculateDestination()}}
+{\footnotesize\ttfamily virtual void Vehicle\+::calculate\+Destination (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [pure virtual]}}
+
+
+
+Implemented in \hyperlink{class_taxi_aa746995561a978caeaa496b7350056be}{Taxi}.
+
+\hypertarget{class_vehicle_a120147fedf77a556438bf2473cea6f5d}{}\label{class_vehicle_a120147fedf77a556438bf2473cea6f5d} 
+\index{Vehicle@{Vehicle}!get\+Destination@{get\+Destination}}
+\index{get\+Destination@{get\+Destination}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{get\+Destination()}{getDestination()}}
+{\footnotesize\ttfamily void Vehicle\+::get\+Destination (\begin{DoxyParamCaption}\item[{int \&}]{x,  }\item[{int \&}]{y }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\hypertarget{class_vehicle_ace83a5a3294d0486c7afc21485f83997}{}\label{class_vehicle_ace83a5a3294d0486c7afc21485f83997} 
+\index{Vehicle@{Vehicle}!get\+Direction@{get\+Direction}}
+\index{get\+Direction@{get\+Direction}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{get\+Direction()}{getDirection()}}
+{\footnotesize\ttfamily \hyperlink{vehicle_8h_ab81942edaa6e6c3f12551c3d0e511b85}{Vehicle\+Dir} Vehicle\+::get\+Direction (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\hypertarget{class_vehicle_a2233c46c45ad1efd5a1e190716592f16}{}\label{class_vehicle_a2233c46c45ad1efd5a1e190716592f16} 
+\index{Vehicle@{Vehicle}!get\+Id@{get\+Id}}
+\index{get\+Id@{get\+Id}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{get\+Id()}{getId()}}
+{\footnotesize\ttfamily virtual char Vehicle\+::get\+Id (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented in \hyperlink{class_taxi_a627cf1c475dd2bfafca59fceae551d09}{Taxi}.
+
+\hypertarget{class_vehicle_a3dc4583c9a0bc76d0b82092d89e8bab8}{}\label{class_vehicle_a3dc4583c9a0bc76d0b82092d89e8bab8} 
+\index{Vehicle@{Vehicle}!get\+Location@{get\+Location}}
+\index{get\+Location@{get\+Location}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{get\+Location()}{getLocation()}}
+{\footnotesize\ttfamily void Vehicle\+::get\+Location (\begin{DoxyParamCaption}\item[{int \&}]{x,  }\item[{int \&}]{y }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\hypertarget{class_vehicle_abb74d1686a72682017d08a857cc2dae2}{}\label{class_vehicle_abb74d1686a72682017d08a857cc2dae2} 
+\index{Vehicle@{Vehicle}!get\+Next\+Location@{get\+Next\+Location}}
+\index{get\+Next\+Location@{get\+Next\+Location}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{get\+Next\+Location()}{getNextLocation()}}
+{\footnotesize\ttfamily void Vehicle\+::get\+Next\+Location (\begin{DoxyParamCaption}\item[{int \&}]{x,  }\item[{int \&}]{y }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\hypertarget{class_vehicle_a24d645b977cd08d10b759d34fedbc339}{}\label{class_vehicle_a24d645b977cd08d10b759d34fedbc339} 
+\index{Vehicle@{Vehicle}!get\+Packet\+Size@{get\+Packet\+Size}}
+\index{get\+Packet\+Size@{get\+Packet\+Size}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{get\+Packet\+Size()}{getPacketSize()}}
+{\footnotesize\ttfamily int Vehicle\+::get\+Packet\+Size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\hypertarget{class_vehicle_a39f3a50c413161b345f0230529994ccb}{}\label{class_vehicle_a39f3a50c413161b345f0230529994ccb} 
+\index{Vehicle@{Vehicle}!get\+Vehicle\+Id@{get\+Vehicle\+Id}}
+\index{get\+Vehicle\+Id@{get\+Vehicle\+Id}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{get\+Vehicle\+Id()}{getVehicleId()}}
+{\footnotesize\ttfamily int Vehicle\+::get\+Vehicle\+Id (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+gets vehicle id 
+
+Returns id
+
+\begin{DoxyPrecond}{Precondition}
+None
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+None
+\end{DoxyPostcond}
+\begin{DoxyParagraph}{None}
+
+\end{DoxyParagraph}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em None} & \\
+\hline
+\end{DoxyExceptions}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+vehicle id (int)
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+None 
+\end{DoxyNote}
+\hypertarget{class_vehicle_acfbaaeb20003015ae6af55426f5e6f46}{}\label{class_vehicle_acfbaaeb20003015ae6af55426f5e6f46} 
+\index{Vehicle@{Vehicle}!has\+Packet@{has\+Packet}}
+\index{has\+Packet@{has\+Packet}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{has\+Packet()}{hasPacket()}}
+{\footnotesize\ttfamily bool Vehicle\+::has\+Packet (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\hypertarget{class_vehicle_a257dd3b4dd777389bffea92476c2971a}{}\label{class_vehicle_a257dd3b4dd777389bffea92476c2971a} 
+\index{Vehicle@{Vehicle}!move@{move}}
+\index{move@{move}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{move()}{move()}}
+{\footnotesize\ttfamily void Vehicle\+::move (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Moves vehicle. 
+
+Sets current location to next location and recalcuates next location
+
+\begin{DoxyPrecond}{Precondition}
+None
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Current location, next location, and direction are updated
+\end{DoxyPostcond}
+\begin{DoxyParagraph}{Algorithm}
+Set current location to next location If current location is destination, then change destination Calculate new next location and direction
+\end{DoxyParagraph}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em None} & \\
+\hline
+\end{DoxyExceptions}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Warning\+: Does N\+OT know about other vehicles 
+\end{DoxyNote}
+\hypertarget{class_vehicle_ab1af997092319d762ccbeda3bf6853c0}{}\label{class_vehicle_ab1af997092319d762ccbeda3bf6853c0} 
+\index{Vehicle@{Vehicle}!packet\+Caught@{packet\+Caught}}
+\index{packet\+Caught@{packet\+Caught}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{packet\+Caught()}{packetCaught()}}
+{\footnotesize\ttfamily bool Vehicle\+::packet\+Caught (\begin{DoxyParamCaption}\item[{\hyperlink{struct_packet}{Packet}}]{thrown\+Packet }\end{DoxyParamCaption})}
+
+
+
+checks to see if passed paket has reacched its destination or if it can be taken in 
+
+Looks at packet destination , if not current packet checks to see if vehicle id is in packets id list If Id list is empty, knows to create initial packet information If packet is to be added copies function members and adds to vehicles packet list
+
+\begin{DoxyPrecond}{Precondition}
+\hyperlink{class_vehicle_a8858df03bffec647e3c72a58530a600b}{throw\+Packet()}
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+\hyperlink{struct_packet}{Packet} is added to packet list
+\end{DoxyPostcond}
+\begin{DoxyParagraph}{None}
+
+\end{DoxyParagraph}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em None} & \\
+\hline
+\end{DoxyExceptions}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns true if packet was added and false otherwise
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+None 
+\end{DoxyNote}
+\hypertarget{class_vehicle_a7da6a084ba2cf4fbe68ed3060bb712a3}{}\label{class_vehicle_a7da6a084ba2cf4fbe68ed3060bb712a3} 
+\index{Vehicle@{Vehicle}!plan\+Down@{plan\+Down}}
+\index{plan\+Down@{plan\+Down}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{plan\+Down()}{planDown()}}
+{\footnotesize\ttfamily bool Vehicle\+::plan\+Down (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Sets next location and direction to go down. 
+
+Increments X next position and sets direction down if within boundaries
+
+\begin{DoxyPrecond}{Precondition}
+None
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Next location and direction are modified
+\end{DoxyPostcond}
+\begin{DoxyParagraph}{Algorithm}
+Checks if next position would be out of bounds Alters vehicle direction and next position
+\end{DoxyParagraph}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em None} & \\
+\hline
+\end{DoxyExceptions}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns true if turn is not out of bounds; false otherwise
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+None 
+\end{DoxyNote}
+\hypertarget{class_vehicle_ad3450983a521a908fe67e67e6457ff81}{}\label{class_vehicle_ad3450983a521a908fe67e67e6457ff81} 
+\index{Vehicle@{Vehicle}!plan\+Left@{plan\+Left}}
+\index{plan\+Left@{plan\+Left}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{plan\+Left()}{planLeft()}}
+{\footnotesize\ttfamily bool Vehicle\+::plan\+Left (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Sets next location and direction to go left. 
+
+Decrements X next position and sets direction left if within boundaries
+
+\begin{DoxyPrecond}{Precondition}
+None
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Next location and direction are modified
+\end{DoxyPostcond}
+\begin{DoxyParagraph}{Algorithm}
+Checks if next position would be out of bounds Alters vehicle direction and next position
+\end{DoxyParagraph}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em None} & \\
+\hline
+\end{DoxyExceptions}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns true if turn is not out of bounds; false otherwise
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+None 
+\end{DoxyNote}
+\hypertarget{class_vehicle_ac2202fc51fc16e2e8c5edd4222368d3d}{}\label{class_vehicle_ac2202fc51fc16e2e8c5edd4222368d3d} 
+\index{Vehicle@{Vehicle}!plan\+Right@{plan\+Right}}
+\index{plan\+Right@{plan\+Right}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{plan\+Right()}{planRight()}}
+{\footnotesize\ttfamily bool Vehicle\+::plan\+Right (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Sets next location and direction to go right. 
+
+Increments X next position and sets direction right if within boundaries
+
+\begin{DoxyPrecond}{Precondition}
+None
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Next location and direction are modified
+\end{DoxyPostcond}
+\begin{DoxyParagraph}{Algorithm}
+Checks if next position would be out of bounds Alters vehicle direction and next position
+\end{DoxyParagraph}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em None} & \\
+\hline
+\end{DoxyExceptions}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns true if turn is not out of bounds; false otherwise
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+None 
+\end{DoxyNote}
+\hypertarget{class_vehicle_ac89c292d9ac2c1f2183d068e8fa6d9be}{}\label{class_vehicle_ac89c292d9ac2c1f2183d068e8fa6d9be} 
+\index{Vehicle@{Vehicle}!plan\+Up@{plan\+Up}}
+\index{plan\+Up@{plan\+Up}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{plan\+Up()}{planUp()}}
+{\footnotesize\ttfamily bool Vehicle\+::plan\+Up (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Sets next location and direction to go up. 
+
+Increments X next position and sets direction up if within boundaries
+
+\begin{DoxyPrecond}{Precondition}
+None
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Next location and direction are modified
+\end{DoxyPostcond}
+\begin{DoxyParagraph}{Algorithm}
+Checks if next position would be out of bounds Alters vehicle direction and next position
+\end{DoxyParagraph}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em None} & \\
+\hline
+\end{DoxyExceptions}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns true if turn is not out of bounds; false otherwise
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+None 
+\end{DoxyNote}
+\hypertarget{class_vehicle_a19fc8fc5b5e9c2f69beea018e7113bfd}{}\label{class_vehicle_a19fc8fc5b5e9c2f69beea018e7113bfd} 
+\index{Vehicle@{Vehicle}!redirect@{redirect}}
+\index{redirect@{redirect}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{redirect()}{redirect()}}
+{\footnotesize\ttfamily void Vehicle\+::redirect (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Redirects the vehicle. 
+
+Attempts to have the car to take an alternative route
+
+\begin{DoxyPrecond}{Precondition}
+None
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+\hyperlink{class_vehicle}{Vehicle} direction and next position is modified
+\end{DoxyPostcond}
+\begin{DoxyParagraph}{Algorithm}
+Stage 1\+: Find route alternative Stage 2\+: Attempt to wiggle your way out Stage 3\+: Give up all hope
+\end{DoxyParagraph}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em None} & \\
+\hline
+\end{DoxyExceptions}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Calling multiple times while not calling move will invoke different behaviors 
+\end{DoxyNote}
+\hypertarget{class_vehicle_acd18d9e37e9d54c03cf0b6b6a95dfae1}{}\label{class_vehicle_acd18d9e37e9d54c03cf0b6b6a95dfae1} 
+\index{Vehicle@{Vehicle}!set\+Packet@{set\+Packet}}
+\index{set\+Packet@{set\+Packet}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{set\+Packet()}{setPacket()}}
+{\footnotesize\ttfamily void Vehicle\+::set\+Packet (\begin{DoxyParamCaption}\item[{bool}]{holds\+Packet }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\hypertarget{class_vehicle_a837e3c110672946892026ca6bfd21b27}{}\label{class_vehicle_a837e3c110672946892026ca6bfd21b27} 
+\index{Vehicle@{Vehicle}!stop@{stop}}
+\index{stop@{stop}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{stop()}{stop()}}
+{\footnotesize\ttfamily void Vehicle\+::stop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Stop vehicle. 
+
+Sets next position equal to current position and sets direction to NaN
+
+\begin{DoxyPrecond}{Precondition}
+None
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Next location = current position; direction = NaN;
+\end{DoxyPostcond}
+\begin{DoxyParagraph}{Algorithm}
+Set vehicle direction = NaN Set next position equal = current position
+\end{DoxyParagraph}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em None} & \\
+\hline
+\end{DoxyExceptions}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+None 
+\end{DoxyNote}
+\hypertarget{class_vehicle_a8858df03bffec647e3c72a58530a600b}{}\label{class_vehicle_a8858df03bffec647e3c72a58530a600b} 
+\index{Vehicle@{Vehicle}!throw\+Packet@{throw\+Packet}}
+\index{throw\+Packet@{throw\+Packet}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{throw\+Packet()}{throwPacket()}}
+{\footnotesize\ttfamily bool Vehicle\+::throw\+Packet (\begin{DoxyParamCaption}\item[{\hyperlink{class_vehicle}{Vehicle} $\ast$}]{target\+Vehicle,  }\item[{\hyperlink{struct_packet}{Packet}}]{thrown\+Packet,  }\item[{bool}]{update = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Throws packet to the passed vehicle and ouptputs a successful transfer message. 
+
+Helper function
+
+\begin{DoxyPrecond}{Precondition}
+None
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+\hyperlink{struct_packet}{Packet} is added to target vehicle
+\end{DoxyPostcond}
+\begin{DoxyParagraph}{None}
+
+\end{DoxyParagraph}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em None} & \\
+\hline
+\end{DoxyExceptions}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns true if turn is not out of bounds; false otherwise
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+None 
+\end{DoxyNote}
+\hypertarget{class_vehicle_a6c88cbaee4264ac164f81136994a623e}{}\label{class_vehicle_a6c88cbaee4264ac164f81136994a623e} 
+\index{Vehicle@{Vehicle}!update\+Location@{update\+Location}}
+\index{update\+Location@{update\+Location}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{update\+Location()}{updateLocation()}}
+{\footnotesize\ttfamily void Vehicle\+::update\+Location (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\hypertarget{class_vehicle_a66ae172bfcd9d1f691bc9a32e4e7cc71}{}\label{class_vehicle_a66ae172bfcd9d1f691bc9a32e4e7cc71} 
+\index{Vehicle@{Vehicle}!update\+Packet\+Caught@{update\+Packet\+Caught}}
+\index{update\+Packet\+Caught@{update\+Packet\+Caught}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{update\+Packet\+Caught()}{updatePacketCaught()}}
+{\footnotesize\ttfamily bool Vehicle\+::update\+Packet\+Caught (\begin{DoxyParamCaption}\item[{\hyperlink{struct_packet}{Packet}}]{thrown\+Packet }\end{DoxyParamCaption})}
+
+
+
+checks to see if passed paket has reacched its destination or if it can be taken in 
+
+Looks at packet destination , if not current packet checks to see if vehicle id is in packets id list If Id list is empty, knows to create initial packet information If packet is to be added copies function members and adds to vehicles packet list
+
+\begin{DoxyPrecond}{Precondition}
+\hyperlink{class_vehicle_a8858df03bffec647e3c72a58530a600b}{throw\+Packet()}
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+\hyperlink{struct_packet}{Packet} is added to packet list
+\end{DoxyPostcond}
+\begin{DoxyParagraph}{None}
+
+\end{DoxyParagraph}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em None} & \\
+\hline
+\end{DoxyExceptions}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns true if packet was added and false otherwise
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+None 
+\end{DoxyNote}
+\hypertarget{class_vehicle_ab49fda8bf7a04ff5321b377c55d7babd}{}\label{class_vehicle_ab49fda8bf7a04ff5321b377c55d7babd} 
+\index{Vehicle@{Vehicle}!vehicle\+Run@{vehicle\+Run}}
+\index{vehicle\+Run@{vehicle\+Run}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{vehicle\+Run()}{vehicleRun()}}
+{\footnotesize\ttfamily bool Vehicle\+::vehicle\+Run (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+throws packets if they exist 
+
+throws regular packets using best\+Dest and throws updates to all nearby vehicles
+
+\begin{DoxyPrecond}{Precondition}
+called from \hyperlink{class_world}{World} Run
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Packets are thrown
+\end{DoxyPostcond}
+\begin{DoxyParagraph}{None}
+
+\end{DoxyParagraph}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em None} & \\
+\hline
+\end{DoxyExceptions}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns false only right now
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+None 
+\end{DoxyNote}
+
+
+\subsection{Field Documentation}
+\hypertarget{class_vehicle_a8364facc67825674d98b0fd8daf2ebee}{}\label{class_vehicle_a8364facc67825674d98b0fd8daf2ebee} 
+\index{Vehicle@{Vehicle}!col\+Max@{col\+Max}}
+\index{col\+Max@{col\+Max}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{col\+Max}{colMax}}
+{\footnotesize\ttfamily int Vehicle\+::col\+Max\hspace{0.3cm}{\ttfamily [protected]}}
+
+\hypertarget{class_vehicle_a1d5bd3f458b1c11f0034320e8be4ae32}{}\label{class_vehicle_a1d5bd3f458b1c11f0034320e8be4ae32} 
+\index{Vehicle@{Vehicle}!has\+Pkt@{has\+Pkt}}
+\index{has\+Pkt@{has\+Pkt}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{has\+Pkt}{hasPkt}}
+{\footnotesize\ttfamily bool Vehicle\+::has\+Pkt\hspace{0.3cm}{\ttfamily [protected]}}
+
+\hypertarget{class_vehicle_a8356764cc782f2b5dc203fb647b9d56a}{}\label{class_vehicle_a8356764cc782f2b5dc203fb647b9d56a} 
+\index{Vehicle@{Vehicle}!has\+Update@{has\+Update}}
+\index{has\+Update@{has\+Update}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{has\+Update}{hasUpdate}}
+{\footnotesize\ttfamily bool Vehicle\+::has\+Update\hspace{0.3cm}{\ttfamily [protected]}}
+
+\hypertarget{class_vehicle_afac76350900a93121a936df50e550da2}{}\label{class_vehicle_afac76350900a93121a936df50e550da2} 
+\index{Vehicle@{Vehicle}!locations@{locations}}
+\index{locations@{locations}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{locations}{locations}}
+{\footnotesize\ttfamily std\+::vector$<$\hyperlink{structvehicle_location}{vehicle\+Location}$>$ Vehicle\+::locations\hspace{0.3cm}{\ttfamily [protected]}}
+
+\hypertarget{class_vehicle_a4ef4786810a90ca81c0b02f6005fc36a}{}\label{class_vehicle_a4ef4786810a90ca81c0b02f6005fc36a} 
+\index{Vehicle@{Vehicle}!near\+By\+Vehicles@{near\+By\+Vehicles}}
+\index{near\+By\+Vehicles@{near\+By\+Vehicles}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{near\+By\+Vehicles}{nearByVehicles}}
+{\footnotesize\ttfamily \hyperlink{class_vehicle}{Vehicle}$\ast$ Vehicle\+::near\+By\+Vehicles\mbox{[}8\mbox{]}}
+
+\hypertarget{class_vehicle_a980fe4f1b97097b24c28dba4909854bc}{}\label{class_vehicle_a980fe4f1b97097b24c28dba4909854bc} 
+\index{Vehicle@{Vehicle}!new\+Packet@{new\+Packet}}
+\index{new\+Packet@{new\+Packet}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{new\+Packet}{newPacket}}
+{\footnotesize\ttfamily \hyperlink{struct_packet}{Packet}$\ast$ Vehicle\+::new\+Packet\hspace{0.3cm}{\ttfamily [protected]}}
+
+\hypertarget{class_vehicle_a4e624a924953072b730cbc3d8045735f}{}\label{class_vehicle_a4e624a924953072b730cbc3d8045735f} 
+\index{Vehicle@{Vehicle}!packets@{packets}}
+\index{packets@{packets}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{packets}{packets}}
+{\footnotesize\ttfamily std\+::vector$<$\hyperlink{struct_packet}{Packet} $\ast$$>$ Vehicle\+::packets}
+
+\hypertarget{class_vehicle_afcbba425ca9dbca9c29e79e21f9f64fc}{}\label{class_vehicle_afcbba425ca9dbca9c29e79e21f9f64fc} 
+\index{Vehicle@{Vehicle}!redirect\+Counter@{redirect\+Counter}}
+\index{redirect\+Counter@{redirect\+Counter}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{redirect\+Counter}{redirectCounter}}
+{\footnotesize\ttfamily unsigned int Vehicle\+::redirect\+Counter\hspace{0.3cm}{\ttfamily [protected]}}
+
+\hypertarget{class_vehicle_a9c3dce0e6d67ba8f703cfd0ff10cb6ac}{}\label{class_vehicle_a9c3dce0e6d67ba8f703cfd0ff10cb6ac} 
+\index{Vehicle@{Vehicle}!row\+Max@{row\+Max}}
+\index{row\+Max@{row\+Max}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{row\+Max}{rowMax}}
+{\footnotesize\ttfamily int Vehicle\+::row\+Max\hspace{0.3cm}{\ttfamily [protected]}}
+
+\hypertarget{class_vehicle_a8b1176051f8d0fdc579e21bfe1660ece}{}\label{class_vehicle_a8b1176051f8d0fdc579e21bfe1660ece} 
+\index{Vehicle@{Vehicle}!updates@{updates}}
+\index{updates@{updates}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{updates}{updates}}
+{\footnotesize\ttfamily std\+::vector$<$\hyperlink{struct_packet}{Packet} $\ast$$>$ Vehicle\+::updates}
+
+\hypertarget{class_vehicle_ae139b67e1e1fcd510283f2a7aa358686}{}\label{class_vehicle_ae139b67e1e1fcd510283f2a7aa358686} 
+\index{Vehicle@{Vehicle}!vehicle\+Count@{vehicle\+Count}}
+\index{vehicle\+Count@{vehicle\+Count}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{vehicle\+Count}{vehicleCount}}
+{\footnotesize\ttfamily int Vehicle\+::vehicle\+Count = 0\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}
+
+\hypertarget{class_vehicle_a363fe00a8ef2dc453545f97acd601b14}{}\label{class_vehicle_a363fe00a8ef2dc453545f97acd601b14} 
+\index{Vehicle@{Vehicle}!vehicle\+Dir@{vehicle\+Dir}}
+\index{vehicle\+Dir@{vehicle\+Dir}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{vehicle\+Dir}{vehicleDir}}
+{\footnotesize\ttfamily \hyperlink{vehicle_8h_ab81942edaa6e6c3f12551c3d0e511b85}{Vehicle\+Dir} Vehicle\+::vehicle\+Dir\hspace{0.3cm}{\ttfamily [protected]}}
+
+\hypertarget{class_vehicle_aacd2af1c441b2820c7b8298efab443a6}{}\label{class_vehicle_aacd2af1c441b2820c7b8298efab443a6} 
+\index{Vehicle@{Vehicle}!vehicle\+Id@{vehicle\+Id}}
+\index{vehicle\+Id@{vehicle\+Id}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{vehicle\+Id}{vehicleId}}
+{\footnotesize\ttfamily int Vehicle\+::vehicle\+Id\hspace{0.3cm}{\ttfamily [protected]}}
+
+\hypertarget{class_vehicle_a508dd8d01cbc3567417d6054bae560f0}{}\label{class_vehicle_a508dd8d01cbc3567417d6054bae560f0} 
+\index{Vehicle@{Vehicle}!x\+Dest@{x\+Dest}}
+\index{x\+Dest@{x\+Dest}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{x\+Dest}{xDest}}
+{\footnotesize\ttfamily int Vehicle\+::x\+Dest\hspace{0.3cm}{\ttfamily [protected]}}
+
+\hypertarget{class_vehicle_a11f830ab6e4543d535ceef79c590298c}{}\label{class_vehicle_a11f830ab6e4543d535ceef79c590298c} 
+\index{Vehicle@{Vehicle}!x\+Next\+Pos@{x\+Next\+Pos}}
+\index{x\+Next\+Pos@{x\+Next\+Pos}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{x\+Next\+Pos}{xNextPos}}
+{\footnotesize\ttfamily int Vehicle\+::x\+Next\+Pos\hspace{0.3cm}{\ttfamily [protected]}}
+
+\hypertarget{class_vehicle_a7cac04ea465e15affd92fe489efea1d1}{}\label{class_vehicle_a7cac04ea465e15affd92fe489efea1d1} 
+\index{Vehicle@{Vehicle}!x\+Pos@{x\+Pos}}
+\index{x\+Pos@{x\+Pos}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{x\+Pos}{xPos}}
+{\footnotesize\ttfamily int Vehicle\+::x\+Pos\hspace{0.3cm}{\ttfamily [protected]}}
+
+\hypertarget{class_vehicle_acddc414f0c2f5c40d54462fb4ac44d7d}{}\label{class_vehicle_acddc414f0c2f5c40d54462fb4ac44d7d} 
+\index{Vehicle@{Vehicle}!y\+Dest@{y\+Dest}}
+\index{y\+Dest@{y\+Dest}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{y\+Dest}{yDest}}
+{\footnotesize\ttfamily int Vehicle\+::y\+Dest\hspace{0.3cm}{\ttfamily [protected]}}
+
+\hypertarget{class_vehicle_a51e06932f2d09761aa78a98d6d999588}{}\label{class_vehicle_a51e06932f2d09761aa78a98d6d999588} 
+\index{Vehicle@{Vehicle}!y\+Next\+Pos@{y\+Next\+Pos}}
+\index{y\+Next\+Pos@{y\+Next\+Pos}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{y\+Next\+Pos}{yNextPos}}
+{\footnotesize\ttfamily int Vehicle\+::y\+Next\+Pos\hspace{0.3cm}{\ttfamily [protected]}}
+
+\hypertarget{class_vehicle_a7525979f84d06b888d15200ad42f1ef2}{}\label{class_vehicle_a7525979f84d06b888d15200ad42f1ef2} 
+\index{Vehicle@{Vehicle}!y\+Pos@{y\+Pos}}
+\index{y\+Pos@{y\+Pos}!Vehicle@{Vehicle}}
+\subsubsection{\texorpdfstring{y\+Pos}{yPos}}
+{\footnotesize\ttfamily int Vehicle\+::y\+Pos\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{vehicle_8h}{vehicle.\+h}\item 
+src/\hyperlink{vehicle_8cpp}{vehicle.\+cpp}\end{DoxyCompactItemize}

@@ -1,0 +1,248 @@
+\hypertarget{class_simulator}{}\section{Simulator Class Reference}
+\label{class_simulator}\index{Simulator@{Simulator}}
+
+
+{\ttfamily \#include $<$simulator.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_simulator_a031573bfcfe2e0f5c9539bcc1c7fc5d9}{Simulator} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_simulator}{Simulator} Constructor. \end{DoxyCompactList}\item 
+\hyperlink{class_simulator_a0f49aa04f42060a785adf77346b9de9f}{$\sim$\+Simulator} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_simulator}{Simulator} Destructor. \end{DoxyCompactList}\item 
+void \hyperlink{class_simulator_aa2de7e32b04cc3e8fc60aec23997621b}{run} ()
+\begin{DoxyCompactList}\small\item\em Run. \end{DoxyCompactList}\item 
+char \hyperlink{class_simulator_aa6bb404bb0e612f3fa498c674f18dd21}{display\+Menu} ()
+\begin{DoxyCompactList}\small\item\em Display Menu. \end{DoxyCompactList}\item 
+void \hyperlink{class_simulator_a4eab2fe9f882b52f06d3635bb7b7ce76}{init\+World} (int sizeX, int sizeY)
+\begin{DoxyCompactList}\small\item\em Initialize world. \end{DoxyCompactList}\item 
+bool \hyperlink{class_simulator_afbce79bf2c4d38959da81693df3d3d29}{move\+Vehicle} (int x\+Coor\+From, int y\+Coor\+From, int x\+Coor\+To, int y\+Coor\+To)
+\item 
+void \hyperlink{class_simulator_a4bdab90628ce0acf61f27f351665ff52}{display\+World} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_world}{World}$<$ \hyperlink{class_taxi}{Taxi} $>$ \hyperlink{class_simulator_abc90be746b475a15bf194f5e49be36a7}{world}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_simulator_a031573bfcfe2e0f5c9539bcc1c7fc5d9}{}\label{class_simulator_a031573bfcfe2e0f5c9539bcc1c7fc5d9} 
+\index{Simulator@{Simulator}!Simulator@{Simulator}}
+\index{Simulator@{Simulator}!Simulator@{Simulator}}
+\subsubsection{\texorpdfstring{Simulator()}{Simulator()}}
+{\footnotesize\ttfamily Simulator\+::\+Simulator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{class_simulator}{Simulator} Constructor. 
+
+Constructs the \hyperlink{class_simulator}{Simulator} Class object
+
+\begin{DoxyPrecond}{Precondition}
+None
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+\hyperlink{class_simulator}{Simulator} class object called
+\end{DoxyPostcond}
+\begin{DoxyParagraph}{Algorithm}
+None
+\end{DoxyParagraph}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em None} & \\
+\hline
+\end{DoxyExceptions}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+None 
+\end{DoxyNote}
+\hypertarget{class_simulator_a0f49aa04f42060a785adf77346b9de9f}{}\label{class_simulator_a0f49aa04f42060a785adf77346b9de9f} 
+\index{Simulator@{Simulator}!````~Simulator@{$\sim$\+Simulator}}
+\index{````~Simulator@{$\sim$\+Simulator}!Simulator@{Simulator}}
+\subsubsection{\texorpdfstring{$\sim$\+Simulator()}{~Simulator()}}
+{\footnotesize\ttfamily Simulator\+::$\sim$\+Simulator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{class_simulator}{Simulator} Destructor. 
+
+Implicitly destructs all data structures
+
+\begin{DoxyPrecond}{Precondition}
+Assume initialized class object
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+None
+\end{DoxyPostcond}
+\begin{DoxyParagraph}{Algorithm}
+\hyperlink{class_simulator}{Simulator} class data member destructors called implicitely upon deletion of the simulator class
+\end{DoxyParagraph}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em None} & \\
+\hline
+\end{DoxyExceptions}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+None 
+\end{DoxyNote}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_simulator_aa6bb404bb0e612f3fa498c674f18dd21}{}\label{class_simulator_aa6bb404bb0e612f3fa498c674f18dd21} 
+\index{Simulator@{Simulator}!display\+Menu@{display\+Menu}}
+\index{display\+Menu@{display\+Menu}!Simulator@{Simulator}}
+\subsubsection{\texorpdfstring{display\+Menu()}{displayMenu()}}
+{\footnotesize\ttfamily char Simulator\+::display\+Menu (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Display Menu. 
+
+Prints the list of available commands
+
+\begin{DoxyPrecond}{Precondition}
+None
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Displays the menu
+\end{DoxyPostcond}
+\begin{DoxyParagraph}{Algorithm}
+Standard I/O stream operations
+\end{DoxyParagraph}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em None} & \\
+\hline
+\end{DoxyExceptions}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Char
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+None 
+\end{DoxyNote}
+\hypertarget{class_simulator_a4bdab90628ce0acf61f27f351665ff52}{}\label{class_simulator_a4bdab90628ce0acf61f27f351665ff52} 
+\index{Simulator@{Simulator}!display\+World@{display\+World}}
+\index{display\+World@{display\+World}!Simulator@{Simulator}}
+\subsubsection{\texorpdfstring{display\+World()}{displayWorld()}}
+{\footnotesize\ttfamily void Simulator\+::display\+World (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\hypertarget{class_simulator_a4eab2fe9f882b52f06d3635bb7b7ce76}{}\label{class_simulator_a4eab2fe9f882b52f06d3635bb7b7ce76} 
+\index{Simulator@{Simulator}!init\+World@{init\+World}}
+\index{init\+World@{init\+World}!Simulator@{Simulator}}
+\subsubsection{\texorpdfstring{init\+World()}{initWorld()}}
+{\footnotesize\ttfamily void Simulator\+::init\+World (\begin{DoxyParamCaption}\item[{int}]{sizeX,  }\item[{int}]{sizeY }\end{DoxyParamCaption})}
+
+
+
+Initialize world. 
+
+Dynamically constructs the world with given parameters
+
+\begin{DoxyPrecond}{Precondition}
+Assume initialized world object
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+\hyperlink{class_world}{World} initialized
+\end{DoxyPostcond}
+\begin{DoxyParagraph}{Algorithm}
+Call the world class init\+World function
+\end{DoxyParagraph}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em None} & \\
+\hline
+\end{DoxyExceptions}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em sizeX} & Max x-\/axis world size to be set\\
+\hline
+\end{DoxyParams}
+\mbox{[}in\mbox{]} sizeY Max y-\/axos world size to be set
+
+\begin{DoxyReturn}{Returns}
+None
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+None 
+\end{DoxyNote}
+\hypertarget{class_simulator_afbce79bf2c4d38959da81693df3d3d29}{}\label{class_simulator_afbce79bf2c4d38959da81693df3d3d29} 
+\index{Simulator@{Simulator}!move\+Vehicle@{move\+Vehicle}}
+\index{move\+Vehicle@{move\+Vehicle}!Simulator@{Simulator}}
+\subsubsection{\texorpdfstring{move\+Vehicle()}{moveVehicle()}}
+{\footnotesize\ttfamily bool Simulator\+::move\+Vehicle (\begin{DoxyParamCaption}\item[{int}]{x\+Coor\+From,  }\item[{int}]{y\+Coor\+From,  }\item[{int}]{x\+Coor\+To,  }\item[{int}]{y\+Coor\+To }\end{DoxyParamCaption})}
+
+\hypertarget{class_simulator_aa2de7e32b04cc3e8fc60aec23997621b}{}\label{class_simulator_aa2de7e32b04cc3e8fc60aec23997621b} 
+\index{Simulator@{Simulator}!run@{run}}
+\index{run@{run}!Simulator@{Simulator}}
+\subsubsection{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily void Simulator\+::run (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Run. 
+
+Runs the simulation
+
+\begin{DoxyPrecond}{Precondition}
+None
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Simulation ran
+\end{DoxyPostcond}
+\begin{DoxyParagraph}{Algorithm}
+Run the simulation in a loop executing commands from the user until the user terminates the program
+\end{DoxyParagraph}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em None} & \\
+\hline
+\end{DoxyExceptions}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Essentially the main driver 
+\end{DoxyNote}
+
+
+\subsection{Field Documentation}
+\hypertarget{class_simulator_abc90be746b475a15bf194f5e49be36a7}{}\label{class_simulator_abc90be746b475a15bf194f5e49be36a7} 
+\index{Simulator@{Simulator}!world@{world}}
+\index{world@{world}!Simulator@{Simulator}}
+\subsubsection{\texorpdfstring{world}{world}}
+{\footnotesize\ttfamily \hyperlink{class_world}{World}$<$\hyperlink{class_taxi}{Taxi}$>$ Simulator\+::world\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{simulator_8h}{simulator.\+h}\item 
+src/\hyperlink{simulator_8cpp}{simulator.\+cpp}\end{DoxyCompactItemize}

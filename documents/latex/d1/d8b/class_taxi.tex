@@ -1,0 +1,185 @@
+\hypertarget{class_taxi}{}\section{Taxi Class Reference}
+\label{class_taxi}\index{Taxi@{Taxi}}
+
+
+{\ttfamily \#include $<$vehicle.\+h$>$}
+
+Inheritance diagram for Taxi\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{d1/d8b/class_taxi}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_taxi_a94354d19d68c6cb60805debd9ac28880}{Taxi} (int x, int y, int \hyperlink{class_vehicle_a9c3dce0e6d67ba8f703cfd0ff10cb6ac}{row\+Max}, int \hyperlink{class_vehicle_a8364facc67825674d98b0fd8daf2ebee}{col\+Max}, bool \hyperlink{class_vehicle_a1d5bd3f458b1c11f0034320e8be4ae32}{has\+Pkt}=false)
+\begin{DoxyCompactList}\small\item\em Constructor for \hyperlink{class_taxi}{Taxi} class derived from abstrat \hyperlink{class_vehicle}{Vehicle} class. \end{DoxyCompactList}\item 
+char \hyperlink{class_taxi_a627cf1c475dd2bfafca59fceae551d09}{get\+Id} ()
+\item 
+bool \hyperlink{class_taxi_aa4439261ca296dcb30339078bb344931}{in\+Transition} ()
+\begin{DoxyCompactList}\small\item\em In Transisition. \end{DoxyCompactList}\item 
+void \hyperlink{class_taxi_aa746995561a978caeaa496b7350056be}{calculate\+Destination} ()
+\begin{DoxyCompactList}\small\item\em Calculates \hyperlink{class_taxi}{Taxi}\textquotesingle{}s destination. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{class_taxi_adf5a19300ef6848794fa79adf3b7bc5a}{ticks\+To\+Move}
+\item 
+int \hyperlink{class_taxi_a0a4e5ff5819d2c7399791a1f2b51ad32}{tick\+Counter}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_taxi_a94354d19d68c6cb60805debd9ac28880}{}\label{class_taxi_a94354d19d68c6cb60805debd9ac28880} 
+\index{Taxi@{Taxi}!Taxi@{Taxi}}
+\index{Taxi@{Taxi}!Taxi@{Taxi}}
+\subsubsection{\texorpdfstring{Taxi()}{Taxi()}}
+{\footnotesize\ttfamily Taxi\+::\+Taxi (\begin{DoxyParamCaption}\item[{int}]{x,  }\item[{int}]{y,  }\item[{int}]{row\+Max,  }\item[{int}]{col\+Num,  }\item[{bool}]{has\+Pkt = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Constructor for \hyperlink{class_taxi}{Taxi} class derived from abstrat \hyperlink{class_vehicle}{Vehicle} class. 
+
+Calculates destination and next location
+
+\begin{DoxyPrecond}{Precondition}
+None
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+None
+\end{DoxyPostcond}
+\begin{DoxyParagraph}{Algorithm}
+Calculates destination Calculates next location
+\end{DoxyParagraph}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em None} & \\
+\hline
+\end{DoxyExceptions}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em x} & X position of vehicle\\
+\hline
+\end{DoxyParams}
+\mbox{[}in\mbox{]} y Y position of vehicle
+
+\mbox{[}in\mbox{]} row\+Max Number of rows allowed
+
+\mbox{[}in\mbox{]} col\+Num Number of columns allowed
+
+\mbox{[}in\mbox{]} has\+Pkt Contains packet
+
+\begin{DoxyNote}{Note}
+None 
+\end{DoxyNote}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_taxi_aa746995561a978caeaa496b7350056be}{}\label{class_taxi_aa746995561a978caeaa496b7350056be} 
+\index{Taxi@{Taxi}!calculate\+Destination@{calculate\+Destination}}
+\index{calculate\+Destination@{calculate\+Destination}!Taxi@{Taxi}}
+\subsubsection{\texorpdfstring{calculate\+Destination()}{calculateDestination()}}
+{\footnotesize\ttfamily void Taxi\+::calculate\+Destination (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Calculates \hyperlink{class_taxi}{Taxi}\textquotesingle{}s destination. 
+
+Randomly assigns destination within given row and column boundaries using rand() generator
+
+\begin{DoxyPrecond}{Precondition}
+number of columns $>$ 0 number of rows $>$ 0
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+New destination != old location
+\end{DoxyPostcond}
+\begin{DoxyParagraph}{Algorithm}
+Generate random xy coordinates until coordinates != old destination
+\end{DoxyParagraph}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em None} & \\
+\hline
+\end{DoxyExceptions}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Recommend setting current location coordinates = old destination before call 
+\end{DoxyNote}
+
+
+Implements \hyperlink{class_vehicle_a90c2c61dde3e87728bca29b4ebe40a95}{Vehicle}.
+
+\hypertarget{class_taxi_a627cf1c475dd2bfafca59fceae551d09}{}\label{class_taxi_a627cf1c475dd2bfafca59fceae551d09} 
+\index{Taxi@{Taxi}!get\+Id@{get\+Id}}
+\index{get\+Id@{get\+Id}!Taxi@{Taxi}}
+\subsubsection{\texorpdfstring{get\+Id()}{getId()}}
+{\footnotesize\ttfamily char Taxi\+::get\+Id (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \hyperlink{class_vehicle_a2233c46c45ad1efd5a1e190716592f16}{Vehicle}.
+
+\hypertarget{class_taxi_aa4439261ca296dcb30339078bb344931}{}\label{class_taxi_aa4439261ca296dcb30339078bb344931} 
+\index{Taxi@{Taxi}!in\+Transition@{in\+Transition}}
+\index{in\+Transition@{in\+Transition}!Taxi@{Taxi}}
+\subsubsection{\texorpdfstring{in\+Transition()}{inTransition()}}
+{\footnotesize\ttfamily bool Taxi\+::in\+Transition (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+In Transisition. 
+
+Checks if the vehicle is in transition between interesections and pseudo-\/moves it a tick closer to the next intersection
+
+\begin{DoxyPrecond}{Precondition}
+None
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Returns a bool stating if the vehicle is in transition and pseudo-\/moves it a tick closer to the next intersection
+\end{DoxyPostcond}
+\begin{DoxyParagraph}{Algorithm}
+Check to see if tick counter is less than ticks to move, and if so increments the tick counter and returns true, otherwise, reset the tick counter and return false
+\end{DoxyParagraph}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em None} & \\
+\hline
+\end{DoxyExceptions}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+None 
+\end{DoxyNote}
+
+
+\subsection{Field Documentation}
+\hypertarget{class_taxi_a0a4e5ff5819d2c7399791a1f2b51ad32}{}\label{class_taxi_a0a4e5ff5819d2c7399791a1f2b51ad32} 
+\index{Taxi@{Taxi}!tick\+Counter@{tick\+Counter}}
+\index{tick\+Counter@{tick\+Counter}!Taxi@{Taxi}}
+\subsubsection{\texorpdfstring{tick\+Counter}{tickCounter}}
+{\footnotesize\ttfamily int Taxi\+::tick\+Counter\hspace{0.3cm}{\ttfamily [private]}}
+
+\hypertarget{class_taxi_adf5a19300ef6848794fa79adf3b7bc5a}{}\label{class_taxi_adf5a19300ef6848794fa79adf3b7bc5a} 
+\index{Taxi@{Taxi}!ticks\+To\+Move@{ticks\+To\+Move}}
+\index{ticks\+To\+Move@{ticks\+To\+Move}!Taxi@{Taxi}}
+\subsubsection{\texorpdfstring{ticks\+To\+Move}{ticksToMove}}
+{\footnotesize\ttfamily int Taxi\+::ticks\+To\+Move\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{vehicle_8h}{vehicle.\+h}\item 
+src/\hyperlink{vehicle_8cpp}{vehicle.\+cpp}\end{DoxyCompactItemize}

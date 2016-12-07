@@ -1,0 +1,81 @@
+\hypertarget{vehicle_8h}{}\section{include/vehicle.h File Reference}
+\label{vehicle_8h}\index{include/vehicle.\+h@{include/vehicle.\+h}}
+
+
+Definition file for vehicle classes.  
+
+
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_packet}{Packet}
+\item 
+struct \hyperlink{structvehicle_location}{vehicle\+Location}
+\item 
+class \hyperlink{class_vehicle}{Vehicle}
+\item 
+class \hyperlink{class_taxi}{Taxi}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{vehicle_8h_ab81942edaa6e6c3f12551c3d0e511b85}{Vehicle\+Dir} \{ \newline
+\hyperlink{vehicle_8h_ab81942edaa6e6c3f12551c3d0e511b85a4c2b7217d0a01a8d2d8e35742bb635b2}{NaN}, 
+\hyperlink{vehicle_8h_ab81942edaa6e6c3f12551c3d0e511b85aba595d8bca8bc5e67c37c0a9d89becfa}{UP}, 
+\hyperlink{vehicle_8h_ab81942edaa6e6c3f12551c3d0e511b85a9b0b4a95b99523966e0e34ffdadac9da}{D\+O\+WN}, 
+\hyperlink{vehicle_8h_ab81942edaa6e6c3f12551c3d0e511b85adb45120aafd37a973140edee24708065}{L\+E\+FT}, 
+\newline
+\hyperlink{vehicle_8h_ab81942edaa6e6c3f12551c3d0e511b85aec8379af7490bb9eaaf579cf17876f38}{R\+I\+G\+HT}
+ \}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Definition file for vehicle classes. 
+
+\begin{DoxyAuthor}{Author}
+Brandon Thai Nguyen
+\end{DoxyAuthor}
+Specifies all member methods of the vehicle classes
+
+\begin{DoxyVersion}{Version}
+2.\+00 Tyler Michael Goffinet (24 October 2016) Added get\+Id(), get\+Location(), get\+Direction(), has\+Packet(), get\+Next\+Location(), move(), set\+Packet(), protected functions, and member variables
+\end{DoxyVersion}
+1.\+00 Brandon Thai Nguyen (03 October 2016) Original Code
+
+\begin{DoxyNote}{Note}
+None 
+\end{DoxyNote}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{vehicle_8h_ab81942edaa6e6c3f12551c3d0e511b85}{}\label{vehicle_8h_ab81942edaa6e6c3f12551c3d0e511b85} 
+\index{vehicle.\+h@{vehicle.\+h}!Vehicle\+Dir@{Vehicle\+Dir}}
+\index{Vehicle\+Dir@{Vehicle\+Dir}!vehicle.\+h@{vehicle.\+h}}
+\subsubsection{\texorpdfstring{Vehicle\+Dir}{VehicleDir}}
+{\footnotesize\ttfamily enum \hyperlink{vehicle_8h_ab81942edaa6e6c3f12551c3d0e511b85}{Vehicle\+Dir}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NaN@{NaN}!vehicle.\+h@{vehicle.\+h}}\index{vehicle.\+h@{vehicle.\+h}!NaN@{NaN}}}\hypertarget{vehicle_8h_ab81942edaa6e6c3f12551c3d0e511b85a4c2b7217d0a01a8d2d8e35742bb635b2}{}\label{vehicle_8h_ab81942edaa6e6c3f12551c3d0e511b85a4c2b7217d0a01a8d2d8e35742bb635b2} 
+NaN&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{UP@{UP}!vehicle.\+h@{vehicle.\+h}}\index{vehicle.\+h@{vehicle.\+h}!UP@{UP}}}\hypertarget{vehicle_8h_ab81942edaa6e6c3f12551c3d0e511b85aba595d8bca8bc5e67c37c0a9d89becfa}{}\label{vehicle_8h_ab81942edaa6e6c3f12551c3d0e511b85aba595d8bca8bc5e67c37c0a9d89becfa} 
+UP&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{D\+O\+WN@{D\+O\+WN}!vehicle.\+h@{vehicle.\+h}}\index{vehicle.\+h@{vehicle.\+h}!D\+O\+WN@{D\+O\+WN}}}\hypertarget{vehicle_8h_ab81942edaa6e6c3f12551c3d0e511b85a9b0b4a95b99523966e0e34ffdadac9da}{}\label{vehicle_8h_ab81942edaa6e6c3f12551c3d0e511b85a9b0b4a95b99523966e0e34ffdadac9da} 
+D\+O\+WN&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{L\+E\+FT@{L\+E\+FT}!vehicle.\+h@{vehicle.\+h}}\index{vehicle.\+h@{vehicle.\+h}!L\+E\+FT@{L\+E\+FT}}}\hypertarget{vehicle_8h_ab81942edaa6e6c3f12551c3d0e511b85adb45120aafd37a973140edee24708065}{}\label{vehicle_8h_ab81942edaa6e6c3f12551c3d0e511b85adb45120aafd37a973140edee24708065} 
+L\+E\+FT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{R\+I\+G\+HT@{R\+I\+G\+HT}!vehicle.\+h@{vehicle.\+h}}\index{vehicle.\+h@{vehicle.\+h}!R\+I\+G\+HT@{R\+I\+G\+HT}}}\hypertarget{vehicle_8h_ab81942edaa6e6c3f12551c3d0e511b85aec8379af7490bb9eaaf579cf17876f38}{}\label{vehicle_8h_ab81942edaa6e6c3f12551c3d0e511b85aec8379af7490bb9eaaf579cf17876f38} 
+R\+I\+G\+HT&\\
+\hline
+
+\end{DoxyEnumFields}
