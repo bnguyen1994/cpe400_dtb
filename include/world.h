@@ -65,7 +65,7 @@ class World
   bool removeObject( int xCoor, int yCoor, DataType *object );
   bool deleteObject( int xCoor, int yCoor );
 
- bool generatePacket();
+  void generatePacket();
 
 private:
   // Helper Functions

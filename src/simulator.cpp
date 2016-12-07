@@ -21,8 +21,8 @@
 
 // Header files ///////////////////////////////////////////////////////////////
 
-#include <sys/wait.h>
 #include "simulator.h"
+#include <sys/wait.h>
 
 // Class implementation ///////////////////////////////////////////////////////
 /**
@@ -107,7 +107,7 @@ void Simulator::run()
   char command;
   int  worldSizeX = 0, worldSizeY = 0, ticks, numObjects;
   bool terminate = false, success;
-  int runType;
+  int  runType;
 
   cout << "Select which Transfer Algorithm you wish to use" << endl;
   cout << " 1 - Flood" << endl;
@@ -115,12 +115,12 @@ void Simulator::run()
 
   cin >> runType;
 
-  if(runType == 1)
+  if( runType == 1 )
   {
     cout << "Using Flood Algorith" << endl;
     world.RUNALGORITH = FLOOD;
   }
-  else if(runType == 2)
+  else if( runType == 2 )
   {
     cout << "Using Dest Goal Algorith" << endl;
     world.RUNALGORITH = DESTSEARCH;
@@ -132,8 +132,6 @@ void Simulator::run()
     cin.clear();
     cin.ignore();
   }
-
-
 
   // Run simulator until termination
   while( !terminate )
@@ -221,10 +219,11 @@ void Simulator::run()
         terminate = true;
         break;
 
-      //Generate Packet
+      // Generate Packet
       case 'g':
-        if(world.getNumObjects() <= 1)
-        { cout << "ERROR: TOO FEW VEHICLES IN WORLD TO GENERATE PACKET" << endl;
+        if( world.getNumObjects() <= 1 )
+        {
+          cout << "ERROR: TOO FEW VEHICLES IN WORLD TO GENERATE PACKET" << endl;
           cout << "NO PACKET GENERATED . . ." << endl;
         }
         else

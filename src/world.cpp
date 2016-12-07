@@ -226,9 +226,9 @@ void World<DataType>::displayWorld()
       }
       else
       {
-        //std::cout << (char)(data->getVehicleId() + '0') << std::endl;
-        tempVect.push_back( Intersect1( 'T', data->hasPacket(),
-                                        data->getDirection() ) );
+        // std::cout << (char)(data->getVehicleId() + '0') << std::endl;
+        tempVect.push_back(
+            Intersect1( 'T', data->hasPacket(), data->getDirection() ) );
       }
     }
 
@@ -416,14 +416,16 @@ void World<DataType>::runWorld( int ticks )
   // Run world for n amount of ticks
   for( int i = 0; i < ticks; i++ )
   {
-    //look for packets and throw to next destination
-  if(RUNALGORITH == FLOOD){
-    runFlood();
-  }
+    // look for packets and throw to next destination
+    if( RUNALGORITH == FLOOD )
+    {
+      runFlood();
+    }
 
-  else if(RUNALGORITH == DESTSEARCH) {
-    runDest();
-  }
+    else if( RUNALGORITH == DESTSEARCH )
+    {
+      runDest();
+    }
   }
 
   displayWorld();
@@ -608,7 +610,7 @@ bool World<DataType>::insertObject( int xCoor, int yCoor, DataType *object )
 *       no object at specified coordinates
 */
 template <class DataType>
-bool World<DataType>::getObject( int xCoor, int yCoor, DataType * &object )
+bool World<DataType>::getObject( int xCoor, int yCoor, DataType *&object )
 {
   // Check range
   if( xCoor > worldSizeX || yCoor > worldSizeY )
@@ -621,7 +623,7 @@ bool World<DataType>::getObject( int xCoor, int yCoor, DataType * &object )
   {
     // Return object
     object = world[xCoor][yCoor];
-   // Return
+    // Return
     return true;
   }
 
@@ -799,11 +801,11 @@ bool World<DataType>::removeFromList( int index )
  * @note None
  */
 template <class DataType>
-bool World<DataType>::findObject(int id, DataType *object)
+bool World<DataType>::findObject( int id, DataType *object )
 {
   int vId;
 
-  for( DataType* cycleobject : objectList )
+  for( DataType *cycleobject : objectList )
   {
     vId = cycleobject->getVehicleId();
 
@@ -819,7 +821,8 @@ bool World<DataType>::findObject(int id, DataType *object)
 /**
  * @brief generates packet
  *
- * @details takes use input to deterimne the message and destination and src for a packet
+ * @details takes use input to deterimne the message and destination and src for
+ * a packet
  *
  * @pre World must be initilized and populated
  *
@@ -836,70 +839,69 @@ bool World<DataType>::findObject(int id, DataType *object)
  * @note None
  */
 template <class DataType>
-bool World<DataType>::generatePacket() {
+void World<DataType>::generatePacket()
+{
   Packet *newPacket;
   newPacket = new Packet;
   std::string message;
-  int srcId;
-  int destinationId;
-  bool found = false;
-  DataType *destPacketHolder;
-  DataType *srcPacketHolder;
+  int         srcId;
+  int         destinationId;
+  bool        found = false;
+  DataType *  destPacketHolder;
+  DataType *  srcPacketHolder;
 
-  std::cin.clear ();
-  std::cin.ignore ();
+  std::cin.clear();
+  std::cin.ignore();
   std::cout << "Enter Packet Message: ";
-  std::getline (std::cin, message);
+  std::getline( std::cin, message );
   newPacket->message = message;
-  std::cout <<"This is the message: " << message << std::endl;
+  std::cout << "This is the message: " << message << std::endl;
 
-  while (!found) {
+  while( !found )
+  {
     std::cout << "Enter Destination Vehicle Id Number ";
     std::cin >> destinationId;
 
-    found = findObject (destinationId, destPacketHolder);
-    if (!found) {
+    found = findObject( destinationId, destPacketHolder );
+    if( !found )
+    {
       std::cout << "\nError! Can not find passed vehicle" << std::endl;
-      std::cin.clear ();
-      std::cin.ignore ();
+      std::cin.clear();
+      std::cin.ignore();
     }
   }
-    newPacket -> destId = destinationId;
-    objectList[destinationId]->getLocation (newPacket->destX, newPacket->destY);
+  newPacket->destId = destinationId;
+  objectList[destinationId]->getLocation( newPacket->destX, newPacket->destY );
 
-    found = false;
+  found = false;
 
-    while (!found) {
-      std::cout << "Enter Starting Vehicle Id Number ";
-      std::cin >> srcId;
-      found = findObject (srcId, srcPacketHolder);
-      if (!found || destinationId == srcId) {
-        std::cout << "\nError! Invalid src destination specified" << std::endl;
-        std::cin.clear ();
-        std::cin.ignore ();
-        found = false;
-      }
+  while( !found )
+  {
+    std::cout << "Enter Starting Vehicle Id Number ";
+    std::cin >> srcId;
+    found = findObject( srcId, srcPacketHolder );
+    if( !found || destinationId == srcId )
+    {
+      std::cout << "\nError! Invalid src destination specified" << std::endl;
+      std::cin.clear();
+      std::cin.ignore();
+      found = false;
     }
-
-    newPacket -> srcId = srcId;
-    objectList[srcId]->getLocation (newPacket->srcX, newPacket->srcY);
-
-
-    newPacket->packetId = packetids++;
-
-    if(objectList[srcId]->packetCaught (*newPacket))
-      objectList[srcId] -> packets.back() -> age = 1;
-    else
-      std::cout << "World<DataType>::generatePacket()-ERROR: Packet not Generated" << std::endl;
-
   }
 
+  newPacket->srcId = srcId;
+  objectList[srcId]->getLocation( newPacket->srcX, newPacket->srcY );
 
+  newPacket->packetId = packetids++;
 
+  if( objectList[srcId]->packetCaught( *newPacket ) )
+    objectList[srcId]->packets.back()->age = 1;
+  else
+    std::cout << "World<DataType>::generatePacket()-ERROR: Packet not Generated"
+              << std::endl;
+}
 
 // Terminating precompiler directives  ////////////////////////////////////////
-
-
 
 /**
  * @brief transfers packet in a flood style algorithm
@@ -911,9 +913,11 @@ bool World<DataType>::generatePacket() {
  * @post Item removed from list
  *
  * @par Algorithm
- *      iterate through each vehicle, iterates through the surrounding intersections
+ *      iterate through each vehicle, iterates through the surrounding
+ * intersections
  *      if a vehicle is dicovered teh packet is passed to that vehicle
- *      If the throwing vehicle does not throw the packet then it will try again next tick
+ *      If the throwing vehicle does not throw the packet then it will try again
+ * next tick
  *      A packet may live with a vehicle for 5 ticks before ageing out
  *
  * @exception None
@@ -925,38 +929,48 @@ bool World<DataType>::generatePacket() {
  * @note None
  */
 template <class DataType>
-void World<DataType>::runFlood() {
+void World<DataType>::runFlood()
+{
 
   // Variable Declaration
-  int xCoor, yCoor;
-  int xNextCoor, yNextCoor;
   DataType *object;
 
-  for (int objIndex = 0; objIndex < objectList.size (); objIndex++) {
+  for( int objIndex = 0; objIndex < objectList.size(); objIndex++ )
+  {
     DataType *target;
-    int x;
-    int y;
-    //use this to find empty vehicles and reset haspacket
+    int       x;
+    int       y;
+    // use this to find empty vehicles and reset haspacket
     bool emptyPackets = false;
     bool foundVehicle = true;
-    object = objectList[objIndex];
-    if (object->hasPacket ()) {
-      // std::cout << "Alright lets see what we got: " << object->getVehicleId() << std::endl;
-      object->getLocation (x, y);
-      //search for vehicles in radius
-      for (int packetIndex = 0; packetIndex < object->getPacketSize (); packetIndex++) {
+    object            = objectList[objIndex];
+    if( object->hasPacket() )
+    {
+      // std::cout << "Alright lets see what we got: " << object->getVehicleId()
+      // << std::endl;
+      object->getLocation( x, y );
+      // search for vehicles in radius
+      for( int packetIndex = 0; packetIndex < object->getPacketSize();
+           packetIndex++ )
+      {
         object->packets[packetIndex]->age++;
 
-        if (object->packets[packetIndex]->age > 1) {
-          if (!object->packets[packetIndex]->thrown) {
-            for (int xOffset = -1; xOffset <= 1; xOffset++) {
-              for (int yOffset = -1; yOffset <= 1; yOffset++) {
-                if (yOffset != 0 || xOffset != 0) {
-                  if (isObjectPresent (x + xOffset, y + yOffset)) {
-                    getObject (x + xOffset, y + yOffset, target);
-                    //throw each packet
-                    object->throwPacket (objectList[target->getVehicleId ()],
-                                         *object->packets[packetIndex], false);
+        if( object->packets[packetIndex]->age > 1 )
+        {
+          if( !object->packets[packetIndex]->thrown )
+          {
+            for( int xOffset = -1; xOffset <= 1; xOffset++ )
+            {
+              for( int yOffset = -1; yOffset <= 1; yOffset++ )
+              {
+                if( yOffset != 0 || xOffset != 0 )
+                {
+                  if( isObjectPresent( x + xOffset, y + yOffset ) )
+                  {
+                    getObject( x + xOffset, y + yOffset, target );
+                    // throw each packet
+                    object->throwPacket( objectList[target->getVehicleId()],
+                                         *object->packets[packetIndex], false );
                     emptyPackets = true;
                   }
                   else
@@ -965,28 +979,28 @@ void World<DataType>::runFlood() {
               }
             }
           }
-          else {
+          else
+          {
           }
-          //age out packets after 5 cycles
-          if (object->packets[packetIndex]->age >= 5)
+          // age out packets after 5 cycles
+          if( object->packets[packetIndex]->age >= 5 )
             object->packets[packetIndex]->thrown = true;
         }
         else
           emptyPackets = true;
-
       }
-      if (!emptyPackets && foundVehicle)
-        object->setPacket (false);
+      if( !emptyPackets && foundVehicle ) object->setPacket( false );
     }
   }
-    // Move each object in list
+  // Move each object in list
   moveVehicles();
-  }
+}
 
 /**
  * @brief Uses the destination search algorithm to transfer packets
  *
- * @details each vehicle will start its life by broadcasting its starting point and
+ * @details each vehicle will start its life by broadcasting its starting point
+ * and
  *  its current destination, this will be spread by the flood algorithm.
  *  Each vehicle then uses the dest search algotim inside the vehicle class
  *
@@ -1005,41 +1019,36 @@ void World<DataType>::runFlood() {
  * @note None
  */
 
-template<class DataType>
-void World<DataType>::runDest() {
+template <class DataType>
+void World<DataType>::runDest()
+{
   // Variable Declaration
   DataType *object;
 
-
-
-  //move each vehicle
+  // move each vehicle
   // Move each object in list
   moveVehicles();
 
-  //Update Adjacency Lists
+  // Update Adjacency Lists
   updateAdjacency();
-  //if first time running through have each vehicle send out an update packet
-  if(!initializedLocations)
+  // if first time running through have each vehicle send out an update packet
+  if( !initializedLocations )
   {
-    for( int vectIndex = 0; vectIndex < objectList.size(); vectIndex++ ) {
+    for( int vectIndex = 0; vectIndex < objectList.size(); vectIndex++ )
+    {
       object = objectList[vectIndex];
       object->updateLocation();
     }
     initializedLocations = true;
   }
 
-
-  //run vehicle functions for each vehicle
-  for( int vectIndex = 0; vectIndex < objectList.size(); vectIndex++ ) {
+  // run vehicle functions for each vehicle
+  for( int vectIndex = 0; vectIndex < objectList.size(); vectIndex++ )
+  {
     object = objectList[vectIndex];
     object->vehicleRun();
   }
-
-
-
-
 }
-
 
 /**
  * @brief Moves vehicles if possible
@@ -1061,12 +1070,13 @@ void World<DataType>::runDest() {
  * @note None
  */
 
-template<class DataType>
-void World<DataType>::moveVehicles() {
+template <class DataType>
+void World<DataType>::moveVehicles()
+{
 
   // Variable Declaration
-  int xCoor, yCoor;
-  int xNextCoor, yNextCoor;
+  int       xCoor, yCoor;
+  int       xNextCoor, yNextCoor;
   DataType *object;
   // Move each object in list
   for( int vectIndex = 0; vectIndex < objectList.size(); vectIndex++ )
@@ -1102,14 +1112,13 @@ void World<DataType>::moveVehicles() {
       }
     }
   }
-
-
 }
 
 /**
  * @brief updates eaqch vehicles adjacancy list
  *
- * @details finds all vehicles nearby and adds them to the list of near by vehicles
+ * @details finds all vehicles nearby and adds them to the list of near by
+ * vehicles
  *
  * @pre None
  *
@@ -1125,28 +1134,35 @@ void World<DataType>::moveVehicles() {
  *
  * @note None
  */
-template<class DataType>
-void World<DataType>::updateAdjacency() {
-  DataType * object;
-  //update each vehicles adjacency list
-  for (int objIndex = 0; objIndex < objectList.size (); objIndex++) {
+template <class DataType>
+void World<DataType>::updateAdjacency()
+{
+  DataType *object;
+  // update each vehicles adjacency list
+  for( int objIndex = 0; objIndex < objectList.size(); objIndex++ )
+  {
     DataType *target;
-    int x;
-    int y;
-    int adjacencyIndex = 0;
-    object = objectList[objIndex];
-    object->getLocation (x, y);
-    //search for vehicles in radius
-    for (int yOffset = 1; yOffset >= -1; yOffset--) {
-      for (int xOffset = -1; xOffset <= 1; xOffset++) {
-        if (yOffset != 0 || xOffset != 0) {
-          if (isObjectPresent(x + xOffset, y + yOffset)) {
-            getObject(x + xOffset, y + yOffset, target);
+    int       x;
+    int       y;
+    int       adjacencyIndex = 0;
+    object                   = objectList[objIndex];
+    object->getLocation( x, y );
+    // search for vehicles in radius
+    for( int yOffset = 1; yOffset >= -1; yOffset-- )
+    {
+      for( int xOffset = -1; xOffset <= 1; xOffset++ )
+      {
+        if( yOffset != 0 || xOffset != 0 )
+        {
+          if( isObjectPresent( x + xOffset, y + yOffset ) )
+          {
+            getObject( x + xOffset, y + yOffset, target );
             object->nearByVehicles[adjacencyIndex] = target;
             adjacencyIndex++;
           }
 
-          else {
+          else
+          {
             object->nearByVehicles[adjacencyIndex] = NULL;
             adjacencyIndex++;
           }
