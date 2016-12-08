@@ -100,11 +100,13 @@ class Vehicle
   }
   VehicleDir getDirection() { return vehicleDir; }
   bool       hasPacket() { return hasPkt; }
+  bool       hasMoved() { return hasMvd; }
 
   // Modifiers
   void move();
   void redirect();
   void setPacket( bool holdsPacket ) { hasPkt = holdsPacket; }
+  void setHasMoved( bool hasMoved ) { hasMvd = hasMoved; }
 
   std::vector<Packet *> packets;
   std::vector<Packet *> updates;
@@ -123,6 +125,7 @@ class Vehicle
   int  xDest, yDest;
   int  xNextPos, yNextPos;
   bool hasPkt;
+  bool hasMvd;
   bool hasUpdate;
   int vehicleId;
   Packet * newPacket;
@@ -135,7 +138,6 @@ class Vehicle
   // Member functions
   void calcNextLocation();
   bool calcAltDirection();
-
 
   void stop();
   bool planUp();
