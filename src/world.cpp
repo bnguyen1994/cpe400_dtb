@@ -1069,48 +1069,80 @@ void World<DataType>::runDest()
  *
  * @note None
  */
-
 template <class DataType>
 void World<DataType>::moveVehicles()
 {
-
   // Variable Declaration
   int       xCoor, yCoor;
   int       xNextCoor, yNextCoor;
-  DataType *object;
+  DataType *vehicle;
+  
   // Move each object in list
   for( int vectIndex = 0; vectIndex < objectList.size(); vectIndex++ )
   {
     // Get object from list
-    object = objectList[vectIndex];
+    vehicle = objectList[vectIndex];
+    
     // Check if in transit between intersections
-    if( !object->inTransition() ) /* Function also moves object closer to next
+    if( !vehicle->inTransition() ) /* Function also moves object closer to next
                                      intersection */
     {
       // Calc next location
-      object->getNextLocation( xNextCoor, yNextCoor );
+      vehicle->getNextLocation( xNextCoor, yNextCoor );
+      vehicle->getLocation( xCoor, yCoor );
 
       // Move object to new location if empty
-      if( !isObjectPresent( xNextCoor, yNextCoor ) )
+      if( !isObjectPresent( xNextCoor, yNextCoor ) && !vehicle->hasMoved() )
       {
-        object->getLocation( xCoor, yCoor );
-
         world[xCoor][yCoor] = NULL;
-        object->move();
-        world[xNextCoor][yNextCoor] = object;
+        vehicle->move();
+        world[xNextCoor][yNextCoor] = vehicle;
 
         objectActionCounter[vectIndex] = 0;
+        vehicle->setHasMoved( true );
       }
-      else
+      else if( isObjectPresent( xNextCoor, yNextCoor ) )
       {
-        ++objectActionCounter[vectIndex];
-
-        if( objectActionCounter[vectIndex] == 2 )
+        int xOtherCoor, yOtherCoor;
+        int xOtherNextCoor, yOtherNextCoor;
+        
+        xOtherCoor = xNextCoor;
+        yOtherCoor = yNextCoor;
+        
+        DataType *otherVehicle = world[xOtherCoor][yOtherCoor];
+        otherVehicle->getNextLocation( xOtherNextCoor, yOtherNextCoor );
+        
+        // Check if they want to swap places
+        if( xOtherNextCoor == xCoor && yOtherNextCoor == yCoor)
         {
-          objectList[vectIndex]->redirect();
+          if( !otherVehicle->hasMoved() )
+          {
+            // Swap
+            vehicle->move();
+            otherVehicle->move();
+            world[xNextCoor][yNextCoor]           = vehicle;
+            world[xOtherNextCoor][yOtherNextCoor] = otherVehicle;
+            
+            // Prevent future movement
+            otherVehicle->setHasMoved( true );
+          }
+        }
+        else
+        {
+          ++objectActionCounter[vectIndex];
+          
+          if( objectActionCounter[vectIndex] == 2 )
+          {
+            objectList[vectIndex]->redirect();
+          }
         }
       }
     }
+  }
+  
+  for( DataType *vehicleTemp : objectList )
+  {
+    vehicleTemp->setHasMoved( false );
   }
 }
 
