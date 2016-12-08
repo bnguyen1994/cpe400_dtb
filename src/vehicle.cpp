@@ -68,6 +68,7 @@ Vehicle::Vehicle( int x, int y, int rowMax, int columnMax, bool hasPkt )
     : xPos( x )
     , yPos( y )
     , hasPkt( hasPkt )
+    , hasMvd( false )
     , rowMax( rowMax )
     , colMax( columnMax )
 {
